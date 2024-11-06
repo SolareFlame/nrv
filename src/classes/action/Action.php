@@ -1,8 +1,8 @@
 <?php
 
-namespace iutnc\goodfood\action;
+namespace iutnc\nrv\action;
 
-abstract class Action
+abstract class  Action
 {
     protected ?string $http_method = null;
     protected ?string $hostname = null;

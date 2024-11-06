@@ -10,4 +10,6 @@ echo "Bonjour je passe l'ASRR CIAO";
 // et le constructeur du repository
 
 
-// truc pas normal avec le namespace au lieu il veut pas accepter iutnc/nrv comme ./src/classes jsp pk 
+// truc pas normal avec le namespace au lieu il veut pas accepter iutnc/nrv comme ./src/classes jsp pk
+
+// UPDATE : PROBLEME REGLé

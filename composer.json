@@ -4,12 +4,11 @@
   "type": "sae",
   "autoload": {
     "psr-4": {
-      "iutnc\\nrv\\config\\":"./config",
-      "iutnc\\nrv\\": "./src/classes"
+      "iutnc\\nrv\\": "./src/classes",
+      "iutnc\\nrv\\config\\": "./config"
     }
   },
   "require": {
     "ext-pdo": "*"
   }
-
 }
