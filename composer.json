@@ -1,0 +1,15 @@
+{
+  "name": "iutnc/nrv",
+  "description": "SAE",
+  "type": "sae",
+  "autoload": {
+    "psr-4": {
+      "iutnc\\nrv\\config\\":"./config",
+      "iutnc\\nrv\\": "./src/classes"
+    }
+  },
+  "require": {
+    "ext-pdo": "*"
+  }
+
+}
