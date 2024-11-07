@@ -387,7 +387,7 @@ class NrvRepository
                 foreach ($rows as $row) {
                     $show = new $create_path($row['show_url'], $row['show_style_id'], (int)$row['show_duration'], $row['show_start_date'],
                         $row['show_description'], $row['show_title'], $row['show_uuid']);
-                    $shows[] = $show;
+                    $shows[] = serialize($show);
                 }
                 break;
             case "Evening":

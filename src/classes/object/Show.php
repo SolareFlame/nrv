@@ -64,6 +64,11 @@ class Show
         return $res;
     }
 
+    public function __toString(): string
+    {
+        return json_encode($this);
+    }
+
 
 }
 

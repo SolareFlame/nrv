@@ -3,6 +3,9 @@
 namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
+use iutnc\nrv\object\Show;
+use iutnc\nrv\Render\Renderer;
+use iutnc\nrv\Render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -11,20 +14,25 @@ use iutnc\nrv\repository\NrvRepository;
  */
 class DisplayFavoritesListAction extends Action
 {
+    /**
+     * @throws \Exception
+     */
     public function execute(): string
     {
         // verif si une liste est deja présente
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
-        echo "0" . var_dump($_SESSION['favorites']);
+
         $FavShowList = NrvRepository::getInstance()->getShowsByListId($_SESSION['favorites']);
-        echo "1" . var_dump($FavShowList);
+
         $res = "";
         foreach ($FavShowList as $show) {
-            $res .= $show->title . " - " . $show->DisplayArtiste() . " - " . $show->description .
-                "<br>à " . $show->startDate . " pendant " . $show->duration . "<br>" .
-            "<a href='index.php?action=evening&showId=" . $show->id . "'>Voir le spectacle</a><br>" .
-             " $show->url $show->style<br><br><br> ";
+            /*var_dump($showstr);
+            $show = new Show($showstr['url'], $showstr['style'], (int)$showstr['duration'], $showstr['startDate'],
+                $showstr['description'], $showstr['title'], $showstr['id']);*/
+
+            $sr = new ShowRenderer(unserialize($show));
+            $res .= $sr->render(Renderer::LONG);
         }
 
         return $res;
