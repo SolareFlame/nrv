@@ -46,7 +46,6 @@ class NrvRepository
             $port = ';port=' . $conf['port'];
         }
         $dsn = "{$conf['driver']}:host={$conf['host']}" . "$port" . ";dbname={$conf['dbname']}";
-        echo $dsn;
         self::$configuration = ['dsn' => $dsn, 'user' => $conf['username'], 'pass' => $conf['password']];
     }
 
