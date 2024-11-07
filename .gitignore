@@ -6,7 +6,10 @@
 vendor/
 composer.lock
 
-config.ini
+*.ini
+nrv.db.ini
+*.db.ini
+*.db
 
 
 
