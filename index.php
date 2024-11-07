@@ -1,15 +1,19 @@
 <?php
+session_start();
 
-require_once 'vendor/autoload.php';
+require_once 'src/vendor/autoload.php';
+use iutnc\nrv\dispatch\Dispatcher ;
+use iutnc\nrv\repository\NrvRepository ;
 
-echo "Bonjour je passe l'ASRR CIAO";
+// DEV MODE pour afficher des erreurs plus precises
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+//
 
+DeefyRepository::setConfig('src/configdb.ini'); // chemin a modif ??
 
-// dans config nrv.db.ini il faut que ça soit sous cette forme pour que ça marche avec mon serveur local
-// wsl donc soyez pas choquer en voyant dsn = "mysql:host=localhost;port=3306;dbname=GoodFood"
-// et le constructeur du repository
+$d = new Dispatcher() ;
+$d->run();
 
-
-// truc pas normal avec le namespace au lieu il veut pas accepter iutnc/nrv comme ./src/classes jsp pk
-
-// UPDATE : PROBLEME REGLé
+?>
