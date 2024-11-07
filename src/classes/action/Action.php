@@ -45,4 +45,9 @@ abstract class  Action
      * @return string Le résultat de la gestion de la requête POST.
      */
     public abstract function post();
+
+    public function __invoke(): string
+    {
+        return $this->execute();
+    }
 }

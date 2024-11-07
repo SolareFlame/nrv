@@ -13,9 +13,7 @@ require_once 'vendor/autoload.php';
 use iutnc\nrv\dispatch\Dispatcher ;
 use iutnc\nrv\repository\NrvRepository ;
 
-// NrvRepository::setConfig('src/configdb.ini'); // chemin a modif ??
+iutnc\nrv\repository\NrvRepository::getInstance();
+$repo = NrvRepository::getInstance();
 
-$d = new Dispatcher() ;
-$d->run();
-
-?>
+echo "hdh";
