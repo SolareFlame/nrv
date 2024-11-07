@@ -8,17 +8,22 @@ use iutnc\nrv\exception\InvalidPropertyNameException;
 class Artist {
 
     private string $id;
-    private int $idArtist;
+    private string $name;
+    private string $description;
+    private string $url;
 
     /**
      * @param string $id
      * @param int $idArtist
      */
-    public function __construct(string $id, int $idArtist)
+    public function __construct(string $id, string $name,string $description,string $url)
     {
         $this->id = $id;
-        $this->idArtist = $idArtist;
+        $this->name = $name;
+        $this->url = $url;
+        $this->description = $description;
     }
+
 
     /**
      * @throws InvalidPropertyNameException
