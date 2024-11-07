@@ -9,13 +9,14 @@ use iutnc\nrv\action\Action;
  */
 class DisplayEveningDetailsAction extends Action
 {
+    //Utiliser findEveningDetails ET findShowsInEvening
 
-    public function get()
+    public function executePost()
     {
         // TODO: Implement get() method.
     }
 
-    public function post()
+    public function executeGet()
     {
         // TODO: Implement post() method.
     }

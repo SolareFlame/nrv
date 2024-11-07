@@ -2,11 +2,9 @@
 
 namespace iutnc\nrv\action;
 
-use iutnc\nrv\action\Action;
 
 /**
- * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué
- * comme annulé,
+ * Class DefaultAction
  */
 class DefaultAction extends Action
 {
@@ -14,7 +12,7 @@ class DefaultAction extends Action
     /**
      * @inheritDoc
      */
-    public function get()
+    public function executeGet()
     {
         return "<h1>SITE NRV</h1>" ;
     }
@@ -22,7 +20,7 @@ class DefaultAction extends Action
     /**
      * @inheritDoc
      */
-    public function post()
+    public function executePost()
     {
         return "<h1>SITE NRV</h1>" ;
     }

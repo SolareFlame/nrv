@@ -32,7 +32,7 @@ CREATE TABLE `nrv_show` (
                         `show_uuid` CHAR(36) NOT NULL,
                         `show_title` VARCHAR(256) NOT NULL,
                         `show_description` TEXT NOT NULL,
-                        `show_start_time` TIME NOT NULL,
+                        `show_start_date` DATE NOT NULL,
                         `show_duration` TIME NOT NULL,
                         `show_style` VARCHAR(256) NOT NULL,
                         `show_url` VARCHAR(256), -- ex: lien youtube

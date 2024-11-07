@@ -2,6 +2,8 @@
 
 namespace iutnc\nrv\repository;
 use Exception;
+use iutnc\nrv\object\Evening;
+use iutnc\nrv\object\Show;
 use PDO;
 
 class NrvRepository
@@ -43,7 +45,7 @@ class NrvRepository
         if (isset($conf['port'])) {
             $port = ';port=' . $conf['port'];
         }
-        $dsn = "{$conf['driver']}:host={$conf['host']}" . "$port" . ";dbname={$conf['database']}";
+        $dsn = "{$conf['driver']}:host={$conf['host']}" . " $port " . ";dbname={$conf['database']}";
         echo $dsn;
         self::$configuration = ['dsn' => $dsn, 'user' => $conf['username'], 'pass' => $conf['password']];
     }
@@ -72,7 +74,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayShows($stmt);
+        return $this->createArrayShows($stmt, Show::class);
     }
 
     /**
@@ -87,7 +89,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date]);
 
-        return $this->createArrayShows($stmt);
+        return $this->createArrayShows($stmt, Show::class);
     }
 
     /**
@@ -102,7 +104,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
-        return $this->createArrayShows($stmt);
+        return $this->createArrayShows($stmt, Show::class);
     }
 
     /**
@@ -120,7 +122,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['location' => $location]);
 
-        return $this->createArrayShows($stmt);
+        return $this->createArrayShows($stmt, Show::class);
     }
 
     /**
@@ -136,76 +138,42 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayShows($stmt)[0];
+        return $this->createArrayShows($stmt, Show::class)[0];
     }
 
     /**
-     * Affichage du détail d’une soirée
-     * @param int $eventId
+     * Récupération du détail d’une soirée
+     * @param int $uuid
      * @return array
      */
-    function findEveningDetails(int $eventId) : array
+    function findEveningDetails(int $uuid) : array
     {
-        // TODO
+        $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
+       evening_location, evening_description, evening_price from evening where evening_uuid = :uuid";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $uuid]);
+
+        return $this->createArrayShows($stmt, Evening::class)[0];
     }
 
     /**
-     * Affichage du détail de la soirée correspondante en cliquant sur un spectacle
-     * @param int $showId
+     * Récupération des spectacles d'une soirée
+     * @param int $uuid
      * @return array
      */
-    function findEveningByShow(int $showId) : array
-    {
-        // TODO
-    }
+    function findShowsInEvening(int $uuid) : array{
+        $query = "SELECT show_uuid, show_title, show_description, 
+              show_start_time, show_duration, show_style, show_url 
+              FROM show s
+              INNER JOIN evening2show es ON show.show_uuid = es.show_uuid
+              WHERE es.evening_uuid = :uuid";
 
-    /**
-     * Accès aux spectacles du même lieu en lien avec un spectacle
-     * @param int $showId
-     * @return array
-     */
-    function findShowsBySameLocation(int $showId) : array
-    {
-        // TODO
-    }
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $uuid]);
 
-    /**
-     * Accès aux spectacles du même style en lien avec un spectacle
-     * @param int $showId
-     * @return array
-     */
-    function findShowsBySameStyle(int $showId) : array
-    {
-        // TODO
-    }
-
-    /**
-     * Accès aux spectacles à la même date en lien avec un spectacle
-     * @param int $showId
-     * @return array
-     */
-    function findShowsBySameDate(int $showId) : array
-    {
-        // TODO
-    }
-
-    /**
-     * Ajouter un spectacle dans la liste de préférences
-     * @param int $showId
-     * @return bool
-     */
-    function addShowToPreferences(int $showId) : bool
-    {
-        // TODO
-    }
-
-    /**
-     * Afficher la liste de préférences
-     * @return array
-     */
-    function findUserPreferences() : array
-    {
-        // TODO
+        // Retourne les spectacles associés sous forme de tableau d'objets Show
+        return $this->createArrayShows($stmt, Show::class);
     }
 
     /**
@@ -226,7 +194,9 @@ class NrvRepository
      */
     function createShow(array $showData) : int
     {
-        // TODO : retourne l'ID du spectacle créé ?
+        //VERIFICATION DU ROLE A RAJOUTER
+
+
     }
 
     /**
@@ -305,7 +275,7 @@ class NrvRepository
      * @param $stmt
      * @return array
      */
-    private function createArrayShows($stmt): array{
+    private function createArrayShows($stmt, $class): array{
         $shows = [];
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         if(empty($rows)){
@@ -313,7 +283,7 @@ class NrvRepository
         }
 
         foreach ($rows as $row) {
-            $show = new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
+            $show = new $class($row['show_uuid'], $row['show_title'], $row['show_description'],
                 $row['show_start_time'], $row['show_duration'], $row['show_style'], $row['show_url']);
             $shows[] = $show;
         }
