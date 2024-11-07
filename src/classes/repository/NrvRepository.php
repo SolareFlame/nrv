@@ -56,7 +56,7 @@ class NrvRepository
     public static function getInstance(): ?NrvRepository
     {
         if (is_null(self::$instance)) {
-            self::setConfig("nrv.db.ini");
+            self::setConfig("Config.db.ini");
             self::$instance = new NrvRepository(self::$configuration);
         }
         return self::$instance;
