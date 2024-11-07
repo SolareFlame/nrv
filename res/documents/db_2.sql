@@ -19,6 +19,7 @@ CREATE TABLE `nrv_evening` (
                            `evening_location_id` INT(11) NOT NULL,
                            `evening_description` TEXT NOT NULL,
                            `evening_price` DECIMAL(10,2) NOT NULL,
+                           'evening_programmed' BOOL,
                            CONSTRAINT pk_evening PRIMARY KEY (`evening_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -36,6 +37,7 @@ CREATE TABLE `nrv_show` (
                         `show_duration` TIME NOT NULL,
                         `show_style` VARCHAR(256) NOT NULL,
                         `show_url` VARCHAR(256), -- ex: lien youtube
+                        'show_programmed' BOOL,
                         CONSTRAINT pk_show PRIMARY KEY (`show_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
