@@ -3,9 +3,11 @@
 namespace iutnc\nrv\repository;
 
 use Exception;
+use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\object\Style;
 use iutnc\nrv\object\User;
 use PDO;
 use PDOStatement;
@@ -375,7 +377,7 @@ class NrvRepository
         $shows = [];
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
-            return ["vide"];
+            return [];
         }
         //echo "33" . var_dump($rows);
         $create_path = "iutnc\\nrv\\object\\$class";
@@ -387,34 +389,38 @@ class NrvRepository
                 foreach ($rows as $row) {
                     $show = new $create_path($row['show_url'], $row['show_style_id'], (int)$row['show_duration'], $row['show_start_date'],
                         $row['show_description'], $row['show_title'], $row['show_uuid']);
-                    $shows[] = serialize($show);
+                    $results[] = serialize($show);
                 }
                 break;
             case "Evening":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
+                    $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
                         $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
-                    $shows[] = $show;
+                    $results[] = serialize($evening);
                 }
             case "Style":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['style_uuid'], $row['style_name']);
-                    $shows[] = $show;
+                    $style = new $create_path($row['style_uuid'], $row['style_name']);
+                    $results[] = serialize($style);
                 }
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
-                    $shows[] = $show;
+                    $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $results[] = serialize($location);
+                }
+                break;
+            case "Artist":
+                foreach ($rows as $row) {
+                    $artist = new $create_path($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
+                    $results[] = serialize($artist);
                 }
                 break;
             default:
                 return [];
         }
-        return $shows;
+        return $results;
     }
-
-    /**                           PARTIE D                            **/
 
     /**
      * @param string $uuid : id du show à vérifier
@@ -467,10 +473,10 @@ class NrvRepository
 
     /**
      * Retourne tous les styles
-     * @return array|string[]
+     * @return array
      * @throws Exception
      */
-    function findAllStyles(){
+    function findAllStyles(): array{
         $query = "Select style_id, style_name from nrv_style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -480,15 +486,28 @@ class NrvRepository
 
     /**
      * Retourne toutes les locations
-     * @return array|string[]
+     * @return array
      * @throws Exception
      */
-    function findAllLocations(){
+    function findAllLocations(): array{
         $query = "Select location_id, location_name, location_place_number, location_address, location_url from nrv_location";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
         return $this->createArrayFromStmt($stmt, Location::class);
+    }
+
+    /**
+     * Retourne tous les artistes
+     * @return array
+     * @throws Exception
+     */
+    function findAllArtists(): array{
+        $query = "Select artist_uuid, artist_name, artist_description, artist_url from nrv_artist";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+
+        return $this->createArrayFromStmt($stmt, Artist::class);
     }
 
     /**
