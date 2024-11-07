@@ -1,13 +1,14 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Affichage de la liste des spectacles(titre, date, horaire, image)
+ * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué
+ * comme annulé,
  */
-class DisplayAllShowsAction extends Action
+class CancelShowAction extends Action
 {
 
     /**

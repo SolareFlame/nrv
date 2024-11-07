@@ -1,6 +1,8 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_navigation;
+use iutnc\nrv\action\Action;
+
 /**
  * Filtrage de la liste des spectacles par style de musique
  */

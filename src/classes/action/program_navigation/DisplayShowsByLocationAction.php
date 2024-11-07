@@ -1,13 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_navigation;
 
 use iutnc\nrv\action\Action;
 
 /**
- * S'authentifier
+ * Filtrage de la liste des spectacles par lieu
  */
-class SignInAction extends Action
+class DisplayShowsByLocationAction extends Action
 {
 
     /**

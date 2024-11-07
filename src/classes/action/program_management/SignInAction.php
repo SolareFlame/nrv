@@ -1,13 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Créer une soirée : saisir les données et les valider
+ * S'authentifier
  */
-class CreateEveningAction extends Action
+class SignInAction extends Action
 {
 
     /**

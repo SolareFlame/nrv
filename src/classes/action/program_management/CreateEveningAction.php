@@ -1,14 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué
- * comme annulé,
+ * Créer une soirée : saisir les données et les valider
  */
-class CancelShowAction extends Action
+class CreateEveningAction extends Action
 {
 
     /**

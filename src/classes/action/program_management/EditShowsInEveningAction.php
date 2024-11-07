@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
 

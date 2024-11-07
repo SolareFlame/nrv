@@ -1,13 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\show_details;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Filtrage de la liste des spectacles par lieu
+ * Filtrage de la liste des spectacles par date
  */
-class DisplayShowsByLocationAction extends Action
+class DisplayShowsByDayAction extends Action
 {
 
     /**

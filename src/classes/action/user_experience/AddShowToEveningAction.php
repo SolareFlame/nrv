@@ -1,13 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Afficher sa liste de préférence
+ * Ajouter un spectacle à une soirée
  */
-class DisplayFavoritesListAction extends Action
+class AddShowToEveningAction extends Action
 {
 
     /**
