@@ -12,12 +12,11 @@ use iutnc\nrv\dispatch\Dispatcher;
 
 ob_start();
 
-
-
 $dispatcher = new Dispatcher();
-$repo = \iutnc\nrv\repository\NrvRepository::getInstance();
-echo $repo->bonjour();
-$dispatcher->run();
-
+try {
+    $dispatcher->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
 ob_end_flush();

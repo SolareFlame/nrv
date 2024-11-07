@@ -78,13 +78,12 @@ class Dispatcher
     </header>
     <main>
         <div class="content">
-            <p>DEBUT MAIN</p>
+        
             $html
-            <p>FIN MAIN</p>
+
         </div>
     </main>
     <footer>
-        <p>FOOTER</p>
         <a href="index.php?action=login">Vous etes orga ?</a>
         <a href="index.php?action=logout">Se deconnecter</a>
     </footer>
