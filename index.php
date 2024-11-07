@@ -13,4 +13,7 @@ require_once 'vendor/autoload.php';
 use iutnc\nrv\dispatch\Dispatcher ;
 use iutnc\nrv\repository\NrvRepository ;
 
- 
+iutnc\nrv\repository\NrvRepository::getInstance();
+$repo = NrvRepository::getInstance();
+
+echo "hdh";
