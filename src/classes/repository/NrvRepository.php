@@ -284,7 +284,7 @@ class NrvRepository
      * @param Show $show
      * @param Evening $evening
      */
-    function cancelShowToEvening(Show $show, Evening $evening){
+    function deleteShowFromEvening(Show $show, Evening $evening){
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
             $query = "Delete from nrv_evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid";
             $stmt = $this->pdo->prepare($query);

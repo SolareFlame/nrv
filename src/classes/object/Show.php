@@ -18,27 +18,28 @@ class Show
     private array $artists = [];
 
     /**
-     * Show constructor.
-     * @param string $url
-     * @param string $style
-     * @param int $duration
-     * @param string $startDate
-     * @param string $description
-     * @param string $title
      * @param string $id
+     * @param string $title
+     * @param string $description
+     * @param string $startDate
+     * @param int $duration
+     * @param string $style
+     * @param string $url
+     * @param array $artists
      */
-    public function __construct(string $url, string $style, int $duration,
-                                string $startDate, string $description,
-                                string $title, string $id)
+    public function __construct(string $id, string $title, string $description, string $startDate, int $duration, string $style, string $url, array $artists)
     {
-        $this->url = $url;
-        $this->style = $style;
-        $this->duration = $duration;
-        $this->startDate = $startDate;
-        $this->description = $description;
-        $this->title = $title;
         $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->startDate = $startDate;
+        $this->duration = $duration;
+        $this->style = $style;
+        $this->url = $url;
+        $this->artists = $artists;
     }
+
+
 
     /**
      * @throws InvalidPropertyNameException

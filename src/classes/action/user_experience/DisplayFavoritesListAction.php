@@ -2,8 +2,8 @@
 
 namespace iutnc\nrv\action\user_experience;
 
-use Exception;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\object\Show;
 use iutnc\nrv\Render\Renderer;
 use iutnc\nrv\Render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -27,6 +27,10 @@ class DisplayFavoritesListAction extends Action
 
         $res = "";
         foreach ($FavShowList as $show) {
+            /*var_dump($showstr);
+            $show = new Show($showstr['url'], $showstr['style'], (int)$showstr['duration'], $showstr['startDate'],
+                $showstr['description'], $showstr['title'], $showstr['id']);*/
+
             $sr = new ShowRenderer(unserialize($show));
             $res .= $sr->render(Renderer::LONG);
         }
