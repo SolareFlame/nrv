@@ -385,33 +385,33 @@ class NrvRepository
             throw new Exception("La classe $class n'existe pas.");
         }
         switch($class){
-            case "Show":
+            case "iutnc\\nrv\\object\\Show":
                 foreach ($rows as $row) {
                     $show = new $create_path($row['show_url'], $row['show_style_id'], (int)$row['show_duration'], $row['show_start_date'],
                         $row['show_description'], $row['show_title'], $row['show_uuid']);
                     $results[] = serialize($show);
                 }
                 break;
-            case "Evening":
+            case "iutnc\\nrv\\object\\Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
                         $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
-            case "Style":
+            case "iutnc\\nrv\\object\\Style":
                 foreach ($rows as $row) {
                     $style = new $create_path($row['style_uuid'], $row['style_name']);
                     $results[] = serialize($style);
                 }
                 break;
-            case "Location":
+            case "iutnc\\nrv\\object\\Location":
                 foreach ($rows as $row) {
                     $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
                     $results[] = serialize($location);
                 }
                 break;
-            case "Artist":
+            case "iutnc\\nrv\\object\\Artist":
                 foreach ($rows as $row) {
                     $artist = new $create_path($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
                     $results[] = serialize($artist);
