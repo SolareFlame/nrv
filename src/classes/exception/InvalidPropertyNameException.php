@@ -7,4 +7,3 @@ class InvalidPropertyNameException extends \Exception{
         parent::__construct($message);
     }
 }
-?>
