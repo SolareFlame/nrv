@@ -407,13 +407,13 @@ class NrvRepository
                 break;
             case "Style":
                 foreach ($rows as $row) {
-                    $style = new $create_path($row['style_id'], $row['style_name']);
+                    $style = new $create_path($row['style_name'], $row['style_id']);
                     $results[] = serialize($style);
                 }
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
                     $results[] = serialize($location);
                 }
                 break;
@@ -529,7 +529,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $locationId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Location($row['id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
+        return new Location($row['location_id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
     }
 
     /**
