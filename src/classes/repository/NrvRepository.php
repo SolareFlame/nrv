@@ -1,11 +1,6 @@
 <?php
 
 namespace iutnc\nrv\repository;
-
-use Exception;
-use iutnc\deefy\repository\DeefyRepository;
-use PDO;
-
 class NrvRepository
 {
     private PDO $pdo;
@@ -35,7 +30,7 @@ class NrvRepository
      * @param string $fichier Chemin vers le fichier de configuration.
      * @throws Exception Si le fichier de configuration ne peut pas être lu.
      */
-    public static function setConfig(string $file): void
+    private static function setConfig(string $file): void
     {
         $conf = parse_ini_file($file);
         if ($conf === false) {
