@@ -19,7 +19,7 @@ class Evening {
      * @param string $title
      * @param string $theme
      * @param string $date
-     * @param int $idLocation
+     * @param Location $location
      * @param string $description
      * @param float $eveningPrice
      */
