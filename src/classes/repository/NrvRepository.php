@@ -363,11 +363,20 @@ class NrvRepository
             return [];
         }
 
-        foreach ($rows as $row) {
-            $show = new $class($row['show_uuid'], $row['show_title'], $row['show_description'],
-                $row['show_start_time'], $row['show_duration'], $row['show_style'], $row['show_url']);
-            $shows[] = $show;
-        }
+        if($class instanceof Show){
+            foreach ($rows as $row) {
+                $show = new $class($row['show_uuid'], $row['show_title'], $row['show_description'],
+                    $row['show_start_time'], $row['show_duration'], $row['show_style'], $row['show_url']);
+                $shows[] = $show;
+            }
+        }else if($class instanceof Evening){
+            foreach ($rows as $row) {
+                $show = new $class($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
+                    $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
+                $shows[] = $show;
+            }
+        }else return [];
+
         return $shows;
     }
 }
