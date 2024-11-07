@@ -1,26 +1,20 @@
 <?php
 
-namespace iutnc\nrv\action;
-
+namespace iutnc\nrv\action\show_details;
 use iutnc\nrv\action\Action;
 
 /**
- * Ajouter un spectacle à une soirée
+ * Affichage détaillé d’un spectacle : titre, artistes, description, style, durée, image(s),
+ * extrait audio/vidéo
  */
-class AddShowToEveningAction extends Action
+class DisplayShowDetailsAction extends Action
 {
 
-    /**
-     * @inheritDoc
-     */
     public function get()
     {
         // TODO: Implement get() method.
     }
 
-    /**
-     * @inheritDoc
-     */
     public function post()
     {
         // TODO: Implement post() method.

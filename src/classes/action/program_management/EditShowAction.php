@@ -1,13 +1,13 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Créer un spectacle : saisir les données et les valider
+ * Modifier un spectacle existant
  */
-class CreateShowAction extends Action
+class EditShowAction extends Action
 {
 
     /**

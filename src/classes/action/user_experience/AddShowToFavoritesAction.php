@@ -1,13 +1,14 @@
 <?php
 
-namespace iutnc\nrv\action;
+namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
 
 /**
- * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
+ * Ajouter un spectacle dans sa liste de préférence (sans authentification ni création de
+ * compte)
  */
-class CreateStaffAccountAction extends Action
+class AddShowToFavoritesAction extends Action
 {
 
     /**
