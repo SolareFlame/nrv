@@ -27,10 +27,6 @@ class DisplayFavoritesListAction extends Action
 
         $res = "";
         foreach ($FavShowList as $show) {
-            /*var_dump($showstr);
-            $show = new Show($showstr['url'], $showstr['style'], (int)$showstr['duration'], $showstr['startDate'],
-                $showstr['description'], $showstr['title'], $showstr['id']);*/
-
             $sr = new ShowRenderer(unserialize($show));
             $res .= $sr->render(Renderer::LONG);
         }

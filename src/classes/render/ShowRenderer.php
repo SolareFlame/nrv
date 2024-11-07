@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\render;
+namespace iutnc\nrv\Render;
 
 use iutnc\nrv\object\Show;
 

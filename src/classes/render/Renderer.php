@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\render;
+namespace iutnc\nrv\Render;
 
 /**
  * Interface Renderer.
@@ -8,13 +8,13 @@ namespace iutnc\nrv\render;
  */
 interface Renderer
 {
-    const COMPACT = "1";
-    const LONG = '3';
+    const COMPACT = 1;
+    const LONG = 3;
 
     /**
      * @param int $selector 1 for long, 2 for preview
      * @param bool $isPrivate vrai si la playlist appartient à un user
-     * @param $index index de la piste (pour la suppression)
+     * @param int index de la piste (pour la suppression)
      * @return string le rendu
      */
     public function render(int $selector, $index = null): string;

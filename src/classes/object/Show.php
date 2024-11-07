@@ -3,6 +3,7 @@
 
 namespace iutnc\nrv\object;
 
+use DateTime;
 use iutnc\nrv\exception\InvalidPropertyNameException;
 use iutnc\nrv\Render\ShowRenderer;
 
@@ -12,7 +13,7 @@ class Show
     private string $title;
     private string $description;
     private string $startDate;
-    private int $duration;
+    private DateTime $duration;
     private string $style;
     private string $url;
     private array $artists = [];
@@ -27,7 +28,7 @@ class Show
      * @param string $url
      * @param array $artists
      */
-    public function __construct(string $id, string $title, string $description, string $startDate, int $duration, string $style, string $url, array $artists)
+    public function __construct(string $id, string $title, string $description, string $startDate, DateTime $duration, string $style, string $url, array $artists)
     {
         $this->id = $id;
         $this->title = $title;
