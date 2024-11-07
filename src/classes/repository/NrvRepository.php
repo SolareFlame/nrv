@@ -465,6 +465,11 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Show");
     }
 
+    /**
+     * Retourne tous les styles
+     * @return array|string[]
+     * @throws Exception
+     */
     function findAllStyles(){
         $query = "Select style_id, style_name from nrv_style";
         $stmt = $this->pdo->prepare($query);
@@ -473,11 +478,29 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, Style::class);
     }
 
+    /**
+     * Retourne toutes les locations
+     * @return array|string[]
+     * @throws Exception
+     */
     function findAllLocations(){
         $query = "Select location_id, location_name, location_place_number, location_address, location_url from nrv_location";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
         return $this->createArrayFromStmt($stmt, Location::class);
+    }
+
+    /**
+     * Retourne la une location à partir d'un id
+     * @param string $locationId
+     * @return Location
+     */
+    function findLocationById(string $locationId){
+        $query = "Select * from nrv_location where location_id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id' => $locationId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Location($row['id'], $row['location_name'], $row['location_place_number'], $row['location_address'], $row['location_url']);
     }
 }
