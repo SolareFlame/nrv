@@ -6,6 +6,7 @@ use Exception;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\object\Style;
 use iutnc\nrv\object\User;
 use PDO;
 use PDOStatement;
