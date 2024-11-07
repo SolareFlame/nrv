@@ -11,10 +11,10 @@ session_start();
 
 require_once 'vendor/autoload.php';
 use iutnc\nrv\dispatch\Dispatcher;
+use iutnc\nrv\repository\NrvRepository ;
 
 ob_start();
-session_start();
-iutnc\nrv\repository\NrvRepository::getInstance();
+
 $repo = NrvRepository::getInstance();
 
 $dispatcher = new Dispatcher();

@@ -14,7 +14,7 @@ class DefaultAction extends Action
     /**
      * @inheritDoc
      */
-    public function get()
+    public function executeGet()
     {
         return "<h1>SITE NRV</h1>" ;
     }
@@ -22,7 +22,7 @@ class DefaultAction extends Action
     /**
      * @inheritDoc
      */
-    public function post()
+    public function executePost()
     {
         return "<h1>SITE NRV</h1>" ;
     }
