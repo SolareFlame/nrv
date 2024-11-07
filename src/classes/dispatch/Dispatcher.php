@@ -4,6 +4,8 @@ namespace iutnc\nrv\dispatch;
 
 use Exception;
 use iutnc\nrv\action\DefaultAction;
+use iutnc\nrv\action\user_experience\LoginAction;
+use iutnc\nrv\action\user_experience\LogoutAction;
 
 class Dispatcher
 {
@@ -26,6 +28,12 @@ class Dispatcher
             switch ($this->action) {
                 case 'default':
                     $act = new DefaultAction();
+                    break;
+                case 'login':
+                    $act = new LoginAction();
+                    break;
+                case 'logout':
+                    $act = new LogoutAction();
                     break;
                 default:
                     $this->renderPage("Action inconnue");
@@ -54,33 +62,31 @@ class Dispatcher
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deefy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>NRV</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="favicon.png" type="image/png">
 
 </head>
 <body>
     <header>
         <div class="logo">
-            <h1>Deefy</h1>
+            <a href="index.php">LOGO</a>        
         </div>
         <nav>
-            <ul>
-                <li id="acceuil"><a href="?action=default">Accueil</a></li>
-                <li id="playlist"><a href="?action=playlists">Playlists</a></li>
-                <li id="add"><a href="?action=add-playlist">Ajouter Playlist</a></li>
-                <!--<li><a href="?action=add-track">Ajouter Piste</a></li>-->
-                <li id="log"></li>
-            </ul>
+            <p>NAV</p>
         </nav>
     </header>
     <main>
         <div class="content">
+            <p>DEBUT MAIN</p>
             $html
+            <p>FIN MAIN</p>
         </div>
     </main>
     <footer>
-        <p>&copy; <?php echo date("Y"); ?> Deefy. Tous droits réservés.</p>
+        <p>FOOTER</p>
+        <a href="index.php?action=login">Vous etes orga ?</a>
+        <a href="index.php?action=logout">Se deconnecter</a>
     </footer>
 </body>
 </html>

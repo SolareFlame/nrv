@@ -1,15 +1,15 @@
 <?php
 
-namespace iutnc\nrv\auth;
+namespace iutnc\nrv\authn;
 
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\repository\NrvRepository;
 
-class AuthnProvider {
+class NrvAuthnProvider {
 
-    public static function login(string $email, string $passwd2check){
+    public static function login(string $passwd2check){
 
-        // $r = NrvRepository::getInstance();
+        $r = NrvRepository::getInstance();
 
         // try {
         //     $userData = $r->getUserByEmail($email);
@@ -26,6 +26,8 @@ class AuthnProvider {
         //     $_SESSION['email'] = $userData['email'];
         //     $_SESSION['hash'] = $userData['passwd'];
         // }
+
+        $_SESSION['pwd'] = $passwd2check ;
     }
 
     public static function register(string $email, string $password, string $password_confirmation){
@@ -59,11 +61,15 @@ class AuthnProvider {
     }
 
     public static function logout(){
-        // session_destroy();
+        session_destroy();
     }
 
-    public static function asPermission(string $id, int $permission): bool {
-        // $r = NrvRepository::getInstance();
-        // return $r->asPermission($id, $permission);
+    public static function asPermission($permissionLevel): bool {
+        
+        if(!isset($_SESSION['pwd'])){
+            return false ;
+        }
+
+        // etc
     }
 }
