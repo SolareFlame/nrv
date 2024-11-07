@@ -1,12 +1,10 @@
 <?php
 
 namespace iutnc\nrv\repository;
-
 use Exception;
 use iutnc\nrv\dispatch\Dispatcher;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Show;
-use iutnc\nrv\object\User;
 use PDO;
 
 class NrvRepository
@@ -242,7 +240,7 @@ class NrvRepository
      * @param Show $show
      * @param Evening $evening
      */
-    function addShowToEvent(Show $show, Evening $evening)
+    function addShowToEvening(Show $show, Evening $evening)
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
             $query = "Insert into evening2show (evening_uuid, show_uuid) values (:evening_uuid, :show_uuid)";
@@ -268,6 +266,22 @@ class NrvRepository
     }
 
     /**
+     * Retirer un spectacle à une soirée
+     * @param Show $show
+     * @param Evening $evening
+     */
+    function cancelShowToEvening(Show $show, Evening $evening){
+        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
+            $query = "Delete from evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid)";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                ':evening_uuid' => $evening->id,
+                ':show_uuid' => $show->id,
+            ]);
+        }else header("index.php");
+    }
+
+    /**
      * Annuler une soiree : la soiree est conservee dans les affichages mais est marqué comme annulee
      * @param Evening $evening evening
      */
@@ -281,37 +295,44 @@ class NrvRepository
     }
 
     /**
-     * Modifier un spectacle existant
-     * @param int $showId
-     * @param array $newShowData
-     * @return bool
-     */
-    function updateShow(int $showId, array $newShowData) : bool
-    {
-        // TODO
-    }
-
-    /**
      * Modifier les spectacles d’une soirée existante
-     * @param int $eventId
-     * @param array $showIds
-     * @return bool
+     * @param string $id
+     * @param Show $show
      */
-    function updateEventShows(int $eventId, array $showIds) : bool
+    function updateShow(string $id, Show $show) : void
     {
         // TODO
+        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
+            $query = "Update show set show_title = :title, show_description = :description, show_start_time = :start_time, 
+                show_duration = :duration, show_style = :style, show_url = :url where show_uuid = :uuid";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                ':title' => $show->title,
+                ':description' => $show->description,
+                ':show_start_time' => $show->start_time,
+                ':duration' => $show->duration,
+                ':style' => $show->style,
+                ':url' => $show->url
+            ]);
+        }else header("index.php");
     }
 
     /**
      * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
-     * @param string $username
-     * @param string $password
-     * @param array $staffData
-     * @return int
-     */
-    function createStaffAccount(string $username, string $password, array $staffData) : int
+     * @param User $user
+ */
+    function createAccount(User $user) : void
     {
         // TODO : retourne l'ID du compte staff créé ?
+        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 100)) {
+            $query = "Insert into user (user_uuid, password, user_role) values (:uuid, :password, :role)";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                ':uuid' => $user->id,
+                ':password' => $user->password,
+                ':role' => $user->role
+            ]);
+        }else header("index.php");
     }
 
     /**
@@ -327,11 +348,6 @@ class NrvRepository
 
         $r = $stmt->fetch(\PDO::FETCH_ASSOC);
         return ($r && $role >= $r['user_role']);
-    }
-
-    public function bonjour() :string
-    {
-        return "bonjour";
     }
 
     /**
