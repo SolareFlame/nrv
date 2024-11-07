@@ -511,7 +511,7 @@ class NrvRepository
     }
 
     /**
-     * Retourne la une location à partir d'un id
+     * Retourne une location à partir d'un id
      * @param string $locationId
      * @return Location
      */
@@ -521,5 +521,31 @@ class NrvRepository
         $stmt->execute(['id' => $locationId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return new Location($row['id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
+    }
+
+    /**
+     * Retourne un artistà partir d'un id
+     * @param string $artistId
+     * @return Artist
+     */
+    function findArtistById(string $artistId) : Artist{
+        $query = "Select * from nrv_artist where artist_uuid = :uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $artistId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Artist($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
+    }
+
+    /**
+     * Retourne la une location à partir d'un id
+     * @param string $styleId
+     * @return Style
+     */
+    function findStyleById(string $styleId) : Style{
+        $query = "Select * from nrv_style where style_id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id' => $styleId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Style($row['style_name'], $row['style_id']);
     }
 }
