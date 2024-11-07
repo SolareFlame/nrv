@@ -3,6 +3,7 @@
 namespace iutnc\nrv\action\program_navigation;
 
 use iutnc\nrv\action\Action;
+use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Affichage de la liste des spectacles(titre, date, horaire, image)
@@ -15,14 +16,19 @@ class DisplayAllShowsAction extends Action
      */
     public function executePost()
     {
-        // TODO: Implement get() method.
+        return "";
     }
 
     /**
      * @inheritDoc
+     * @throws \Exception
      */
     public function executeGet()
     {
-        // TODO: Implement post() method.
+
+        $repository = NrvRepository::getInstance();
+        $shows = $repository->findAllShows();
+
+
     }
 }
