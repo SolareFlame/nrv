@@ -501,6 +501,6 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $locationId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Location($row['id'], $row['location_name'], $row['location_place_number'], $row['location_address'], $row['location_url']);
+        return new Location($row['id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
     }
 }
