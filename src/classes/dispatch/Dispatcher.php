@@ -1,6 +1,6 @@
 <?php
 
-namespace dispatch;
+namespace iutnc\nrv\dispatch;
 
 class Dispatcher
 {
