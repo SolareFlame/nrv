@@ -1,10 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace iutnc\deefy\exception;
-use \Exception;
+namespace iutnc\nrv\exception;
 
 /**
  * Exception d'authentification
  */
-class AuthnException extends Exception{}
+class AuthnException extends \Exception{}
