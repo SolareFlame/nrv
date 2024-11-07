@@ -9,6 +9,7 @@ use iutnc\nrv\action\Action;
  */
 class DisplayEveningDetailsAction extends Action
 {
+    //Utiliser findEveningDetails ET findShowsInEvening
 
     public function get()
     {
