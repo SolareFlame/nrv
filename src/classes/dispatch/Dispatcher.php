@@ -16,6 +16,7 @@ use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
 use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
+use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
 use iutnc\nrv\action\user_experience\LogoutAction;
@@ -72,6 +73,9 @@ class Dispatcher
                 case 'edit-evening':
                     $act = new EditShowsInEveningAction();
                     break;
+                case 'addShow2Fav':
+                    $act = new AddShowToFavoritesAction();
+                    break;
                 case 'cancel-show':
                     $act = new CancelShowAction();
                     break;
@@ -81,8 +85,8 @@ class Dispatcher
                 case 'addShow2evening':
                     $act = new AddShowToEveningAction();
                     break;
-                case 'addShow2fav':
-                    $act = new AddShowToFavoritesAction();
+                case 'delShow2fav':
+                    $act = new DelShowToFavoritesAction();
                     break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();

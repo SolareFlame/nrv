@@ -14,9 +14,9 @@ class AddShowToFavoritesAction extends Action
     public function execute(): string
     {
         // verif si l'id est bien fourni
-        if (empty($_GET['addFavId'])) {
+        if (!empty($_GET['addFavId'])) {
             $idFav = $_GET['addFavId'];
-        } else if (empty($_POST['addFavId'])) {
+        } else if (!empty($_POST['addFavId'])) {
             $idFav = $_POST['addFavId'];
         } else {
             return "Veuillez fournir un identifiant de spectacle";
