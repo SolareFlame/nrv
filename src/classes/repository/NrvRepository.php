@@ -512,10 +512,10 @@ class NrvRepository
 
     /**
      * Retourne une location à partir d'un id
-     * @param string $locationId
+     * @param int $locationId
      * @return Location
      */
-    function findLocationById(string $locationId){
+    function findLocationById(int $locationId): Location{
         $query = "Select * from nrv_location where location_id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $locationId]);
@@ -525,23 +525,23 @@ class NrvRepository
 
     /**
      * Retourne un artistà partir d'un id
-     * @param string $artistId
+     * @param string $artistUuid
      * @return Artist
      */
-    function findArtistById(string $artistId) : Artist{
+    function findArtistById(string $artistUuid) : Artist{
         $query = "Select * from nrv_artist where artist_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['uuid' => $artistId]);
+        $stmt->execute(['uuid' => $artistUuid]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return new Artist($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
     }
 
     /**
      * Retourne la une location à partir d'un id
-     * @param string $styleId
+     * @param int $styleId
      * @return Style
      */
-    function findStyleById(string $styleId) : Style{
+    function findStyleById(int $styleId) : Style{
         $query = "Select * from nrv_style where style_id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $styleId]);
