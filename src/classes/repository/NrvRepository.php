@@ -398,6 +398,7 @@ class NrvRepository
                         $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
+                break;
             case "Style":
                 foreach ($rows as $row) {
                     $style = new $create_path($row['style_uuid'], $row['style_name']);
