@@ -426,7 +426,7 @@ class NrvRepository
      * @param string $uuid : id du show à vérifier
      * @return bool : true si l'id représente un show, false sinon
      */
-    public function VerifIdFav(string $uuid): bool
+    public function verifIdFav(string $uuid): bool
     {
         $query = "Select show_uuid from nrv_show where show_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);

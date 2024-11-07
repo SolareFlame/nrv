@@ -37,10 +37,4 @@ class Artist {
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
     }
 
-
-
 }
-
-
-
-?>

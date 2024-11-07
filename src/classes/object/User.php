@@ -36,12 +36,4 @@ class User {
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
     }
 
-
-
-
-
-
 }
-
-
-?>

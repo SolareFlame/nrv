@@ -75,9 +75,4 @@ class Show
         $sr = new ShowRenderer($this);
         return $sr->render($option);
     }
-
-
 }
-
-
-?>
