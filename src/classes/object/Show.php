@@ -1,11 +1,12 @@
-<?php 
+<?php
 
 
-namespace iutnc\nrv\object ;
+namespace iutnc\nrv\object;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
 
-class Show {
+class Show
+{
     private string $id;
     private string $title;
     private string $description;
@@ -13,8 +14,10 @@ class Show {
     private int $duration;
     private string $style;
     private string $url;
+    private array $artists = [];
 
     /**
+     * Show constructor.
      * @param string $url
      * @param string $style
      * @param int $duration
@@ -23,7 +26,9 @@ class Show {
      * @param string $title
      * @param string $id
      */
-    public function __construct(string $url, string $style, int $duration, string $startDate, string $description, string $title, string $id)
+    public function __construct(string $url, string $style, int $duration,
+                                string $startDate, string $description,
+                                string $title, string $id)
     {
         $this->url = $url;
         $this->style = $style;
@@ -42,15 +47,16 @@ class Show {
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
     }
 
-
+    public function ajouterArtiste(Artist $artist): void
+    {
+        $this->artists[] = $artist;
+    }
 
 
 }
-
 
 
 ?>

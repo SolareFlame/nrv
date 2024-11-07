@@ -43,14 +43,8 @@ class Evening {
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-
         throw new InvalidPropertyNameException("La propriété '$property' n'existe pas.");
     }
-
-
-
-
-
 
 }
 
