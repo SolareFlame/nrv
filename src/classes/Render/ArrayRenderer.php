@@ -12,12 +12,11 @@ class ArrayRenderer
     }
 
     /**
-     * @param array $data la liste d'objets à afficher
      * @param int $option 1 for long, 2 for preview
      * @param bool $isSerial vrai si la liste d'options est sérialisée
      * @return string
      */
-    public function render(array $data, int $option, bool $isSerial): string
+    public function render(int $option, bool $isSerial): string
     {
         $res = '';
         foreach ($this->liste as $entite) {
