@@ -14,7 +14,6 @@ interface Renderer
     /**
      * @param int $selector 1 for long, 2 for preview
      * @param bool $isPrivate vrai si la playlist appartient à un user
-     * @param int index de la piste (pour la suppression)
      * @return string le rendu
      */
     public function render(int $selector, $index = null): string;
