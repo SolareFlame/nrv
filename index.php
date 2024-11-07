@@ -11,19 +11,12 @@ session_start();
 
 require_once 'vendor/autoload.php';
 use iutnc\nrv\dispatch\Dispatcher;
-use iutnc\nrv\repository\NrvRepository ;
 
 ob_start();
 
-$repo = NrvRepository::getInstance();
 
 $dispatcher = new Dispatcher();
+$dispatcher->run();
 
-try {
-    $dispatcher->run();
-} catch (Exception $e) {
-    http_response_code(500);
-    echo "Erreur 500 : " . $e->getMessage();
-}
 
 ob_end_flush();
