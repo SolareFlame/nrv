@@ -90,3 +90,27 @@ ALTER TABLE `nrv_show2artist`
 
 ALTER TABLE `nrv_show`
     ADD CONSTRAINT fk_show_style FOREIGN KEY (`show_style_id`) REFERENCES `nrv_style`(`style_id`);
+
+insert into nrv_style values (0,'rock') ;
+insert into nrv_style values (0,'jazz') ;
+
+insert into nrv_show values('40518b36-0d9f-4f43-9c0b-11937e40f3ed','le 1er show mis dans la db','ceci est une description',str_to_date('7/11/2024:20', '%d/%m/%Y:%H'),'01:00:00',1,'url',1) ;
+insert into nrv_show values('3eb4d463-e803-4e43-8d7b-294fac5d4a84','le 2eme show mis dans la db','ceci est une deuxieme description',str_to_date('9/11/2024:19', '%d/%m/%Y:%H'),'02:00:00',2,'url',1) ;
+
+insert into nrv_artist values ('370f8082-c3eb-4fb5-aee2-80b475b03d24','jack uzi','1 bon artiste','url') ;
+insert into nrv_artist values ('24d88e47-2ea1-4f73-80aa-a05426634c43','celine dion','1 bonne chanteuse','url') ;
+
+insert into nrv_location values (0,'La pep',0,'addresse de la pep','url du lieu');
+
+insert into nrv_evening values('c4b7bd4f-ecd6-4ba5-944e-057999732b37','1ere soirée','theme : le fun',str_to_date('7/11/2024', '%d/%m/%Y'),1,'Cette soirée est fun',20,1) ;
+
+insert into nrv_user2evening values ('1aa0a76d-896f-4c6a-b8e8-9543155e1ae3','c4b7bd4f-ecd6-4ba5-944e-057999732b37');
+insert into nrv_user2evening values ('23d6a299-1dcc-4da7-9f18-176ad0d0a85f','c4b7bd4f-ecd6-4ba5-944e-057999732b37');
+
+insert into nrv_show2artist values('3eb4d463-e803-4e43-8d7b-294fac5d4a84','24d88e47-2ea1-4f73-80aa-a05426634c43');
+insert into nrv_show2artist values('40518b36-0d9f-4f43-9c0b-11937e40f3ed','370f8082-c3eb-4fb5-aee2-80b475b03d24');
+insert into nrv_show2artist values('40518b36-0d9f-4f43-9c0b-11937e40f3ed','24d88e47-2ea1-4f73-80aa-a05426634c43');
+
+insert into nrv_evening2show values('c4b7bd4f-ecd6-4ba5-944e-057999732b37','3eb4d463-e803-4e43-8d7b-294fac5d4a84');
+insert into nrv_evening2show values('c4b7bd4f-ecd6-4ba5-944e-057999732b37','40518b36-0d9f-4f43-9c0b-11937e40f3ed');
+
