@@ -2,7 +2,12 @@
 
 require_once 'vendor/autoload.php';
 
-echo "Bonjour je passe l'ASRR CIAO";
+echo "je passe l'ASRR CIAO";
+use iutnc\nrv\repository\NrvRepository;
+
+$repo = NrvRepository::getInstance();
+echo $repo->bonjour();
+
 
 
 // dans config nrv.db.ini il faut que ça soit sous cette forme pour que ça marche avec mon serveur local
