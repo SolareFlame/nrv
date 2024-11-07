@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\nrv\repository;
+
 use Exception;
 use iutnc\nrv\dispatch\Dispatcher;
 use iutnc\nrv\object\Evening;
@@ -68,13 +69,13 @@ class NrvRepository
      * Affichage de la liste des spectacles
      * @return array
      */
-    function findAllShows() : array
+    function findAllShows(): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url from show";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayShows($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, Show::class);
     }
 
     /**
@@ -82,14 +83,14 @@ class NrvRepository
      * @param string $date
      * @return array
      */
-    function findShowsByDate(string $date) : array
+    function findShowsByDate(string $date): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
        show_duration, show_style, show_url from show where DATE(show_start_time) = :date";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date]);
 
-        return $this->createArrayShows($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, Show::class);
     }
 
     /**
@@ -97,14 +98,14 @@ class NrvRepository
      * @param string $style
      * @return array
      */
-    function findShowsByStyle(string $style) : array
+    function findShowsByStyle(string $style): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
        show_duration, show_style, show_url from show where DATE(show_style) = :style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
-        return $this->createArrayShows($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, Show::class);
     }
 
     /**
@@ -112,7 +113,7 @@ class NrvRepository
      * @param string $location
      * @return array
      */
-    function findShowsByLocation(string $location) : array
+    function findShowsByLocation(string $location): array
     {
         $query = "Select evening_location, show_uuid, show_title, show_description, show_start_time, 
             show_duration, show_style, show_url 
@@ -122,7 +123,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['location' => $location]);
 
-        return $this->createArrayShows($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, Show::class);
     }
 
     /**
@@ -130,7 +131,7 @@ class NrvRepository
      * @param int $uuid
      * @return Show
      */
-    function findShowDetails(int $uuid) : Show
+    function findShowDetails(int $uuid): Show
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
        show_duration, show_style, show_url from show where show_uuid = :uuid";
@@ -138,7 +139,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayShows($stmt, Show::class)[0];
+        return $this->createArrayFromStmt($stmt, Show::class)[0];
     }
 
     /**
@@ -146,7 +147,7 @@ class NrvRepository
      * @param int $uuid
      * @return array
      */
-    function findEveningDetails(int $uuid) : array
+    function findEveningDetails(int $uuid): array
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
        evening_location, evening_description, evening_price from evening where evening_uuid = :uuid";
@@ -154,7 +155,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayShows($stmt, Evening::class)[0];
+        return $this->createArrayFromStmt($stmt, Evening::class)[0];
     }
 
     /**
@@ -162,7 +163,8 @@ class NrvRepository
      * @param int $uuid
      * @return array
      */
-    function findShowsInEvening(int $uuid) : array{
+    function findShowsInEvening(int $uuid): array
+    {
         $query = "SELECT show_uuid, show_title, show_description, 
               show_start_time, show_duration, show_style, show_url 
               FROM show s
@@ -173,7 +175,7 @@ class NrvRepository
         $stmt->execute(['uuid' => $uuid]);
 
         // Retourne les spectacles associés sous forme de tableau d'objets Show
-        return $this->createArrayShows($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, Show::class);
     }
 
     /**
@@ -182,7 +184,7 @@ class NrvRepository
      * @param string $password
      * @return bool
      */
-    function authenticateUser(string $username, string $password) : bool
+    function authenticateUser(string $username, string $password): bool
     {
         // TODO
     }
@@ -194,7 +196,7 @@ class NrvRepository
      */
     function createShow(Show $show): void
     {
-        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
+        if (isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
             $query = "INSERT INTO show (show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url) 
                         values (:uuid, :title, :description, :start, :duration, :style, :url)";
 
@@ -208,7 +210,7 @@ class NrvRepository
                 ':style' => $show->style,
                 ':url' => $show->url
             ]);
-        }else{
+        } else {
 
         }
     }
@@ -218,7 +220,7 @@ class NrvRepository
      * @param array $eventData
      * @return int
      */
-    function createEvent(array $eventData) : int
+    function createEvent(array $eventData): int
     {
         // TODO : retourne l'ID de la soirée créée ?
     }
@@ -229,7 +231,7 @@ class NrvRepository
      * @param int $eventId
      * @return bool
      */
-    function addShowToEvent(int $showId, int $eventId) : bool
+    function addShowToEvent(int $showId, int $eventId): bool
     {
         // TODO
     }
@@ -239,7 +241,7 @@ class NrvRepository
      * @param int $showId
      * @return bool
      */
-    function cancelShow(int $showId) : bool
+    function cancelShow(int $showId): bool
     {
         // TODO
     }
@@ -250,7 +252,7 @@ class NrvRepository
      * @param array $newShowData
      * @return bool
      */
-    function updateShow(int $showId, array $newShowData) : bool
+    function updateShow(int $showId, array $newShowData): bool
     {
         // TODO
     }
@@ -261,7 +263,7 @@ class NrvRepository
      * @param array $showIds
      * @return bool
      */
-    function updateEventShows(int $eventId, array $showIds) : bool
+    function updateEventShows(int $eventId, array $showIds): bool
     {
         // TODO
     }
@@ -273,7 +275,7 @@ class NrvRepository
      * @param array $staffData
      * @return int
      */
-    function createStaffAccount(string $username, string $password, array $staffData) : int
+    function createStaffAccount(string $username, string $password, array $staffData): int
     {
         // TODO : retourne l'ID du compte staff créé ?
     }
@@ -284,31 +286,29 @@ class NrvRepository
      * @param $role
      * @return bool
      */
-    function checkRole($uuid, $role): bool{
+    function checkRole($uuid, $role): bool
+    {
         $query = "Select user_role from user where user_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
         $r = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if($r && $role >= $r['user_role']){
+        if ($r && $role >= $r['user_role']) {
             return true;
-        }else return false;
-    }
-
-    public function bonjour() :string
-    {
-        return "bonjour";
+        } else return false;
     }
 
     /**
      * Fonction de création d'un tableau de Show à partir du résultat d'une requête
-     * @param $stmt
-     * @return array
+     * @param $stmt : résultat de la requête
+     * @param $class : classe à instancier
+     * @return array : tableau d'objets de type $class
      */
-    private function createArrayShows($stmt, $class): array{
+    private function createArrayFromStmt($stmt, $class): array
+    {
         $shows = [];
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        if(empty($rows)){
+        if (empty($rows)) {
             return [];
         }
 
@@ -319,4 +319,50 @@ class NrvRepository
         }
         return $shows;
     }
+
+    /**                           PARTIE D                            **/
+
+    /**
+     * @param string $uuid : id du show à vérifier
+     * @return bool : true si l'id représente un show, false sinon
+     */
+    public function VerifIdFav(string $uuid): bool
+    {
+        $query = "Select show_uuid from show where show_uuid = :uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $uuid]);
+
+        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($res)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * @param string $idFav : id du show à récupérer
+     * @return Show : show correspondant à l'id
+     */
+    public function getShowById(string $idFav): Show
+    {
+        $query = "Select * from nrv_show where show_uuid = :uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $idFav]);
+
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
+            $row['show_start_time'], $row['show_duration'], $row['show_style'], $row['show_url']);
+    }
+
+    public function getShowsByListId(array $listIdFav): array
+    {
+        $query = "Select * from nrv_show where show_uuid in (:listId)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['listId' => $listIdFav]);
+
+        return $this->createArrayFromStmt($stmt, Show::class);
+    }
+
 }
