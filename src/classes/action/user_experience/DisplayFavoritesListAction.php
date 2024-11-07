@@ -13,7 +13,7 @@ class DisplayFavoritesListAction extends Action
     /**
      * @inheritDoc
      */
-    public function get()
+    public function executePost()
     {
         // TODO: Implement get() method.
     }
@@ -21,7 +21,7 @@ class DisplayFavoritesListAction extends Action
     /**
      * @inheritDoc
      */
-    public function post()
+    public function executeGet()
     {
         // TODO: Implement post() method.
     }

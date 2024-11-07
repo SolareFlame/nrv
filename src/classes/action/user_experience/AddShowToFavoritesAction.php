@@ -14,7 +14,7 @@ class AddShowToFavoritesAction extends Action
     /**
      * @inheritDoc
      */
-    public function get()
+    public function executePost()
     {
         // TODO: Implement get() method.
     }
@@ -22,7 +22,7 @@ class AddShowToFavoritesAction extends Action
     /**
      * @inheritDoc
      */
-    public function post()
+    public function executeGet()
     {
         // TODO: Implement post() method.
     }

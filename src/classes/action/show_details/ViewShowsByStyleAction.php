@@ -7,12 +7,12 @@ use iutnc\nrv\action\Action;
 class ViewShowsByStyleAction extends Action
 {
 
-    public function get()
+    public function executePost()
     {
         // TODO: Implement get() method.
     }
 
-    public function post()
+    public function executeGet()
     {
         // TODO: Implement post() method.
     }

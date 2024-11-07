@@ -2,7 +2,7 @@
 
 namespace iutnc\nrv\action;
 
-abstract class  Action
+abstract class Action
 {
     protected ?string $http_method = null;
     protected ?string $hostname = null;
@@ -24,25 +24,31 @@ abstract class  Action
     {
         switch ($this->http_method){
             case "GET":
-                return $this->get();
+                return $this->executeGet();
             case  "POST" :
-                return $this->post();
+                return $this->executePost();
             default:
                 return "Methode non autorisé";
         }
     }
 
     /**
-     * Méthode abstraite pour gérer les requêtes GET.
-     *
-     * @return string Le résultat de la gestion de la requête GET.
-     */
-    public abstract function get();
-
-    /**
      * Méthode abstraite pour gérer les requêtes POST.
      *
      * @return string Le résultat de la gestion de la requête POST.
      */
-    public abstract function post();
+    public abstract function executePost();
+
+
+    /**
+     * Méthode abstraite pour gérer les requêtes GET.
+     *
+     * @return string Le résultat de la gestion de la requête GET.
+     */
+    public abstract function executeGet();
+
+    public function __invoke(): string
+    {
+        return $this->execute();
+    }
 }
