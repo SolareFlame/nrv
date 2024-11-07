@@ -108,41 +108,10 @@ class Dispatcher
         //$user = AuthnProvider::getSignedInUser();
         //$logInOrOut = $user['id'] == -1 ? "<a href='?action=login'>Connexion</a>" : "<a href='?action=logout'>Déconnexion</a>";
 
-        $ret = <<<HTML
-    <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NRV</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+        $content = file_get_contents("res/html/index.html");
 
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="index.php">LOGO</a>        
-        </div>
-        <nav>
-            <p>NAV</p>
-        </nav>
-    </header>
-    <main>
-        <div class="content">
-        
-            $html
+        $page = str_replace("{{CONTENT}}", $html, $content);
 
-        </div>
-    </main>
-    <footer>
-        <a href="index.php?action=login">Vous etes orga ?</a>
-        <a href="index.php?action=logout">Se deconnecter</a>
-    </footer>
-</body>
-</html>
-HTML;
-        echo $ret;
+        echo $page;
     }
 }
-
