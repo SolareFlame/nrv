@@ -118,5 +118,53 @@ class NrvRepository
         // TODO
     }
 
+    // 13. S'authentifier
+    function authenticateUser(string $username, string $password) : bool
+    {
+        // TODO
+    }
+
+// 14. Créer un spectacle : saisir les données et les valider
+    function createShow(array $showData) : int
+    {
+        // TODO : retourne l'ID du spectacle créé ?
+    }
+
+// 15. Créer une soirée : saisir les données et les valider
+    function createEvent(array $eventData) : int
+    {
+        // TODO : retourne l'ID de la soirée créée ?
+    }
+
+// 16. Ajouter un spectacle à une soirée
+    function addShowToEvent(int $showId, int $eventId) : bool
+    {
+        // TODO
+    }
+
+// 17. Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué comme annulé
+    function cancelShow(int $showId) : bool
+    {
+        // TODO
+    }
+
+// 18. Modifier un spectacle existant
+    function updateShow(int $showId, array $newShowData) : bool
+    {
+        // TODO
+    }
+
+// 19. Modifier les spectacles d’une soirée existante
+    function updateEventShows(int $eventId, array $showIds) : bool
+    {
+        // TODO
+    }
+
+    // Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
+    function createStaffAccount(string $username, string $password, array $staffData) : int
+    {
+        // TODO : retourne l'ID du compte staff créé ?
+    }
+
 
 }
