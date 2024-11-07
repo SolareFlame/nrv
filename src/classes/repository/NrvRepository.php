@@ -387,8 +387,7 @@ class NrvRepository
         switch($class){
             case "Show":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['show_url'], $row['show_style_id'], (int)$row['show_duration'], $row['show_start_date'],
-                        $row['show_description'], $row['show_title'], $row['show_uuid']);
+                    $show = new $create_path($row['show_uuid'],$row['show_title'],$row['show_description'], $row['show_start_date'], (int)$row['show_duration'], $row['show_style_id'], $row['show_url']);
                     $results[] = serialize($show);
                 }
                 break;
@@ -456,7 +455,7 @@ class NrvRepository
         return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
             $row['show_start_date'],
             $row['show_duration'],
-            $row['show_style'], $row['show_url']);
+            $row['show_style'], $row['show_url'],$row[""]);
     }
 
     /**
