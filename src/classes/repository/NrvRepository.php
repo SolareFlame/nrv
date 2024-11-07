@@ -387,31 +387,31 @@ class NrvRepository
                 foreach ($rows as $row) {
                     $show = new $create_path($row['show_url'], $row['show_style_id'], (int)$row['show_duration'], $row['show_start_date'],
                         $row['show_description'], $row['show_title'], $row['show_uuid']);
-                    $shows[] = serialize($show);
+                    $results[] = serialize($show);
                 }
                 break;
             case "Evening":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
+                    $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
                         $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
-                    $shows[] = $show;
+                    $results[] = serialize($evening);
                 }
             case "Style":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['style_uuid'], $row['style_name']);
-                    $shows[] = $show;
+                    $style = new $create_path($row['style_uuid'], $row['style_name']);
+                    $results[] = serialize($style);
                 }
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
-                    $shows[] = $show;
+                    $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $results[] = serialize($location);
                 }
                 break;
             default:
                 return [];
         }
-        return $shows;
+        return $results;
     }
 
     /**                           PARTIE D                            **/
