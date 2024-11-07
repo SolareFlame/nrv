@@ -35,7 +35,7 @@ CREATE TABLE `nrv_show` (
                         `show_description` TEXT NOT NULL,
                         `show_start_date` DATE NOT NULL,
                         `show_duration` TIME NOT NULL,
-                        `show_style` VARCHAR(256) NOT NULL,
+                        `show_style_id` INT(11) NOT NULL,
                         `show_url` VARCHAR(256), -- ex: lien youtube
                         'show_programmed' BOOL,
                         CONSTRAINT pk_show PRIMARY KEY (`show_uuid`)
@@ -64,6 +64,12 @@ CREATE TABLE `nrv_location` (
                             CONSTRAINT pk_location PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `nrv_style` (
+    `style_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `style_name` VARCHAR(256) NOT NULL,
+    CONSTRAINT pk_location PRIMARY KEY (`style_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 ALTER TABLE `nrv_user2evening`
     ADD CONSTRAINT fk_nrv_user2evening_user FOREIGN KEY (`user_uuid`) REFERENCES `nrv_user`(`user_uuid`);
 ALTER TABLE `nrv_user2evening`
@@ -81,3 +87,6 @@ ALTER TABLE `nrv_show2artist`
     ADD CONSTRAINT fk_show2artist_show FOREIGN KEY (`show_uuid`) REFERENCES `nrv_show`(`show_uuid`);
 ALTER TABLE `nrv_show2artist`
     ADD CONSTRAINT fk_show2artist_artist FOREIGN KEY (`artist_uuid`) REFERENCES `nrv_artist`(`artist_uuid`);
+
+ALTER TABLE `nrv_show`
+    ADD CONSTRAINT fk_show_style FOREIGN KEY (`show_style_id`) REFERENCES `nrv_style`(`style_id`);
