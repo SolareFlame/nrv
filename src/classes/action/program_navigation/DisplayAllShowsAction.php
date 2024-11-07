@@ -25,10 +25,9 @@ class DisplayAllShowsAction extends Action
      */
     public function executeGet()
     {
-
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
-
-
+        $render = new ListRender($shows);
+        return $render->render();
     }
 }
