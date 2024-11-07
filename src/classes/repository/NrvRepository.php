@@ -1,6 +1,8 @@
 <?php
 
 namespace iutnc\nrv\repository;
+use PDO;
+
 class NrvRepository
 {
     private PDO $pdo;
