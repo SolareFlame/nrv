@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\dispatch;
 
+use Exception;
 use iutnc\nrv\action\DefaultAction;
 
 class Dispatcher
@@ -15,7 +16,7 @@ class Dispatcher
 
     /**
      * Fonction qui exécute l'action demandée
-     * @throws \Exception
+     * @throws Exception
      */
     public function run(): void
     {
@@ -39,7 +40,7 @@ class Dispatcher
     /**
      * Fonction qui affiche la page HTML
      * @param string $html le code HTML à afficher
-     * @throws \Exception
+     * @throws Exception
      */
     private function renderPage(string $html): void
     {
