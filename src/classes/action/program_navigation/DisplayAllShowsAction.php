@@ -4,6 +4,8 @@ namespace iutnc\nrv\action\program_navigation;
 
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\render\ArrayRenderer;
+use iutnc\nrv\render\Renderer;
 use iutnc\nrv\render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
@@ -29,7 +31,7 @@ class DisplayAllShowsAction extends Action
     {
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
-        $render = new ShowRenderer($shows);
-        return $render->render();
+        $render = new ArrayRenderer($shows);
+        return $render->render(Renderer::COMPACT,true);
     }
 }
