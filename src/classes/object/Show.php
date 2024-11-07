@@ -55,7 +55,7 @@ class Show
         $this->artists[] = $artist;
     }
 
-    public function DisplayArtist(): string
+    public function DisplayArtiste(): string
     {
         $res = "";
         foreach ($this->artists as $artist) {
