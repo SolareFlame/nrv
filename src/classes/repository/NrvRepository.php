@@ -217,7 +217,6 @@ class NrvRepository
      * Créer une soirée : saisir les données et les valider
      * @param Evening $evening
      */
-    function createEvent(array $eventData): int
     function createEvening(Evening $evening) : void
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
