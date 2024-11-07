@@ -16,7 +16,7 @@ CREATE TABLE `nrv_evening` (
                            `evening_title` VARCHAR(256) NOT NULL,
                            `evening_theme` VARCHAR(256) NOT NULL,
                            `evening_date` DATE NOT NULL,
-                           `evening_location_id` CHAR(36) NOT NULL,
+                           `evening_location_id` INT(11) NOT NULL,
                            `evening_description` TEXT NOT NULL,
                            `evening_price` DECIMAL(10,2) NOT NULL,
                            CONSTRAINT pk_evening PRIMARY KEY (`evening_uuid`)
@@ -63,19 +63,19 @@ CREATE TABLE `nrv_location` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 ALTER TABLE `nrv_user2evening`
-    ADD CONSTRAINT fk_user FOREIGN KEY (`user_uuid`) REFERENCES `user`(`user_uuid`);
+    ADD CONSTRAINT fk_nrv_user2evening_user FOREIGN KEY (`user_uuid`) REFERENCES `nrv_user`(`user_uuid`);
 ALTER TABLE `nrv_user2evening`
-    ADD CONSTRAINT fk_evening FOREIGN KEY (`evening_uuid`) REFERENCES `evening`(`evening_uuid`);
+    ADD CONSTRAINT fk_nrv_user2evening_evening FOREIGN KEY (`evening_uuid`) REFERENCES `nrv_evening`(`evening_uuid`);
 
 ALTER TABLE `nrv_evening`
-    ADD CONSTRAINT fk_location FOREIGN KEY (`evening_location_id`) REFERENCES `location`(`location_id`);
+    ADD CONSTRAINT fk_evening_location FOREIGN KEY (`evening_location_id`) REFERENCES `nrv_location`(`location_id`);
 
 ALTER TABLE `nrv_evening2show`
-    ADD CONSTRAINT fk_evening FOREIGN KEY (`evening_uuid`) REFERENCES `evening`(`evening_uuid`);
+    ADD CONSTRAINT fk_evening2show_evening FOREIGN KEY (`evening_uuid`) REFERENCES `nrv_evening`(`evening_uuid`);
 ALTER TABLE `nrv_evening2show`
-    ADD CONSTRAINT fk_show FOREIGN KEY (`show_uuid`) REFERENCES `show`(`show_uuid`);
+    ADD CONSTRAINT fk_evening2show_show FOREIGN KEY (`show_uuid`) REFERENCES `nrv_show`(`show_uuid`);
 
 ALTER TABLE `nrv_show2artist`
-    ADD CONSTRAINT fk_show FOREIGN KEY (`show_uuid`) REFERENCES `show`(`show_uuid`);
+    ADD CONSTRAINT fk_show2artist_show FOREIGN KEY (`show_uuid`) REFERENCES `nrv_show`(`show_uuid`);
 ALTER TABLE `nrv_show2artist`
-    ADD CONSTRAINT fk_artist FOREIGN KEY (`artist_uuid`) REFERENCES `artist`(`artist_uuid`);
+    ADD CONSTRAINT fk_show2artist_artist FOREIGN KEY (`artist_uuid`) REFERENCES `nrv_artist`(`artist_uuid`);
