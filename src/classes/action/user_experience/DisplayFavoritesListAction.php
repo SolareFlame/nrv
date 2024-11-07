@@ -4,8 +4,8 @@ namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
-use iutnc\nrv\render\Renderer;
-use iutnc\nrv\render\ShowRenderer;
+use iutnc\nrv\Render\Renderer;
+use iutnc\nrv\Render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -15,7 +15,7 @@ use iutnc\nrv\repository\NrvRepository;
 class DisplayFavoritesListAction extends Action
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): string
     {
