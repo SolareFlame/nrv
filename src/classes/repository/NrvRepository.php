@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\repository;
 use Exception;
+use iutnc\nrv\dispatch\Dispatcher;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Show;
 use PDO;
@@ -191,11 +192,26 @@ class NrvRepository
      * @param array $showData
      * @return int
      */
-    function createShow(array $showData) : int
+    function createShow(Show $show): void
     {
-        //VERIFICATION DU ROLE A RAJOUTER
+        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
+            $query = "INSERT INTO show (show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url) 
+                        values (:uuid, :title, :description, :start, :duration, :style, :url)";
 
-
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                ':uuid' => $show->uuid,
+                ':title' => $show->title,
+                ':description' => $show->description,
+                ':start' => $show->start_time,
+                ':duration' => $show->duration,
+                ':style' => $show->style,
+                ':url' => $show->url
+            ]);
+        }else{
+            header("../action/defaultAction");
+            exit();
+        }
     }
 
     /**
@@ -263,6 +279,22 @@ class NrvRepository
         // TODO : retourne l'ID du compte staff créé ?
     }
 
+    /**
+     * Vérifie que l'user ait la permission
+     * @param $uuid
+     * @param $role
+     * @return bool
+     */
+    function checkRole($uuid, $role): bool{
+        $query = "Select user_role from user where user_uuid = :uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $uuid]);
+
+        $r = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if($r && $role >= $r['user_role']){
+            return true;
+        }else return false;
+    }
 
     public function bonjour() :string
     {
