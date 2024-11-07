@@ -43,7 +43,7 @@ class NrvRepository
         if (isset($conf['port'])) {
             $port = ';port=' . $conf['port'];
         }
-        $dsn = "{$conf['driver']}:host={$conf['host']}" . " $port " . ";dbname={$conf['database']}";
+        $dsn = "{$conf['driver']}:host={$conf['host']}" . "$port" . ";dbname={$conf['database']}";
         echo $dsn;
         self::$configuration = ['dsn' => $dsn, 'user' => $conf['username'], 'pass' => $conf['password']];
     }
@@ -56,7 +56,7 @@ class NrvRepository
     public static function getInstance(): ?NrvRepository
     {
         if (is_null(self::$instance)) {
-            self::setConfig("nrv.db.ini");
+            self::setConfig("config.ini");
             self::$instance = new NrvRepository(self::$configuration);
         }
         return self::$instance;
