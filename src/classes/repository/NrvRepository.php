@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\repository;
 
+use DateTime;
 use Exception;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
@@ -387,7 +388,13 @@ class NrvRepository
         switch($class){
             case "Show":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['show_uuid'],$row['show_title'],$row['show_description'], $row['show_start_date'], (int)$row['show_duration'], $row['show_style_id'], $row['show_url']);
+                    $show = new $create_path($row['show_uuid'],
+                        $row['show_title'],
+                        $row['show_description'],
+                        $row['show_start_date'],
+                        (new DateTime($row['show_duration'])),
+                        $row['show_style_id'],
+                        $row['show_url']);
                     $results[] = serialize($show);
                 }
                 break;
