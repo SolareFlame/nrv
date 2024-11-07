@@ -375,7 +375,7 @@ class NrvRepository
         $shows = [];
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
-            return ["vide"];
+            return [];
         }
         //echo "33" . var_dump($rows);
         $create_path = "iutnc\\nrv\\object\\$class";
