@@ -5,6 +5,7 @@ use Exception;
 use iutnc\nrv\dispatch\Dispatcher;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\object\User;
 use PDO;
 
 class NrvRepository
@@ -70,7 +71,7 @@ class NrvRepository
      */
     function findAllShows() : array
     {
-        $query = "Select show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url from show";
+        $query = "Select show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url from nrv_show";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
@@ -85,7 +86,7 @@ class NrvRepository
     function findShowsByDate(string $date) : array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
-       show_duration, show_style, show_url from show where DATE(show_start_time) = :date";
+       show_duration, show_style, show_url from nrv_show where DATE(show_start_time) = :date";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date]);
 
@@ -100,7 +101,7 @@ class NrvRepository
     function findShowsByStyle(string $style) : array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
-       show_duration, show_style, show_url from show where DATE(show_style) = :style";
+       show_duration, show_style, show_url from nrv_show where DATE(show_style) = :style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
@@ -116,8 +117,8 @@ class NrvRepository
     {
         $query = "Select evening_location, show_uuid, show_title, show_description, show_start_time, 
             show_duration, show_style, show_url 
-            from show INNER JOIN evening2show es ON s.show_uuid = es.show_uuid
-            INNER JOIN evening e ON es.evening_uuid = e.evening_uuid WHERE e.evening_location = :location";
+            from nrv_show INNER JOIN evening2show es ON s.show_uuid = es.show_uuid
+            INNER JOIN nrv_evening e ON es.evening_uuid = e.evening_uuid WHERE e.evening_location = :location";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['location' => $location]);
@@ -133,7 +134,7 @@ class NrvRepository
     function findShowDetails(string $uuid) : Show
     {
         $query = "Select show_uuid, show_title, show_description, show_start_time, 
-       show_duration, show_style, show_url from show where show_uuid = :uuid";
+       show_duration, show_style, show_url from nrv_show where show_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
@@ -149,7 +150,7 @@ class NrvRepository
     function findEveningDetails(string $uuid) : array
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
-       evening_location, evening_description, evening_price from evening where evening_uuid = :uuid";
+       evening_location, evening_description, evening_price from nrv_evening where evening_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
@@ -165,8 +166,8 @@ class NrvRepository
     function findShowsInEvening(string $id) : array{
         $query = "SELECT show_uuid, show_title, show_description, 
               show_start_time, show_duration, show_style, show_url 
-              FROM show s
-              INNER JOIN evening2show es ON show.show_uuid = es.show_uuid
+              FROM nrv_show s
+              INNER JOIN nrv_evening2show es ON show.show_uuid = es.show_uuid
               WHERE es.evening_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
@@ -194,7 +195,7 @@ class NrvRepository
     function createShow(Show $show): void
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
-            $query = "INSERT INTO show (show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url) 
+            $query = "INSERT INTO nrv_show (show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url) 
                         values (:uuid, :title, :description, :start, :duration, :style, :url)";
 
             $stmt = $this->pdo->prepare($query);
@@ -219,7 +220,7 @@ class NrvRepository
     function createEvening(Evening $evening) : void
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
-            $query = "INSERT INTO show (evening_uuid, evening_title, evening_theme, evening_date, evening_location, show_description, evening_price) 
+            $query = "INSERT INTO nrv_show (evening_uuid, evening_title, evening_theme, evening_date, evening_location, show_description, evening_price) 
                         values (:uuid, :title, :theme, :date, :location, :description, :price)";
 
             $stmt = $this->pdo->prepare($query);
@@ -243,7 +244,7 @@ class NrvRepository
     function addShowToEvening(Show $show, Evening $evening)
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
-            $query = "Insert into evening2show (evening_uuid, show_uuid) values (:evening_uuid, :show_uuid)";
+            $query = "Insert into nrv_evening2show (evening_uuid, show_uuid) values (:evening_uuid, :show_uuid)";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([
                 ':evening_uuid' => $evening->id,
@@ -259,7 +260,7 @@ class NrvRepository
     function cancelShow(Show $show) : void
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
-            $query = "Update show set show_programmed=false where show_uuid = :show_uuid";
+            $query = "Update nrv_show set show_programmed=false where show_uuid = :show_uuid";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['show_uuid' => $show->id]);
         }else header("index.php");
@@ -272,7 +273,7 @@ class NrvRepository
      */
     function cancelShowToEvening(Show $show, Evening $evening){
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
-            $query = "Delete from evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid)";
+            $query = "Delete from nrv_evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid)";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([
                 ':evening_uuid' => $evening->id,
@@ -288,7 +289,7 @@ class NrvRepository
     function cancelEvening(Evening $evening) : void
     {
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
-            $query = "Update evening set evening_programmed=false where evening_uuid = :evening_uuid";
+            $query = "Update nrv_evening set evening_programmed=false where evening_uuid = :evening_uuid";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['evening_uuid' => $evening->id]);
         }else header("index.php");
@@ -303,7 +304,7 @@ class NrvRepository
     {
         // TODO
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
-            $query = "Update show set show_title = :title, show_description = :description, show_start_time = :start_time, 
+            $query = "Update nrv_show set show_title = :title, show_description = :description, show_start_time = :start_time, 
                 show_duration = :duration, show_style = :style, show_url = :url where show_uuid = :uuid";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([
@@ -325,7 +326,7 @@ class NrvRepository
     {
         // TODO : retourne l'ID du compte staff créé ?
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 100)) {
-            $query = "Insert into user (user_uuid, password, user_role) values (:uuid, :password, :role)";
+            $query = "Insert into nrv_user (user_uuid, password, user_role) values (:uuid, :password, :role)";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([
                 ':uuid' => $user->id,
@@ -342,7 +343,7 @@ class NrvRepository
      * @return bool
      */
     function checkRole($uuid, $role): bool{
-        $query = "Select user_role from user where user_uuid = :uuid";
+        $query = "Select user_role from nrv_user where user_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
