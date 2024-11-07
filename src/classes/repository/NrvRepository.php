@@ -400,7 +400,7 @@ class NrvRepository
                 break;
             case "Style":
                 foreach ($rows as $row) {
-                    $style = new $create_path($row['style_uuid'], $row['style_name']);
+                    $style = new $create_path($row['style_id'], $row['style_name']);
                     $results[] = serialize($style);
                 }
                 break;
