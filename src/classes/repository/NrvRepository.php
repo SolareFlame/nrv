@@ -209,8 +209,7 @@ class NrvRepository
                 ':url' => $show->url
             ]);
         }else{
-            header("../action/defaultAction");
-            exit();
+
         }
     }
 
