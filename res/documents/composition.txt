@@ -1,0 +1,22 @@
+Accueil
+- Actualités
+- Soirées (Visualisation de toutes les soirées) -> Filtre journée, lieu, thème
+
+Soirée (Visualisation d'une soirée)
+- Affichage des spectacles dedans avec titre, artiste, durées, style, description, extrait
+vidéo et/ou audio
+
+Spectacles (Visualisation de tous les spectacles)
+- Affichage des spectacles titre, artiste, durées, style, description, extrait
+vidéo et/ou audio
+- Filtre journée, lieu, style
+
+Auth (Espace PROS)
+- connection (avec juste le mdp)
+- créer des spectacles et des soirées (ORGA + ADMIN)
+- modifier des spectacles et des soirées (ORGA + ADMIN)
+- annuler un spectacle (ORGA + ADMIN)
+- annuler une soirée (ORGA + ADMIN)
+
+Liste de préférences
+- Affiche les spectacles likés
