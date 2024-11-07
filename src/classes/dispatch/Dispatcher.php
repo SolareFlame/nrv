@@ -4,6 +4,19 @@ namespace iutnc\nrv\dispatch;
 
 use Exception;
 use iutnc\nrv\action\DefaultAction;
+use iutnc\nrv\action\program_management\CancelShowAction;
+use iutnc\nrv\action\program_management\CreateEveningAction;
+use iutnc\nrv\action\program_management\CreateShowAction;
+use iutnc\nrv\action\program_management\CreateStaffAccountAction;
+use iutnc\nrv\action\program_management\EditShowAction;
+use iutnc\nrv\action\program_management\EditShowsInEveningAction;
+use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
+use iutnc\nrv\action\program_navigation\DisplayEveningDetailsAction;
+use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
+use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
+use iutnc\nrv\action\user_experience\AddShowToEveningAction;
+use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
+use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
 use iutnc\nrv\action\user_experience\LogoutAction;
 
@@ -35,6 +48,45 @@ class Dispatcher
                 case 'logout':
                     $act = new LogoutAction();
                     break;
+                case 'shows':
+                    $act = new DisplayAllShowsAction();
+                    break;
+                case 'evening':
+                    $act = new DisplayEveningDetailsAction();
+                    break;
+                case 'showByStyle':
+                    $act = new DisplayShowsByStyleAction();
+                    break;
+                case 'showByLocation':
+                    $act = new DisplayShowsByLocationAction();
+                    break;
+                case 'add-evening':
+                    $act = new CreateEveningAction();
+                    break;
+                case 'add-staff':
+                    $act = new CreateStaffAccountAction();
+                    break;
+                case 'edit-show':
+                    $act = new EditShowAction();
+                    break;
+                case 'edit-evening':
+                    $act = new EditShowsInEveningAction();
+                    break;
+                case 'cancel-show':
+                    $act = new CancelShowAction();
+                    break;
+                case 'add-show':
+                    $act = new CreateShowAction();
+                    break;
+                case 'addShow2evening':
+                    $act = new AddShowToEveningAction();
+                    break;
+                case 'addShow2fav':
+                    $act = new AddShowToFavoritesAction();
+                    break;
+                case 'favs':
+                    $act = new DisplayFavoritesListAction();
+                    break;
                 default:
                     $this->renderPage("Action inconnue");
                     break;
@@ -56,41 +108,10 @@ class Dispatcher
         //$user = AuthnProvider::getSignedInUser();
         //$logInOrOut = $user['id'] == -1 ? "<a href='?action=login'>Connexion</a>" : "<a href='?action=logout'>Déconnexion</a>";
 
-        $ret = <<<HTML
-    <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NRV</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+        $content = file_get_contents("res/html/index.html");
 
-</head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="index.php">LOGO</a>        
-        </div>
-        <nav>
-            <p>NAV</p>
-        </nav>
-    </header>
-    <main>
-        <div class="content">
-        
-            $html
+        $page = str_replace("{{CONTENT}}", $html, $content);
 
-        </div>
-    </main>
-    <footer>
-        <a href="index.php?action=login">Vous etes orga ?</a>
-        <a href="index.php?action=logout">Se deconnecter</a>
-    </footer>
-</body>
-</html>
-HTML;
-        echo $ret;
+        echo $page;
     }
 }
-
