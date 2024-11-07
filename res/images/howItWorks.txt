@@ -1,0 +1,24 @@
+Exemple de structure de fichiers pour les images.
+
+images/
+│
+├── artists/
+│   ├── art_fdb0fb5c-5581-4c86-8176-db77e3202fac/
+│   │   ├── artist_image1.png
+│   │   └── artist_image2.png
+│   └── art_bc96a33c-a3e4-4680-abfb-7452584edd8c/
+│       └── artist_image1.png
+│
+├── shows/
+│   ├── show_f06d2b74-6f8e-4bc7-b44e-7a8f3074db9f/
+│   │   ├── show_image1.png
+│   │   └── show_image2.png
+│   └── show_1a48c5c0-cb7d-4600-85c2-b9156b9032d6/
+│       └── show_image1.png
+│
+└── evenings/
+    ├── evening_a34942c9-d8fd-4287-8e89-f21e557f473d/
+    │   ├── evening_image1.png
+    │   └── evening_image2.png
+    └── evening_9a1b8d24-d63b-4f5f-9d8d-f598dd445b73/
+        └── evening_image1.png
