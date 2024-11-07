@@ -15,7 +15,7 @@ use iutnc\nrv\repository\NrvRepository;
 class DisplayFavoritesListAction extends Action
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): string
     {

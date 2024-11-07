@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\Render;
+namespace iutnc\nrv\render;
 
 /**
  * Interface Renderer.
@@ -8,8 +8,8 @@ namespace iutnc\nrv\Render;
  */
 interface Renderer
 {
-    const COMPACT = 1;
-    const LONG = 3;
+    const COMPACT = "1";
+    const LONG = '3';
 
     /**
      * @param int $selector 1 for long, 2 for preview
