@@ -385,32 +385,32 @@ class NrvRepository
             throw new Exception("La classe $class n'existe pas.");
         }
         switch($class){
-            case "iutnc\\nrv\\object\\Show":
+            case "Show":
                 foreach ($rows as $row) {
                     $show = new $create_path($row['show_uuid'],$row['show_title'],$row['show_description'], $row['show_start_date'], (int)$row['show_duration'], $row['show_style_id'], $row['show_url']);
                     $results[] = serialize($show);
                 }
                 break;
-            case "iutnc\\nrv\\object\\Evening":
+            case "Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
                         $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
-            case "iutnc\\nrv\\object\\Style":
+            case "Style":
                 foreach ($rows as $row) {
                     $style = new $create_path($row['style_uuid'], $row['style_name']);
                     $results[] = serialize($style);
                 }
                 break;
-            case "iutnc\\nrv\\object\\Location":
+            case "Location":
                 foreach ($rows as $row) {
                     $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
                     $results[] = serialize($location);
                 }
                 break;
-            case "iutnc\\nrv\\object\\Artist":
+            case "Artist":
                 foreach ($rows as $row) {
                     $artist = new $create_path($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
                     $results[] = serialize($artist);
@@ -483,7 +483,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, Style::class);
+        return $this->createArrayFromStmt($stmt, "Style");
     }
 
     /**
@@ -496,7 +496,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, Location::class);
+        return $this->createArrayFromStmt($stmt, "Location");
     }
 
     /**
@@ -509,7 +509,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, Artist::class);
+        return $this->createArrayFromStmt($stmt, "Artist");
     }
 
     /**
