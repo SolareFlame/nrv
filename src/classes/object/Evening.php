@@ -9,9 +9,10 @@ class Evening {
     private string $title;
     private string $theme;
     private string $date;
-    private int $idLocation;
+    private Location $location;
     private string $description;
     private float $eveningPrice;
+    private array $shows;
 
     /**
      * @param string $id
@@ -22,13 +23,13 @@ class Evening {
      * @param string $description
      * @param float $eveningPrice
      */
-    public function __construct(string $id, string $title, string $theme, string $date, int $idLocation, string $description, float $eveningPrice)
+    public function __construct(string $id, string $title, string $theme, string $date, Location $location, string $description, float $eveningPrice)
     {
         $this->id = $id;
         $this->title = $title;
         $this->theme = $theme;
         $this->date = $date;
-        $this->idLocation = $idLocation;
+        $this->location = $location;
         $this->description = $description;
         $this->eveningPrice = $eveningPrice;
     }
@@ -46,7 +47,19 @@ class Evening {
         throw new InvalidPropertyNameException("La propriété '$property' n'existe pas.");
     }
 
+    public function addShow(Show $show)
+    {
+        $this->shows[] = $show;
+    }
+
+    public function deleteShow(Show $show)
+    {
+        unset($this->shows,$show);
+    }
+
 }
+
+
 
 
 
