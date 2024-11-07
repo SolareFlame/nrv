@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\nrv\repository;
+use Exception;
 use PDO;
 
 class NrvRepository
@@ -42,13 +43,15 @@ class NrvRepository
         if (isset($conf['port'])) {
             $port = ';port=' . $conf['port'];
         }
-        $dsn = "{$conf['driver']}:host={$conf['host']} . $port . ;dbname={$conf['database']}";
+        $dsn = "{$conf['driver']}:host={$conf['host']}" . " $port " . ";dbname={$conf['database']}";
+        echo $dsn;
         self::$configuration = ['dsn' => $dsn, 'user' => $conf['username'], 'pass' => $conf['password']];
     }
 
     /**
      * Obtient l'instance unique de NrvRepository.
      * @return NrvRepository
+     * @throws Exception
      */
     public static function getInstance(): ?NrvRepository
     {
@@ -59,127 +62,261 @@ class NrvRepository
         return self::$instance;
     }
 
+    /**
+     * Affichage de la liste des spectacles
+     * @return array
+     */
+    function findAllShows() : array
+    {
+        $query = "Select show_uuid, show_title, show_description, show_start_time, show_duration, show_style, show_url from show";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
 
-// 1. Affichage de la liste des spectacles
-    function findAllShows(): array
+        return $this->createArrayShows($stmt);
+    }
+
+    /**
+     * Filtrage de la liste des spectacles par date
+     * @param string $date
+     * @return array
+     */
+    function findShowsByDate(string $date) : array
+    {
+        $query = "Select show_uuid, show_title, show_description, show_start_time, 
+       show_duration, show_style, show_url from show where DATE(show_start_time) = :date";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['date' => $date]);
+
+        return $this->createArrayShows($stmt);
+    }
+
+    /**
+     * Filtrage de la liste des spectacles par style de musique
+     * @param string $style
+     * @return array
+     */
+    function findShowsByStyle(string $style) : array
+    {
+        $query = "Select show_uuid, show_title, show_description, show_start_time, 
+       show_duration, show_style, show_url from show where DATE(show_style) = :style";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['style' => $style]);
+
+        return $this->createArrayShows($stmt);
+    }
+
+    /**
+     * Filtrage de la liste des spectacles par lieu
+     * @param string $location
+     * @return array
+     */
+    function findShowsByLocation(string $location) : array
+    {
+        $query = "Select evening_location, show_uuid, show_title, show_description, show_start_time, 
+            show_duration, show_style, show_url 
+            from show INNER JOIN evening2show es ON s.show_uuid = es.show_uuid
+            INNER JOIN evening e ON es.evening_uuid = e.evening_uuid WHERE e.evening_location = :location";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['location' => $location]);
+
+        return $this->createArrayShows($stmt);
+    }
+
+    /**
+     * Affichage détaillé d’un spectacle
+     * @param int $uuid
+     * @return Show
+     */
+    function findShowDetails(int $uuid) : Show
+    {
+        $query = "Select show_uuid, show_title, show_description, show_start_time, 
+       show_duration, show_style, show_url from show where show_uuid = :uuid";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $uuid]);
+
+        return $this->createArrayShows($stmt)[0];
+    }
+
+    /**
+     * Affichage du détail d’une soirée
+     * @param int $eventId
+     * @return array
+     */
+    function findEveningDetails(int $eventId) : array
     {
         // TODO
     }
 
-// 2. Filtrage de la liste des spectacles par date
-    function findShowsByDate(string $date): array
+    /**
+     * Affichage du détail de la soirée correspondante en cliquant sur un spectacle
+     * @param int $showId
+     * @return array
+     */
+    function findEveningByShow(int $showId) : array
     {
         // TODO
     }
 
-// 3. Filtrage de la liste des spectacles par style de musique
-    function findShowsByStyle(string $style): array
+    /**
+     * Accès aux spectacles du même lieu en lien avec un spectacle
+     * @param int $showId
+     * @return array
+     */
+    function findShowsBySameLocation(int $showId) : array
     {
         // TODO
     }
 
-// 4. Filtrage de la liste des spectacles par lieu
-    function findShowsByLocation(string $location): array
+    /**
+     * Accès aux spectacles du même style en lien avec un spectacle
+     * @param int $showId
+     * @return array
+     */
+    function findShowsBySameStyle(int $showId) : array
     {
         // TODO
     }
 
-// 5. Affichage détaillé d’un spectacle
-    function findShowDetails(int $showId): array
+    /**
+     * Accès aux spectacles à la même date en lien avec un spectacle
+     * @param int $showId
+     * @return array
+     */
+    function findShowsBySameDate(int $showId) : array
     {
         // TODO
     }
 
-// 6. Affichage du détail d’une soirée
-    function findEventDetails(int $eventId): array
+    /**
+     * Ajouter un spectacle dans la liste de préférences
+     * @param int $showId
+     * @return bool
+     */
+    function addShowToPreferences(int $showId) : bool
     {
         // TODO
     }
 
-// 7. Affichage du détail de la soirée correspondante en cliquant sur un spectacle
-    function findEventByShow(int $showId): array
+    /**
+     * Afficher la liste de préférences
+     * @return array
+     */
+    function findUserPreferences() : array
     {
         // TODO
     }
 
-// 8. Accès aux spectacles du même lieu en lien avec un spectacle
-    function findShowsBySameLocation(int $showId): array
+    /**
+     * S'authentifier
+     * @param string $username
+     * @param string $password
+     * @return bool
+     */
+    function authenticateUser(string $username, string $password) : bool
     {
         // TODO
     }
 
-// 9. Accès aux spectacles du même style en lien avec un spectacle
-    function findShowsBySameStyle(int $showId): array
-    {
-        // TODO
-    }
-
-// 10. Accès aux spectacles à la même date en lien avec un spectacle
-    function findShowsBySameDate(int $showId): array
-    {
-        // TODO
-    }
-
-// 11. Ajouter un spectacle dans la liste de préférences
-    function addShowToPreferences(int $showId): bool
-    {
-        // TODO
-    }
-
-// 12. Afficher la liste de préférences
-    function findUserPreferences(): array
-    {
-        // TODO
-    }
-
-    // 13. S'authentifier
-    function authenticateUser(string $username, string $password): bool
-    {
-        // TODO
-    }
-
-// 14. Créer un spectacle : saisir les données et les valider
-    function createShow(array $showData): int
+    /**
+     * Créer un spectacle : saisir les données et les valider
+     * @param array $showData
+     * @return int
+     */
+    function createShow(array $showData) : int
     {
         // TODO : retourne l'ID du spectacle créé ?
     }
 
-// 15. Créer une soirée : saisir les données et les valider
-    function createEvent(array $eventData): int
+    /**
+     * Créer une soirée : saisir les données et les valider
+     * @param array $eventData
+     * @return int
+     */
+    function createEvent(array $eventData) : int
     {
         // TODO : retourne l'ID de la soirée créée ?
     }
 
-// 16. Ajouter un spectacle à une soirée
-    function addShowToEvent(int $showId, int $eventId): bool
+    /**
+     * Ajouter un spectacle à une soirée
+     * @param int $showId
+     * @param int $eventId
+     * @return bool
+     */
+    function addShowToEvent(int $showId, int $eventId) : bool
     {
         // TODO
     }
 
-// 17. Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué comme annulé
-    function cancelShow(int $showId): bool
+    /**
+     * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué comme annulé
+     * @param int $showId
+     * @return bool
+     */
+    function cancelShow(int $showId) : bool
     {
         // TODO
     }
 
-// 18. Modifier un spectacle existant
-    function updateShow(int $showId, array $newShowData): bool
+    /**
+     * Modifier un spectacle existant
+     * @param int $showId
+     * @param array $newShowData
+     * @return bool
+     */
+    function updateShow(int $showId, array $newShowData) : bool
     {
         // TODO
     }
 
-// 19. Modifier les spectacles d’une soirée existante
-    function updateEventShows(int $eventId, array $showIds): bool
+    /**
+     * Modifier les spectacles d’une soirée existante
+     * @param int $eventId
+     * @param array $showIds
+     * @return bool
+     */
+    function updateEventShows(int $eventId, array $showIds) : bool
     {
         // TODO
     }
 
-    // Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
-    function createStaffAccount(string $username, string $password, array $staffData): int
+    /**
+     * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
+     * @param string $username
+     * @param string $password
+     * @param array $staffData
+     * @return int
+     */
+    function createStaffAccount(string $username, string $password, array $staffData) : int
     {
         // TODO : retourne l'ID du compte staff créé ?
     }
 
 
+    public function bonjour() :string
+    {
+        return "bonjour";
+    }
 
+    /**
+     * Fonction de création d'un tableau de Show à partir du résultat d'une requête
+     * @param $stmt
+     * @return array
+     */
+    private function createArrayShows($stmt): array{
+        $shows = [];
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        if(empty($rows)){
+            return [];
+        }
+
+        foreach ($rows as $row) {
+            $show = new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
+                $row['show_start_time'], $row['show_duration'], $row['show_style'], $row['show_url']);
+            $shows[] = $show;
+        }
+        return $shows;
+    }
 }
