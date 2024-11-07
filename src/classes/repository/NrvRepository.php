@@ -81,7 +81,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -97,7 +97,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -113,7 +113,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -132,7 +132,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['location' => $location]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -149,7 +149,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayFromStmt($stmt, Show::class)[0];
+        return $this->createArrayFromStmt($stmt, 'Show')[0];
     }
 
     /**
@@ -166,7 +166,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayFromStmt($stmt, Evening::class)[0];
+        return $this->createArrayFromStmt($stmt, 'Evening')[0];
     }
 
     /**
@@ -187,7 +187,7 @@ class NrvRepository
         $stmt->execute(['uuid' => $id]);
 
         // Retourne les spectacles associés sous forme de tableau d'objets Show
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**

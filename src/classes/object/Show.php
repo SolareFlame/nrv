@@ -5,7 +5,7 @@ namespace iutnc\nrv\object;
 
 use DateTime;
 use iutnc\nrv\exception\InvalidPropertyNameException;
-use iutnc\nrv\Render\ShowRenderer;
+use iutnc\nrv\render\ShowRenderer;
 
 class Show
 {
@@ -71,7 +71,7 @@ class Show
         return json_encode($this);
     }
 
-    public function getRender(int $option): string
+    public function getRenderer(int $option): string
     {
         $sr = new ShowRenderer($this);
         return $sr->render($option);

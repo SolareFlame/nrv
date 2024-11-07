@@ -1,8 +1,9 @@
 <?php
 
-namespace iutnc\nrv\Render;
+namespace iutnc\nrv\render;
 
 use iutnc\nrv\object\Show;
+use iutnc\nrv\render\Renderer;
 
 /**
  * Classe PodcastRenderer.
@@ -29,7 +30,8 @@ class ShowRenderer implements Renderer
         $res = '';
         switch ($selector) {
             case Renderer::COMPACT:
-                break;
+                $res .= $this->show->title . " - " . $this->show->description . "<br>" ;
+                return $res ;
 
             case Renderer::LONG:
                 $res .= $this->show->title . " - " . $this->show->description . "<br>" .
@@ -43,5 +45,4 @@ class ShowRenderer implements Renderer
                 return "g pas Kanpri";
         }
     }
-
 }
