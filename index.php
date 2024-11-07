@@ -13,7 +13,10 @@ use iutnc\nrv\dispatch\Dispatcher;
 ob_start();
 
 
+
 $dispatcher = new Dispatcher();
+$repo = \iutnc\nrv\repository\NrvRepository::getInstance();
+echo $repo->bonjour();
 $dispatcher->run();
 
 
