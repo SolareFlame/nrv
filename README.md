@@ -1,4 +1,4 @@
-# <img src="res/logo/logo_1.png" alt="NRV logo" width="150"/> Nancy Rock Vibration
+# <img src="res/logo/logo_3.png" alt="NRV logo" width="100"/> Nancy Rock Vibration
 
 [NRV.net](https://lienamettreplustard.fr) est l’application web permettant au grand public de consulter le programme du festival de musique **Nancy Rock Vibration**. L’application permet principalement de consulter et parcourir le programme du festival selon différents critères.
 
