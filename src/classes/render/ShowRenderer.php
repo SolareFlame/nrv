@@ -19,22 +19,21 @@ class ShowRenderer extends DetailsRender
     }
 
 
-    public function renderCompact(): string
+    public function renderCompact($index = null): string
     {
         return $this->show->title . " - " . $this->show->description . "<br>" ;
     }
 
-    public function renderLong(): string
+    public function renderLong($index = null): string
     {
         return <<<HTML
                     <div class="show">
                         {$this->show->title} - {$this->show->style}<br>
                         {$this->show->DisplayArtiste()} <br>
-                        à {$this->show->startDate} pendant {$this->show->duration->format('H:i:s')} <br>
+                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$this->show->duration->format('G\Hi')} <br>
+                        {$this->show->description}<br>
                         <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
-                        {$this->show->url}  {$this->show->description}<br>;
                     </div class="show">
-                    <br><br>
                     HTML;
 
     }

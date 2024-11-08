@@ -192,10 +192,10 @@ class NrvRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':uuid' => $show->uuid,
+            ':uuid' => $show->id,
             ':title' => $show->title,
             ':description' => $show->description,
-            ':start' => $show->start_time,
+            ':start' => $show->startDate,
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url
@@ -277,7 +277,7 @@ class NrvRepository
         $stmt->execute([
             ':title' => $show->title,
             ':description' => $show->description,
-            ':show_start_date' => $show->start_time,
+            ':show_start_date' => $show->start_date,
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url,
@@ -396,8 +396,7 @@ class NrvRepository
                 return $res[$i]['user_uuid'] ;
             }
         }
-        return null ;
-
+        return false ;
     }
 
     /**
@@ -460,7 +459,7 @@ class NrvRepository
                     $show = new $create_path($row['show_uuid'],
                         $row['show_title'],
                         $row['show_description'],
-                        $row['show_start_date'],
+                        (new DateTime($row['show_start_date'])),
                         (new DateTime($row['show_duration'])),
                         $style,
                         $row['show_url']);
