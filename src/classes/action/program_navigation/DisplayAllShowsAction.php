@@ -31,6 +31,6 @@ class DisplayAllShowsAction extends Action
     {
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
-        return ArrayRenderer::render($shows, Renderer::COMPACT,false);
+        return ArrayRenderer::render($shows, Renderer::COMPACT,true);
     }
 }

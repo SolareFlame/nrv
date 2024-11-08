@@ -23,7 +23,6 @@ class NrvAuthnProvider {
             $_SESSION['id'] = $uuid ;
         } else {
             throw new AuthnException("Identifiant non reconnu");
-            
         }
     }
 

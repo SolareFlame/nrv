@@ -13,7 +13,7 @@ class Show
     private string $title;
     private string $description;
     private DateTime $startDate;
-    private DateTime $duration;
+    private int $duration;
     private string $style;
     private string $url;
     private array $artists = [];

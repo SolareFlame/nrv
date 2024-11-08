@@ -460,7 +460,7 @@ class NrvRepository
                         $row['show_title'],
                         $row['show_description'],
                         (new DateTime($row['show_start_date'])),
-                        (new DateTime($row['show_duration'])),
+                        ($row['show_duration']),
                         $style,
                         $row['show_url']);
                     $results[] = serialize($show);
