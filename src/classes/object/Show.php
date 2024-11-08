@@ -22,9 +22,10 @@ class Show
      * @param string $title
      * @param string $description
      * @param DateTime $startDate
-     * @param DateTime $duration
+     * @param int $duration
      * @param string $style
      * @param string $url
+     * @param array $artists
      */
     public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url)
     {

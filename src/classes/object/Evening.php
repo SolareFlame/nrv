@@ -57,4 +57,11 @@ class Evening {
         unset($this->shows,$show);
     }
 
+    public function addShows(array $shows)
+    {
+        foreach ($shows as $show){
+            $this->shows[] = unserialize($show);
+        }
+    }
+
 }
