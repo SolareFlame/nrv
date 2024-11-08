@@ -205,6 +205,29 @@ class NrvRepository
     }
 
     /**
+     * Créer une soirée : saisir les données et les valider
+     * @param Evening $evening
+     */
+    function createEvening(Evening $evening): void
+    {
+        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
+            $query = "INSERT INTO nrv_evening (evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, evening_description, evening_price) 
+                        values (:uuid, :title, :theme, :date, :location, :description, :price)";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                ':uuid' => $evening->uuid,
+                ':title' => $evening->title,
+                ':theme' => $evening->theme,
+                ':date' => $evening->date,
+                ':location' => $evening->location,
+                ':description' => $evening->description,
+                ':price' => $evening->price
+            ]);
+        } else header("index.php");
+    }
+
+    /**
      * Ajouter un spectacle à une soirée
      * @param Show $show
      * @param Evening $evening
@@ -239,7 +262,7 @@ class NrvRepository
      * @param Show $show
      * @param Evening $evening
      */
-    function deleteShowFromEvening(Show $show, Evening $evening): void{
+    function deleteShowFromEvening(Show $show, Evening $evening){
         if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)) {
             $query = "Delete from nrv_evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid";
             $stmt = $this->pdo->prepare($query);
@@ -504,7 +527,8 @@ class NrvRepository
      * @return array
      * @throws Exception
      */
-    function findAllLocations(): array{
+    function findAllLocations(): array
+    {
         $query = "Select location_id, location_name, location_place_number, location_address, location_url from nrv_location";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -513,11 +537,26 @@ class NrvRepository
     }
 
     /**
+     * Retourne tous les artistes
+     * @return array
+     * @throws Exception
+     */
+    function findAllArtists(): array
+    {
+        $query = "Select artist_uuid, artist_name, artist_description, artist_url from nrv_artist";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+
+        return $this->createArrayFromStmt($stmt, "Artist");
+    }
+
+    /**
      * Retourne une location à partir d'un id
      * @param int $locationId
      * @return Location
      */
-    function findLocationById(int $locationId): Location{
+    function findLocationById(int $locationId): Location
+    {
         $query = "Select * from nrv_location where location_id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $locationId]);
@@ -533,7 +572,8 @@ class NrvRepository
      * @param string $artistUuid
      * @return Artist
      */
-    function findArtistById(string $artistUuid) : Artist{
+    function findArtistById(string $artistUuid): Artist
+    {
         $query = "Select * from nrv_artist where artist_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $artistUuid]);
@@ -562,7 +602,8 @@ class NrvRepository
      * @param int $styleId
      * @return Style
      */
-    function findStyleById(int $styleId) : Style{
+    function findStyleById(int $styleId): Style
+    {
         $query = "Select * from nrv_style where style_id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $styleId]);
@@ -581,5 +622,18 @@ class NrvRepository
         $stmt->execute();
 
         return $this->createArrayFromStmt($stmt, "Style");
+    }
+
+    function equivalentStyleObject(): array
+    {
+        $query = "Select * from nrv_style";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = [];
+        foreach ($rows as $row) {
+            $results[$row['style_id']] = $row['style_name'];
+        }
+        return $results;
     }
 }
