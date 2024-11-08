@@ -26,11 +26,16 @@ class ShowRenderer extends DetailsRender
 
     public function renderLong($index = null): string
     {
+        $heures = (int)$this->show->duration % 59;
+        $minutes = $this->show->duration - $heures * 60;
+        if ($minutes == 0){
+            $minutes = "00";
+        }
         return <<<HTML
                     <div class="show">
                         {$this->show->title} - {$this->show->style}<br>
                         {$this->show->DisplayArtiste()} <br>
-                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$this->show->duration->format('G\Hi')} <br>
+                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes} <br>
                         {$this->show->description}<br>
                         <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
                     </div class="show">

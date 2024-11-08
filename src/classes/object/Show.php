@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\object;
 
-use Cassandra\Date;
 use DateTime;
 use iutnc\nrv\exception\InvalidPropertyNameException;
 use iutnc\nrv\render\ShowRenderer;
@@ -22,13 +21,12 @@ class Show
      * @param string $id
      * @param string $title
      * @param string $description
-     * @param string $startDate
+     * @param DateTime $startDate
      * @param DateTime $duration
      * @param string $style
      * @param string $url
-     * @param array $artists
      */
-    public function __construct(string $id, string $title, string $description, DateTime $startDate, DateTime $duration, string $style, string $url)
+    public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url)
     {
         $this->id = $id;
         $this->title = $title;

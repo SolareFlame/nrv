@@ -32,7 +32,7 @@ class AddShowToFavoritesAction extends Action
         }
 
         if (!in_array($idFav, $_SESSION['favorites'])) {
-            array_push($_SESSION['favorites'], $idFav);
+            $_SESSION['favorites'][] = $idFav;  // ajout du spectacle dans la liste
         }
 
         // FAUX STRING, METTRE UN HEADER POUR REMETTRE SUR LA MEME PAGE

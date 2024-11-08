@@ -24,9 +24,9 @@ class DisplayFavoritesListAction extends Action
         // verif si une liste est deja présente
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
-
+        var_dump($_SESSION['favorites']);
         $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
-
+        var_dump($FavShowList);
         return ArrayRenderer::render($FavShowList, Renderer::LONG, true);
         /*$res = "";
         foreach ($FavShowList as $show) {

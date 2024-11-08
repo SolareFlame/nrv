@@ -361,6 +361,8 @@ class NrvRepository
     public function findShowsByListId(array $listIdFav): array
     {
         $listIdFav = implode(",", $listIdFav);
+        echo "<br><br><br>";
+        var_dump($listIdFav);
         $query = "Select * from nrv_show where show_uuid in (:listId)";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['listId' => $listIdFav]);
@@ -439,11 +441,12 @@ class NrvRepository
      */
     private function createArrayFromStmt(false|PDOStatement $stmt, string $class): array
     {
+        echo 44;
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
             return [];
         }
-        //echo "33" . var_dump($rows);
+        echo "33" . var_dump($rows);
         $create_path = "iutnc\\nrv\\object\\$class";
         if (!class_exists($create_path)) {
             throw new Exception("La classe $class n'existe pas.");
@@ -453,12 +456,14 @@ class NrvRepository
                 // pour parcourir 1 seul fois la base de données au lieu de findStyleById pour chaque show
                 $liste_style = NrvRepository::getInstance()->equivalentStyleObject();
                 foreach ($rows as $row) {
+                    var_dump($row);
                     $style = $liste_style[(int)$row['show_style_id']];
-                    $show = new $create_path($row['show_uuid'],
+                    $show = new $create_path(
+                        $row['show_uuid'],
                         $row['show_title'],
                         $row['show_description'],
                         (new DateTime($row['show_start_date'])),
-                        ($row['show_duration']),
+                        $row['show_duration'],
                         $style,
                         $row['show_url']);
                     $results[] = serialize($show);
