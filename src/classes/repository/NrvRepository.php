@@ -192,7 +192,7 @@ class NrvRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':uuid' => $show->uuid,
+            ':uuid' => $show->id,
             ':title' => $show->title,
             ':description' => $show->description,
             ':start' => $show->start_time,
