@@ -40,7 +40,6 @@ class Show
     }
 
 
-
     /**
      * @throws InvalidPropertyNameException
      */

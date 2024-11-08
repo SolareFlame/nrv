@@ -10,13 +10,19 @@ use iutnc\nrv\repository\NrvRepository;
  */
 class DisplayEveningDetailsAction extends Action
 {
-    //Utiliser findEveningDetails ET findShowsInEvening
+    // Utiliser findEveningDetails ET findShowsInEvening
 
+    /**
+     * @throws \Exception
+     */
     public function executePost()
     {
         $repo = NrvRepository::getInstance();
-        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id récupérer dans l'url
-        $repo->findEveningDetails();
+        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url
+        $showList = $repo->findShowsInEvening($id);
+
+        $eveningDetails = $repo->findEveningDetails($id);
+
         return "";
     }
 

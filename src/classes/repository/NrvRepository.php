@@ -165,7 +165,6 @@ class NrvRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
-
         return $this->createArrayFromStmt($stmt, 'Evening')[0];
     }
 
