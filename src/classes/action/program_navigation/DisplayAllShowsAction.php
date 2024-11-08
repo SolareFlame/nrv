@@ -18,7 +18,7 @@ class DisplayAllShowsAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost() :string
     {
         return "";
     }
@@ -27,7 +27,7 @@ class DisplayAllShowsAction extends Action
      * @inheritDoc
      * @throws \Exception
      */
-    public function executeGet()
+    public function executeGet(): string
     {
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();

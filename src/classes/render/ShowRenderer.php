@@ -32,7 +32,6 @@ class ShowRenderer implements Renderer
             case Renderer::COMPACT:
                 $res .= $this->show->title . " - " . $this->show->description . "<br>" ;
                 return $res ;
-
             case Renderer::LONG:
                 $res .= $this->show->title . " - " . $this->show->description . "<br>" .
                     $this->show->DisplayArtiste() . " - "  .
