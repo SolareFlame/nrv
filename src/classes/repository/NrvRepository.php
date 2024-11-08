@@ -477,10 +477,7 @@ class NrvRepository
                 }
                 break;
             case "Style":
-                foreach ($rows as $row) {
-                    $style = new $create_path($row['style_name'], $row['style_id']);
-                    $results[] = serialize($style);
-                }
+                $results = $rows;
                 break;
             case "Location":
                 foreach ($rows as $row) {
@@ -571,7 +568,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $styleId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Style($row['style_name'], $row['style_id']);
+        return $row['style_name'];
     }
 
     /**
@@ -580,7 +577,7 @@ class NrvRepository
      * @throws Exception
      */
     function findAllStyles(): array{
-        $query = "Select style_id, style_name from nrv_style";
+        $query = "Select style_name from nrv_style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
