@@ -397,8 +397,6 @@ class NrvRepository
             }
         }
         return false;
-
-        return password_verify($password, $res['password']);
     }
 
     /**
