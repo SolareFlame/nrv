@@ -195,7 +195,7 @@ class NrvRepository
             ':uuid' => $show->id,
             ':title' => $show->title,
             ':description' => $show->description,
-            ':start' => $show->start_time,
+            ':start' => $show->startDate,
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url
