@@ -476,7 +476,7 @@ class NrvRepository
                 }
                 break;
             case "Style":
-                return $rows;
+                $results = array_column($rows, "style_name");
                 break;
             case "Location":
                 foreach ($rows as $row) {
