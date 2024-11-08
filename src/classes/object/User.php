@@ -4,6 +4,7 @@ namespace iutnc\nrv\object ;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
 
+
 class User {
     const ROLE_ADMIN = 100;
     const ROLE_ORGA = 50;
@@ -14,7 +15,7 @@ class User {
     /**
      * @param string $id
      * @param int $role
-     * @param string $password
+     * @param string $password hashé
      */
     public function __construct(string $id, int $role, string $password)
     {
