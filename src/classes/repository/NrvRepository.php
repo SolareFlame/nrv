@@ -446,7 +446,6 @@ class NrvRepository
      */
     private function createArrayFromStmt(false|PDOStatement $stmt, string $class): array
     {
-        $shows = [];
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
             return [];
@@ -477,7 +476,7 @@ class NrvRepository
                 }
                 break;
             case "Style":
-                $results = $rows;
+                return $rows;
                 break;
             case "Location":
                 foreach ($rows as $row) {
