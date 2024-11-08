@@ -410,7 +410,7 @@ class NrvRepository
         }
         return false ;
 
-        return password_verify(password, $res['password']);
+        return password_verify($password, $res['password']);
     }
 
     /**
@@ -467,13 +467,18 @@ class NrvRepository
         }
         switch($class){
             case "Show":
+                // pour parcourir 1 seul fois la base de données au lieu de findStyleById pour chaque show
+                // #giga boss
+                $liste_style = NrvRepository::getInstance()->equivalentStyleObject();
+                //var_dump($liste_style);
                 foreach ($rows as $row) {
+                    $style = $liste_style[(int)$row['show_style_id']];
                     $show = new $create_path($row['show_uuid'],
                         $row['show_title'],
                         $row['show_description'],
                         $row['show_start_date'],
                         (new DateTime($row['show_duration'])),
-                        $row['show_style_id'],
+                        $style,
                         $row['show_url']);
                     $results[] = serialize($show);
                 }
