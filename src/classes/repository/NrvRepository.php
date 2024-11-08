@@ -451,9 +451,7 @@ class NrvRepository
         switch ($class) {
             case "Show":
                 // pour parcourir 1 seul fois la base de données au lieu de findStyleById pour chaque show
-                // #giga boss
                 $liste_style = NrvRepository::getInstance()->equivalentStyleObject();
-                //var_dump($liste_style);
                 foreach ($rows as $row) {
                     $style = $liste_style[(int)$row['show_style_id']];
                     $show = new $create_path($row['show_uuid'],
@@ -472,6 +470,7 @@ class NrvRepository
                         $row['evening_date'], $row['evening_location_id'], $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
+                break;
             case "Style":
                 $results = array_column($rows, "style
                 break;_name");
