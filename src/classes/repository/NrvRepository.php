@@ -388,19 +388,30 @@ class NrvRepository
     /**
      * S'authentifier
      * @param string $password
-     * @return User
+     * @return bool
      * @throws Exception
      */
-    function authentificateUser(string $password): User
+    function authentificateUser(string $password): bool
     {
-        $query = "Select user_uuid, password, user_role from nrv_user where password = :password";
+        $hash = password_hash($password, PASSWORD_DEFAULT,['cost'=>12]);
+
+        $query = "Select password from nrv_user";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['password' => $password]);
-        $res = $this->createArrayFromStmt($stmt, 'User');
-        if(empty($res)){
-            throw new Exception("Le password ne correspond à aucun user");
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+
+        if(empty($res)){  // BASE VIDE
+            return false ;
         }
-        return $res[0];
+
+        for ($i=0; $i < sizeof($res); $i++) { 
+            if(password_verify($password,$res[$i]['password'])){
+                return true ;
+            }
+        }
+        return false ;
+
+        return password_verify(password, $res['password']);
     }
 
     /**

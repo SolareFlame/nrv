@@ -11,23 +11,14 @@ class NrvAuthnProvider {
 
         $r = NrvRepository::getInstance();
 
-        // try {
-        //     $userData = $r->getUserByEmail($email);
-        // } catch (\Exception $e) {
-        //     throw new AuthnException("Erreur de connexion, mot de passe ou email incorrect");
-        // }
+        $isFound = $r->authentificateUser($passwd2check) ;
 
-        // $hash = $userData['passwd'];
-
-        // if (!password_verify($passwd2check, $hash)) {
-        //     throw new AuthnException("Erreur de connexion, mot de passe ou email incorrect");
-        // } else {
-        //     $_SESSION['id'] = $userData['id'];
-        //     $_SESSION['email'] = $userData['email'];
-        //     $_SESSION['hash'] = $userData['passwd'];
-        // }
-
-        $_SESSION['pwd'] = $passwd2check ;
+        if($isFound){
+            $_SESSION['pwd'] = $passwd2check ;
+        } else {
+            throw new AuthnException("Identifiant non reconnu");
+            
+        }
     }
 
     public static function register(string $email, string $password, string $password_confirmation){
