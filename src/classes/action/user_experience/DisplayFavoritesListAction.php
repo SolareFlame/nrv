@@ -6,8 +6,8 @@ use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\render\ArrayRenderer;
-use iutnc\nrv\Render\Renderer;
-use iutnc\nrv\Render\ShowRenderer;
+use iutnc\nrv\render\Renderer;
+use iutnc\nrv\render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**

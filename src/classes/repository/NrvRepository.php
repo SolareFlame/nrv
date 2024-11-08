@@ -467,7 +467,7 @@ class NrvRepository
             case "Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
-                        $row['evening_date'], $row['evening_location_id'], $row['evening_description'], $row['evening_price']);
+                        $row['evening_date'],$this->findLocationById($row['evening_location_id']) , $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
