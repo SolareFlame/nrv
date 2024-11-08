@@ -1,6 +1,5 @@
 <?php
 
-namespace iutnc\nrv\render;
 
 class ArrayRenderer
 {
@@ -12,7 +11,6 @@ class ArrayRenderer
     }
 
     /**
-     * @param array $data la liste d'objets à afficher
      * @param int $option 1 for long, 2 for preview
      * @param bool $isSerial vrai si la liste d'options est sérialisée
      * @return string
@@ -25,6 +23,7 @@ class ArrayRenderer
             $res .= $entite->getRenderer($option);
             $res .= "<br>";
         }
+
         return $res;
     }
 }

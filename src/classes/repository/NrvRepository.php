@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\repository;
 
+use DateTime;
 use Exception;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
@@ -80,7 +81,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -96,7 +97,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -112,7 +113,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -131,7 +132,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['location' => $location]);
 
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -148,7 +149,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayFromStmt($stmt, Show::class)[0];
+        return $this->createArrayFromStmt($stmt, 'Show')[0];
     }
 
     /**
@@ -165,7 +166,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayFromStmt($stmt, Evening::class)[0];
+        return $this->createArrayFromStmt($stmt, 'Evening')[0];
     }
 
     /**
@@ -186,7 +187,7 @@ class NrvRepository
         $stmt->execute(['uuid' => $id]);
 
         // Retourne les spectacles associés sous forme de tableau d'objets Show
-        return $this->createArrayFromStmt($stmt, Show::class);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -387,7 +388,13 @@ class NrvRepository
         switch($class){
             case "Show":
                 foreach ($rows as $row) {
-                    $show = new $create_path($row['show_uuid'],$row['show_title'],$row['show_description'], $row['show_start_date'], (int)$row['show_duration'], $row['show_style_id'], $row['show_url']);
+                    $show = new $create_path($row['show_uuid'],
+                        $row['show_title'],
+                        $row['show_description'],
+                        $row['show_start_date'],
+                        (new DateTime($row['show_duration'])),
+                        $row['show_style_id'],
+                        $row['show_url']);
                     $results[] = serialize($show);
                 }
                 break;
@@ -400,13 +407,13 @@ class NrvRepository
                 break;
             case "Style":
                 foreach ($rows as $row) {
-                    $style = new $create_path($row['style_uuid'], $row['style_name']);
+                    $style = new $create_path($row['style_name'], $row['style_id']);
                     $results[] = serialize($style);
                 }
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $location = new $create_path($row['location_uuid'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
                     $results[] = serialize($location);
                 }
                 break;
@@ -522,7 +529,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $locationId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Location($row['id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
+        return new Location($row['location_id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
     }
 
     /**

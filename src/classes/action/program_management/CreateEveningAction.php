@@ -68,6 +68,7 @@ class CreateEveningAction extends Action
     <select name="location" id="location" required>
 HTML;
         foreach ($locations as $location) {
+            $location = unserialize($location);
             $form .= "<option value='{$location->id}'>{$location->name}</option>";
         }
 

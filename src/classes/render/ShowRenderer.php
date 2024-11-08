@@ -1,8 +1,9 @@
 <?php
 
-namespace iutnc\nrv\Render;
+namespace iutnc\nrv\render;
 
 use iutnc\nrv\object\Show;
+use iutnc\nrv\render\Renderer;
 
 /**
  * Classe PodcastRenderer.
@@ -29,15 +30,13 @@ class ShowRenderer implements Renderer
         $res = '';
         switch ($selector) {
             case Renderer::COMPACT:
-                /*$ret = "<br> {$this->podcast->titre}";
-                $ret .= ($this->podcast->auteur === AudioList::NO_AUTEUR) ? "" : " - {$this->podcast->auteur}";  // s'il n'y a pas d'auteur on affiche rien sinon on affiche l'auteur
-                $ret .= " - " . sprintf("%02d:%02d", $minutes, $seconds) . "<br> <br> 
-                        <audio id='audioPlayer' controls src='{$this->podcast->nom_fich}'> </audio> <br>";
-                return $ret;*/
+                $res .= $this->show->title . " - " . $this->show->description . "<br>" ;
+                return $res ;
 
             case Renderer::LONG:
-                $res .= $this->show->title . " - " . $this->show->DisplayArtiste() . " - " . $this->show->description .
-                    "<br>à " . $this->show->startDate . " pendant " . $this->show->duration . "<br>" .
+                $res .= $this->show->title . " - " . $this->show->description . "<br>" .
+                    $this->show->DisplayArtiste() . " - "  .
+                    "<br>à " . $this->show->startDate . " pendant " . $this->show->duration->format('H:i:s') . "<br>" .
                     "<a href='index.php?action=evening&showId=" . $this->show->id . "'>Voir le spectacle</a><br>" .
                     " $this->show->url $this->show->style<br><br><br> ";
                 return $res;
@@ -46,5 +45,4 @@ class ShowRenderer implements Renderer
                 return "g pas Kanpri";
         }
     }
-
 }
