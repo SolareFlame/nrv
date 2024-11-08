@@ -396,8 +396,7 @@ class NrvRepository
                 return $res[$i]['user_uuid'] ;
             }
         }
-        return null ;
-
+        return false ;
     }
 
     /**
@@ -460,7 +459,7 @@ class NrvRepository
                     $show = new $create_path($row['show_uuid'],
                         $row['show_title'],
                         $row['show_description'],
-                        $row['show_start_date'],
+                        (new DateTime($row['show_start_date'])),
                         (new DateTime($row['show_duration'])),
                         $style,
                         $row['show_url']);

@@ -8,9 +8,9 @@ abstract class DetailsRender implements Renderer
     public function render(int $selector, $index = null): string
     {
         if($selector==self::LONG){
-            $res = $this->renderLong();
+            $res = $this->renderLong($index = null);
         } else{
-            $res = $this->renderCompact();
+            $res = $this->renderCompact($index = null);
         }
         return $res;
     }
