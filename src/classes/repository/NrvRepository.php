@@ -277,7 +277,7 @@ class NrvRepository
         $stmt->execute([
             ':title' => $show->title,
             ':description' => $show->description,
-            ':show_start_date' => $show->start_time,
+            ':show_start_date' => $show->start_date,
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url,
