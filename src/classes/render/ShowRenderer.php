@@ -27,12 +27,15 @@ class ShowRenderer extends DetailsRender
     public function renderLong(): string
     {
         return <<<HTML
-    {$this->show->title} - {$this->show->description}
-    {$this->show->DisplayArtiste()} -
-    à {$this->show->startDate} pendant {$this->show->duration->format('H:i:s')}
-    <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a>
-    {$this->show->url} {$this->show->style}<br><br><br>
-HTML;
+                    <div class="show">
+                        {$this->show->title} - {$this->show->style}<br>
+                        {$this->show->DisplayArtiste()} <br>
+                        à {$this->show->startDate} pendant {$this->show->duration->format('H:i:s')} <br>
+                        <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
+                        {$this->show->url}  {$this->show->description}<br>;
+                    </div class="show">
+                    <br><br>
+                    HTML;
 
     }
 }
