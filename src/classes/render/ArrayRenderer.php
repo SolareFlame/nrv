@@ -1,7 +1,6 @@
 <?php
 
-namespace iutnc\nrv\Render;
-
+namespace iutnc\nrv\render;
 class ArrayRenderer
 {
     private array $liste;

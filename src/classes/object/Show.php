@@ -14,7 +14,7 @@ class Show
     private string $description;
     private string $startDate;
     private DateTime $duration;
-    private string $style;
+    private Style $style;
     private string $url;
     private array $artists = [];
 
@@ -28,7 +28,7 @@ class Show
      * @param string $url
      * @param array $artists
      */
-    public function __construct(string $id, string $title, string $description, string $startDate, DateTime $duration, string $style, string $url)
+    public function __construct(string $id, string $title, string $description, string $startDate, DateTime $duration, Style $style, string $url)
     {
         $this->id = $id;
         $this->title = $title;

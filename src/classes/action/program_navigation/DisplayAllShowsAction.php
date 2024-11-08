@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\action\program_navigation;
 
+
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\render\ArrayRenderer;
@@ -17,7 +18,7 @@ class DisplayAllShowsAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost() :string
     {
         return "";
     }
@@ -26,7 +27,7 @@ class DisplayAllShowsAction extends Action
      * @inheritDoc
      * @throws \Exception
      */
-    public function executeGet()
+    public function executeGet(): string
     {
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
