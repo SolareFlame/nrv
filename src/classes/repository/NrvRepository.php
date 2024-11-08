@@ -353,30 +353,6 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, 'Evening')[0];
     }
 
-
-    /**
-     * Créer une soirée : saisir les données et les valider
-     * @param Evening $evening
-     */
-    function createEvening(Evening $evening): void
-    {
-        if(isset($_SESSION) && $this->checkRole($_SESSION["user_uuid"], 50)){
-            $query = "INSERT INTO nrv_evening (evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, evening_description, evening_price) 
-                        values (:uuid, :title, :theme, :date, :location, :description, :price)";
-
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute([
-                ':uuid' => $evening->uuid,
-                ':title' => $evening->title,
-                ':theme' => $evening->theme,
-                ':date' => $evening->date,
-                ':location' => $evening->location,
-                ':description' => $evening->description,
-                ':price' => $evening->price
-            ]);
-        } else header("index.php");
-    }
-
     /**
      * Annuler une soiree : la soiree est conservee dans les affichages mais est marqué comme annulee
      * @param Evening $evening evening
@@ -547,19 +523,7 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Location");
     }
 
-    /**
-     * Retourne tous les artistes
-     * @return array
-     * @throws Exception
-     */
-    function findAllArtists(): array
-    {
-        $query = "Select artist_uuid, artist_name, artist_description, artist_url from nrv_artist";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
 
-        return $this->createArrayFromStmt($stmt, "Artist");
-    }
 
     /**
      * Retourne une location à partir d'un id
