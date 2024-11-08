@@ -23,7 +23,7 @@ class DisplayFavoritesListAction extends Action
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
 
-        $FavShowList = NrvRepository::getInstance()->getShowsByListId($_SESSION['favorites']);
+        $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
 
         $res = "";
         foreach ($FavShowList as $show) {
