@@ -18,4 +18,6 @@ interface Renderer
      */
     public function render(int $selector, $index = null): string;
 
+
+
 }
