@@ -390,11 +390,11 @@ class NrvRepository
      * @return bool
      * @throws Exception
      */
-    function authentificateUser(string $password): bool
+    function authentificateUser(string $password): string
     {
         $hash = password_hash($password, PASSWORD_DEFAULT,['cost'=>12]);
 
-        $query = "Select password from nrv_user";
+        $query = "Select user_uuid, password from nrv_user";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         $res = $stmt->fetchAll();
@@ -405,12 +405,11 @@ class NrvRepository
 
         for ($i=0; $i < sizeof($res); $i++) { 
             if(password_verify($password,$res[$i]['password'])){
-                return true ;
+                return $res[$i]['user_uuid'] ;
             }
         }
-        return false ;
+        return null ;
 
-        return password_verify(password, $res['password']);
     }
 
     /**

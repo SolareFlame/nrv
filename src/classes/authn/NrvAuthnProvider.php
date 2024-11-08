@@ -11,10 +11,11 @@ class NrvAuthnProvider {
 
         $r = NrvRepository::getInstance();
 
-        $isFound = $r->authentificateUser($passwd2check) ;
+        $uuid = $r->authentificateUser($passwd2check) ;
 
-        if($isFound){
+        if($uuid!=null){
             $_SESSION['pwd'] = $passwd2check ;
+            $_SESSION['id'] = $uuid ;
         } else {
             throw new AuthnException("Identifiant non reconnu");
             
@@ -55,12 +56,15 @@ class NrvAuthnProvider {
         session_destroy();
     }
 
+
     public static function asPermission($permissionLevel): bool {
         
-        if(!isset($_SESSION['pwd'])){
+        if(!isset($_SESSION['pwd']) || !isset($_SESSION['id'])){  // l'user n'est pas connecté
             return false ;
         }
 
-        // etc
+        $r = NrvRepository::getInstance() ;
+
+        return $r->checkRole($_SESSION['id'],$permissionLevel) ;
     }
 }
