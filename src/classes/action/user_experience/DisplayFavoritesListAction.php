@@ -2,8 +2,10 @@
 
 namespace iutnc\nrv\action\user_experience;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\Render\Renderer;
 use iutnc\nrv\Render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -25,13 +27,14 @@ class DisplayFavoritesListAction extends Action
 
         $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
 
-        $res = "";
+        return ArrayRenderer::render($FavShowList, Renderer::LONG, true);
+        /*$res = "";
         foreach ($FavShowList as $show) {
             $sr = new ShowRenderer(unserialize($show));
             $res .= $sr->render(Renderer::LONG);
         }
 
-        return $res;
+        return $res;*/
     }
 
     public function executePost()
