@@ -469,12 +469,12 @@ class NrvRepository
             case "Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
-                        $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
+                        $row['evening_date'], $row['evening_location_id'], $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
-                break;
             case "Style":
-                $results = array_column($rows, "style_name");
+                $results = array_column($rows, "style
+                break;_name");
                 break;
             case "Location":
                 foreach ($rows as $row) {
