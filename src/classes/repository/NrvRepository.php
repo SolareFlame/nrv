@@ -328,10 +328,10 @@ class NrvRepository
     /**
      * Récupération du détail d’une soirée
      * @param string $uuid
-     * @return array
+     * @return Evening
      * @throws Exception
      */
-    function findEveningDetails(string $uuid): array
+    function findEveningDetails(string $uuid): Evening
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
        evening_location_id, evening_description, evening_price from nrv_evening where evening_uuid = :uuid";
