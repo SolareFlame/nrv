@@ -18,7 +18,6 @@ main {
 	z-index: -1;
 }
 
-/* Mettre le header en position absolue et z-index pour superposition */
 .header {
 	position: absolute;
 	top: 0;

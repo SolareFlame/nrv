@@ -84,7 +84,7 @@
             </div>
 
             <div class="col-md-4 d-flex justify-content-center gap-4">
-                <a href="index.php?action=login" class="footer-link">ESPACE ORGANISATEUR</a>
+                <a href="index.php?action=login" class="footer-link">ESPACE ORGA</a>
                 <a href="index.php?action=contact" class="footer-link">CONTACT</a>
                 <a href="https://github.com/SolareFlame/nrv" class="footer-link">PROJET</a>
             </div>
