@@ -38,7 +38,7 @@
         </ul>
 
         <div class="col-md-3 text-end">
-            <?php if (isset($_SESSION['pwd']) && $_SESSION['pwd'] != ''): ?>
+            <?php if (!empty($_SESSION['pwd'])): ?>
                 <button type="button" class="btn btn-outline-warning me-2">
                     Se déconnecter
                 </button>
