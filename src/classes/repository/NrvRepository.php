@@ -4,7 +4,6 @@ namespace iutnc\nrv\repository;
 
 use DateTime;
 use Exception;
-use iutnc\deefy\exception\AuthException;
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;

@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\action\program_management;
 
-use iutnc\deefy\exception\AuthException;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\exception\AuthnException;

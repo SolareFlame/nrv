@@ -2,7 +2,7 @@
 
 namespace iutnc\nrv\authn;
 
-use iutnc\deefy\exception\AuthException;
+
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\object\User;
 use iutnc\nrv\repository\NrvRepository;
