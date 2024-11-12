@@ -15,6 +15,7 @@ use iutnc\nrv\action\program_navigation\DisplayEveningDetailsAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
 use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
+use iutnc\nrv\action\show_details\DisplayShowsByDayAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
 use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
@@ -61,6 +62,9 @@ class Dispatcher
                     break;
                 case 'showByLocation':
                     $act = new DisplayShowsByLocationAction();
+                    break;
+                case 'showByDay':
+                    $act = new DisplayShowsByDayAction();
                     break;
                 case 'showDetails':
                     $act = new DisplayShowDetailsAction();
