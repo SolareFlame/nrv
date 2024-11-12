@@ -354,9 +354,10 @@ class NrvRepository
     }
 
     /**
-     * @param array $listIdFav
-     * @return string[]
-     * @throws Exception
+     * Recherche tout les shows contenue dans la liste d'id de shows
+     * @param array $listIdFav : liste des id des shows à récupérer
+     * @return string[] : liste des shows correspondant aux id
+     * @throws Exception : si la liste est vide
      */
     public function findShowsByListId(array $listIdFav): array
     {
