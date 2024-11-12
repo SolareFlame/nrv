@@ -14,10 +14,10 @@ class AddShowToFavoritesAction extends Action
     public function execute(): string
     {
         // verif si l'id est bien fourni
-        if (!empty($_GET['addFavId'])) {
-            $idFav = $_GET['addFavId'];
-        } else if (!empty($_POST['addFavId'])) {
-            $idFav = $_POST['addFavId'];
+        if (!empty($_GET['id'])) {
+            $idFav = $_GET['id'];
+        } else if (!empty($_POST['id'])) {
+            $idFav = $_POST['id'];
         } else {
             return "Veuillez fournir un identifiant de spectacle";
         }
@@ -27,24 +27,28 @@ class AddShowToFavoritesAction extends Action
             $_SESSION['favorites'] = [];
 
         // verif si le show existe
-        if (!NrvRepository::getInstance()->VerifIdFav($idFav)) {
+        if (!NrvRepository::getInstance()->verifIdFav($idFav)) {
             return "L'identifiant de spectacle n'existe pas";
         }
 
         if (!in_array($idFav, $_SESSION['favorites'])) {
-            array_push($_SESSION['favorites'], $idFav);
+            $_SESSION['favorites'][] = $idFav;  // ajout du spectacle dans la liste
         }
+
+        header("Location: {$_SESSION["previous"]}");
 
         // FAUX STRING, METTRE UN HEADER POUR REMETTRE SUR LA MEME PAGE
         return "Ajouté à la liste de favoris";
     }
 
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
+        return "";
     }
 }
 

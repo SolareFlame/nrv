@@ -117,7 +117,7 @@ class NrvRepository
     function findShowsByStyle(string $style): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url from nrv_show where DATE(show_style_id) = :style";
+       show_duration, show_style_id, show_url from nrv_show where show_style_id = :style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
@@ -277,7 +277,7 @@ class NrvRepository
         $stmt->execute([
             ':title' => $show->title,
             ':description' => $show->description,
-            ':show_start_date' => $show->start_time,
+            ':show_start_date' => $show->start_date,
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url,
@@ -288,19 +288,21 @@ class NrvRepository
     /**
      * @param string $idFav : id du show à récupérer
      * @return Show : show correspondant à l'id
+     * @throws \DateMalformedStringException
      */
     public function findShowById(string $idFav): Show
     {
         $query = "Select * from nrv_show where show_uuid = :uuid";
+
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $idFav]);
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
-            $row['show_start_date'],
+        $date =  $row['show_start_date'];
+        $datetime = new DateTime($date);
+        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],$datetime,
             $row['show_duration'],
-            $row['show_style'], $row['show_url']);
+            $row['show_style_id'], $row['show_url']);
     }
 
     /**
@@ -328,10 +330,10 @@ class NrvRepository
     /**
      * Récupération du détail d’une soirée
      * @param string $uuid
-     * @return array
+     * @return Evening
      * @throws Exception
      */
-    function findEveningDetails(string $uuid): array
+    function findEveningDetails(string $uuid): Evening
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
        evening_location_id, evening_description, evening_price from nrv_evening where evening_uuid = :uuid";
@@ -339,7 +341,7 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
 
-        return $this->createArrayFromStmt($stmt, 'Evening')[0];
+        return unserialize($this->createArrayFromStmt($stmt, 'Evening')[0]);
     }
 
     /**
@@ -354,16 +356,18 @@ class NrvRepository
     }
 
     /**
-     * @param array $listIdFav
-     * @return string[]
-     * @throws Exception
+     * Recherche tout les shows contenue dans la liste d'id de shows
+     * @param array $listIdFav : liste des id des shows à récupérer
+     * @return string[] : liste des shows correspondant aux id
+     * @throws Exception : si la liste est vide
      */
     public function findShowsByListId(array $listIdFav): array
     {
-        $listIdFav = implode(",", $listIdFav);
-        $query = "Select * from nrv_show where show_uuid in (:listId)";
+        $placeholders = implode(", ", array_fill(0, count($listIdFav), "?"));  // créer un array de ? de la taille de listIdFa
+
+        $query = "Select * from nrv_show where show_uuid in ({$placeholders})"; // on créer la liste des ?
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['listId' => $listIdFav]);
+        $stmt->execute(array_values($listIdFav));  // on execute la requête avec les valeurs de listIdFav
 
         return $this->createArrayFromStmt($stmt, "Show");
     }
@@ -441,9 +445,9 @@ class NrvRepository
     {
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
-            return [];
+            throw new Exception("La liste est vide.");
         }
-        //echo "33" . var_dump($rows);
+
         $create_path = "iutnc\\nrv\\object\\$class";
         if (!class_exists($create_path)) {
             throw new Exception("La classe $class n'existe pas.");
@@ -451,16 +455,15 @@ class NrvRepository
         switch ($class) {
             case "Show":
                 // pour parcourir 1 seul fois la base de données au lieu de findStyleById pour chaque show
-                // #giga boss
                 $liste_style = NrvRepository::getInstance()->equivalentStyleObject();
-                //var_dump($liste_style);
                 foreach ($rows as $row) {
                     $style = $liste_style[(int)$row['show_style_id']];
-                    $show = new $create_path($row['show_uuid'],
+                    $show = new $create_path(
+                        $row['show_uuid'],
                         $row['show_title'],
                         $row['show_description'],
                         (new DateTime($row['show_start_date'])),
-                        (new DateTime($row['show_duration'])),
+                        $row['show_duration'],
                         $style,
                         $row['show_url']);
                     $results[] = serialize($show);
@@ -469,12 +472,13 @@ class NrvRepository
             case "Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
-                        $row['evening_date'], $row['evening_location'], $row['evening_description'], $row['evening_price']);
+                        $row['evening_date'],$this->findLocationById($row['evening_location_id']) , $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
             case "Style":
-                $results = array_column($rows, "style_name");
+                $results = array_column($rows, "style
+                break;_name");
                 break;
             case "Location":
                 foreach ($rows as $row) {

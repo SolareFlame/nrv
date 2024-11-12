@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\object;
 
-use Cassandra\Date;
 use DateTime;
 use iutnc\nrv\exception\InvalidPropertyNameException;
 use iutnc\nrv\render\ShowRenderer;
@@ -13,7 +12,7 @@ class Show
     private string $title;
     private string $description;
     private DateTime $startDate;
-    private DateTime $duration;
+    private int $duration;
     private string $style;
     private string $url;
     private array $artists = [];
@@ -22,13 +21,13 @@ class Show
      * @param string $id
      * @param string $title
      * @param string $description
-     * @param string $startDate
-     * @param DateTime $duration
+     * @param DateTime $startDate
+     * @param int $duration
      * @param string $style
      * @param string $url
      * @param array $artists
      */
-    public function __construct(string $id, string $title, string $description, DateTime $startDate, DateTime $duration, string $style, string $url)
+    public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url)
     {
         $this->id = $id;
         $this->title = $title;
@@ -70,7 +69,12 @@ class Show
         return json_encode($this);
     }
 
-    public function getRenderer(int $option): string
+    /**
+     * Permet d'avoir directement le rendu d'un objet Show
+     * @param int $option 0: affichage simple, 1: affichage détaillé
+     * @return string le rendu de l'objet Show
+     */
+    public function getRender(int $option): string
     {
         $sr = new ShowRenderer($this);
         return $sr->render($option);

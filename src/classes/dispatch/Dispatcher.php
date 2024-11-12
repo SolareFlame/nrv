@@ -14,6 +14,8 @@ use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
 use iutnc\nrv\action\program_navigation\DisplayEveningDetailsAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
+use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
+use iutnc\nrv\action\show_details\DisplayShowsByDayAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
 use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
@@ -61,6 +63,12 @@ class Dispatcher
                 case 'showByLocation':
                     $act = new DisplayShowsByLocationAction();
                     break;
+                case 'showByDay':
+                    $act = new DisplayShowsByDayAction();
+                    break;
+                case 'showDetails':
+                    $act = new DisplayShowDetailsAction();
+                    break;
                 case 'add-evening':
                     $act = new CreateEveningAction();
                     break;
@@ -76,6 +84,9 @@ class Dispatcher
                 case 'addShow2Fav':
                     $act = new AddShowToFavoritesAction();
                     break;
+                case 'delShow2fav':
+                    $act = new DelShowToFavoritesAction();
+                    break;
                 case 'cancel-show':
                     $act = new CancelShowAction();
                     break;
@@ -84,9 +95,6 @@ class Dispatcher
                     break;
                 case 'addShow2evening':
                     $act = new AddShowToEveningAction();
-                    break;
-                case 'delShow2fav':
-                    $act = new DelShowToFavoritesAction();
                     break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();

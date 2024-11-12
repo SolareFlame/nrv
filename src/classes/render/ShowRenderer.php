@@ -2,8 +2,10 @@
 
 namespace iutnc\nrv\render;
 
+use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\render\Renderer;
+use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Classe PodcastRenderer.
@@ -21,20 +23,48 @@ class ShowRenderer extends DetailsRender
 
     public function renderCompact($index = null): string
     {
-        return $this->show->title . " - " . $this->show->description . "<br>" ;
+        $id = $this->show->id;
+        if (!isset($_SESSION['favorites'])) {
+            $_SESSION['favorites'] = [];
+        }
+        if (!in_array($id, $_SESSION['favorites'])) {
+            $heart = <<<HTML
+                    <a href="?action=addShow2Fav&id={$id}"><span id="unfill-heart" style="margin-right: 8px;">♡</span></a>
+                    HTML;
+        } else {
+            $heart = <<<HTML
+                    <a href="?action=delShow2fav&id={$id}"><span id="fill-heart" style="margin-right: 8px;">♥</span></a>
+                    HTML;
+        }
+
+        return <<<HTML
+            
+            <div style="display: flex; align-items: flex-start;">
+                {$heart}
+                <div>
+                    {$this->show->title} <br>
+                    {$this->show->description}
+                </div>
+            </div>
+            HTML;
     }
 
     public function renderLong($index = null): string
     {
+        $heures = (int)$this->show->duration % 59;
+        $minutes = $this->show->duration - $heures * 60;
+        if ($minutes == 0) {
+            $minutes = "00";
+        }
         return <<<HTML
                     <div class="show">
                         {$this->show->title} - {$this->show->style}<br>
                         {$this->show->DisplayArtiste()} <br>
-                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$this->show->duration->format('G\Hi')} <br>
+                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes} <br>
                         {$this->show->description}<br>
                         <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
                     </div class="show">
-                    HTML;
+                HTML;
 
     }
 }

@@ -2,6 +2,9 @@
 
 namespace iutnc\nrv\action\program_navigation;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\object\Evening;
+use iutnc\nrv\render\EveningRenderer;
+use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -15,19 +18,20 @@ class DisplayEveningDetailsAction extends Action
     /**
      * @throws \Exception
      */
-    public function executePost()
+    public function executePost(): string
     {
-        $repo = NrvRepository::getInstance();
-        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url
-        $showList = $repo->findShowsInEvening($id);
-
-        $eveningDetails = $repo->findEveningDetails($id);
-
         return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
-        return "";
+        $repo = NrvRepository::getInstance();
+        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url
+        $evening = $repo->findEveningDetails($id);
+        $showList = $repo->findShowsInEvening($id);
+        $evening->addShows($showList);
+        $renderEvening =  new EveningRenderer($evening);
+
+        return $renderEvening->render(Renderer::LONG);
     }
 }

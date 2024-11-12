@@ -4,7 +4,12 @@ namespace iutnc\nrv\authn;
 
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\repository\NrvRepository;
+use Ramsey\Uuid\Uuid;
 
+
+/**
+ * Gere les authentification et autorisation
+ */
 class NrvAuthnProvider {
 
     public static function login(string $passwd2check){
@@ -18,38 +23,21 @@ class NrvAuthnProvider {
             $_SESSION['id'] = $uuid ;
         } else {
             throw new AuthnException("Identifiant non reconnu");
-            
         }
     }
 
-    public static function register(string $email, string $password, string $password_confirmation){
+    /**
+     * $password : le password en clair de l'user
+     */
+    public static function register($password,$permission){
 
-        // $r = NrvRepository::getInstance();
+        $r = NrvRepository::getInstance();
+        $uuid = Uuid::uuid4();
 
-        // try {
-        // 	$r->getUserByEmail($email) ;
-        // } catch(\Exception $e){
+	    $hash = password_hash($password, PASSWORD_DEFAULT, ['cost'=>12]);
 
-
-	    //     if (! filter_var($email, FILTER_VALIDATE_EMAIL))
-	    //         throw new AuthnException("Le mail est incorrect");
-
-	    //     if (strlen($password) < 10)
-	    //         throw new AuthnException("Le mot de passe est trop court");
-
-	    //     if (! preg_match('/[A-Z]/', $password))
-	    //         throw new AuthnException("Le mot de passe doit contenir une majuscule");
-
-	    //     if ($password != $password_confirmation)
-	    //     	throw new AuthnException("Les 2 mdp doivent correspondre") ;
-
-	    //     $hash = password_hash($password, PASSWORD_DEFAULT, ['cost'=>12]);
-	    //     $r->addUser($email, $hash, 1);
-
-	    //     return ;
-	    // }
-
-	    // throw new AuthnException("Le mail est deja utilisé");
+        $u = new User($uuid,$permission,$hash) ;
+	    $r->createAccount($u);
     }
 
     public static function logout(){
@@ -64,6 +52,10 @@ class NrvAuthnProvider {
         }
 
         $r = NrvRepository::getInstance() ;
+
+        if($r->authentificateUser($_SESSION['pwd']) != $_SESSION['id']){  // l'id et le password ne vont pas ensemble
+            return false ;
+        }
 
         return $r->checkRole($_SESSION['id'],$permissionLevel) ;
     }

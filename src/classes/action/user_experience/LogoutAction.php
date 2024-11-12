@@ -12,7 +12,7 @@ class LogoutAction extends Action {
     /**
      * @inheritDoc
      */
-    function executePost()
+    function executePost(): string
     {
         NrvAuthnProvider::logout();
         return "Vous etes deconnecté";
@@ -21,7 +21,7 @@ class LogoutAction extends Action {
     /**
      * @inheritDoc
      */
-    function executeGet()
+    function executeGet(): string
     {
         return $this->executePost() ;
     }
