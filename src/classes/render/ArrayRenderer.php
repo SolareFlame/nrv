@@ -11,13 +11,14 @@ class ArrayRenderer
      */
     public static function render(array $liste, int $option, bool $isSerial): string
     {
-        $res = '';
+        $res = '<div class="container"><div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">';
+
         foreach ($liste as $entite) {
             $entite = $isSerial ? unserialize($entite) : $entite;
-            $res .= $entite->getRender($option);
-            $res .= "<br>";
+            $res .= '<div class="col">' . $entite->getRender($option) . '</div>';
         }
 
+        $res .= '</div></div>';
         return $res;
     }
 }

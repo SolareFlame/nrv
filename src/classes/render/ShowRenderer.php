@@ -24,29 +24,31 @@ class ShowRenderer extends DetailsRender
     public function renderCompact($index = null): string
     {
         $id = $this->show->id;
+
+        // Check if the show is in the user's favorites
         if (!isset($_SESSION['favorites'])) {
             $_SESSION['favorites'] = [];
         }
-        if (!in_array($id, $_SESSION['favorites'])) {
-            $heart = <<<HTML
-                    <a href="?action=addShow2Fav&id={$id}"><span id="unfill-heart" style="margin-right: 8px;">♡</span></a>
-                    HTML;
-        } else {
-            $heart = <<<HTML
-                    <a href="?action=delShow2fav&id={$id}"><span id="fill-heart" style="margin-right: 8px;">♥</span></a>
-                    HTML;
-        }
+        $heart = !in_array($id, $_SESSION['favorites'])
+            ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'>♡</a>"
+            : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'>♥</a>";
 
         return <<<HTML
-            
-            <div style="display: flex; align-items: flex-start;">
-                {$heart}
-                <div>
-                    {$this->show->title} <br>
-                    {$this->show->description}
+        <div class="col">
+            <div class="card bg-dark text-light">
+                <div class="position-relative">
+                    <img src="../../../res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
+                    <div class="position-absolute top-0 end-0 p-2">
+                        {$heart}
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">{$this->show->title}</h5>
+                    <p class="card-text">{$this->show->description}</p>
                 </div>
             </div>
-            HTML;
+        </div>
+    HTML;
     }
 
     public function renderLong($index = null): string
@@ -65,6 +67,5 @@ class ShowRenderer extends DetailsRender
                         <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
                     </div class="show">
                 HTML;
-
     }
 }
