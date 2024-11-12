@@ -116,14 +116,13 @@ class Dispatcher
      */
     private function renderPage(string $html): void
     {
-        //DeefyRepository::getInstance()->verifToken();
-        //$user = AuthnProvider::getSignedInUser();
-        //$logInOrOut = $user['id'] == -1 ? "<a href='?action=login'>Connexion</a>" : "<a href='?action=logout'>Déconnexion</a>";
+        ob_start();
+        include("res/html/home.php");
 
-        $content = file_get_contents("res/html/index.html");
-
+        $content = ob_get_clean();
         $page = str_replace("{{CONTENT}}", $html, $content);
 
         echo $page;
     }
+
 }
