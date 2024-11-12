@@ -16,7 +16,7 @@ class DisplayShowsByLocationAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost(): string
     {
         return "";
     }
@@ -25,7 +25,7 @@ class DisplayShowsByLocationAction extends Action
      * @inheritDoc
      * @throws \Exception
      */
-    public function executeGet()
+    public function executeGet(): string
     {
         $repository = NrvRepository::getInstance();
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);

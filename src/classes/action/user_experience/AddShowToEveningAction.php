@@ -13,16 +13,18 @@ class AddShowToEveningAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
         // TODO: Implement get() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function executeGet()
+    public function executeGet(): string
     {
+        return "";
         // TODO: Implement post() method.
     }
 }

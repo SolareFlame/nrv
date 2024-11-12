@@ -41,12 +41,14 @@ class AddShowToFavoritesAction extends Action
         return "Ajouté à la liste de favoris";
     }
 
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
+        return "";
     }
 }
 

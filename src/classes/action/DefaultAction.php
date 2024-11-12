@@ -20,7 +20,7 @@ class DefaultAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost(): string
     {
         return "<h1>SITE NRV</h1>" ;
     }

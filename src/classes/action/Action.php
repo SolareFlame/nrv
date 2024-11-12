@@ -37,7 +37,7 @@ abstract class Action
      *
      * @return string Le résultat de la gestion de la requête POST.
      */
-    public abstract function executePost();
+    public abstract function executePost(): string;
 
 
     /**
@@ -45,7 +45,7 @@ abstract class Action
      *
      * @return string Le résultat de la gestion de la requête GET.
      */
-    public abstract function executeGet();
+    public abstract function executeGet(): string;
 
     public function __invoke(): string
     {

@@ -14,7 +14,7 @@ class CreateShowAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost(): string
     {
         if(isset($_POST['name']) &&
             isset($_POST['description']) &&
@@ -53,7 +53,7 @@ class CreateShowAction extends Action
     /**
      * @inheritDoc
      */
-    public function executeGet()
+    public function executeGet(): string
     {
         $instance = NrvRepository::getInstance();
         $styles = $instance->findAllStyles();

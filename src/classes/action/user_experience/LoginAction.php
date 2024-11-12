@@ -12,7 +12,7 @@ class LoginAction extends Action {
     /**
      * @inheritDoc
      */
-    function executePost()
+    function executePost(): string
     {
         $ret = "";
         try {
@@ -28,7 +28,7 @@ class LoginAction extends Action {
     /**
      * @inheritDoc
      */
-    function executeGet()
+    function executeGet(): string
     {
         $ret = '<form action="index.php?action=login" method="POST">
             <br><strong style="font-size: 30px;">Se connecter</strong><br><br>

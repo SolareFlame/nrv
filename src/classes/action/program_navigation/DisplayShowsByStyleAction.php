@@ -12,12 +12,13 @@ use iutnc\nrv\repository\NrvRepository;
 class DisplayShowsByStyleAction extends Action
 {
 
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
         // TODO: Implement get() method.
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
         $repository = NrvRepository::getInstance();
         $style = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);

@@ -37,12 +37,14 @@ class DisplayFavoritesListAction extends Action
         return $res;*/
     }
 
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
+        return "";
     }
 }
 

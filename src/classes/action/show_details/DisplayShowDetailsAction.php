@@ -13,13 +13,13 @@ use iutnc\nrv\repository\NrvRepository;
 class DisplayShowDetailsAction extends Action
 {
 
-    public function executePost()
+    public function executePost(): string
     {
-
+        return "";
         // TODO: Implement get() method.
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();

@@ -18,12 +18,12 @@ class DisplayEveningDetailsAction extends Action
     /**
      * @throws \Exception
      */
-    public function executePost()
+    public function executePost(): string
     {
         return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
         $repo = NrvRepository::getInstance();
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url

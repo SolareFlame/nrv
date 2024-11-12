@@ -33,12 +33,14 @@ class DelShowToFavoritesAction extends Action
         return "Supprimé de la liste de favoris";
     }
 
-    public function executePost()
+    public function executePost(): string
     {
+        return "";
     }
 
-    public function executeGet()
+    public function executeGet(): string
     {
+        return "";
     }
 }
 

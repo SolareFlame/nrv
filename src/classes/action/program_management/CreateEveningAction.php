@@ -16,7 +16,7 @@ class CreateEveningAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost()
+    public function executePost(): string
     {
         if(isset($_POST['name']) &&
             isset($_POST['theme']) &&
@@ -48,7 +48,7 @@ class CreateEveningAction extends Action
     /**
      * @inheritDoc
      */
-    public function executeGet()
+    public function executeGet(): string
     {
         $instance = NrvRepository::getInstance();
         $locations = $instance->findAllLocations();
