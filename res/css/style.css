@@ -82,4 +82,44 @@ main {
 	background-color: #fff;
 }
 
+/* Styles pour le formulaire de création de compte */
+
+.form-container {
+	padding: 20px;
+	background-color: #ffffff;
+	max-width: 500px;
+	margin: auto;
+	border-radius: 12px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+	color: #007bff;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.form-group {
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.input-group-text {
+	background-color: #f1f1f1;
+	border-right: none;
+}
+
+.input-group .form-control {
+	border-left: none;
+}
+
+.btn-submit {
+	background-color: #007bff;
+	border-color: #007bff;
+	color: #ffffff;
+	font-weight: bold;
+	width: 100%;
+}
+
 

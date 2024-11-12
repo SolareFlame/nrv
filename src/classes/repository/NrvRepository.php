@@ -4,6 +4,8 @@ namespace iutnc\nrv\repository;
 
 use DateTime;
 use Exception;
+use iutnc\deefy\exception\AuthException;
+use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
@@ -413,6 +415,23 @@ class NrvRepository
             }
         }
         return false ;
+    }
+
+    /**
+     * @throws AuthnException
+     */
+    function getUser($username) : User
+    {
+        $query = "SELECT user_name,user_uuid,password,user_role FROM nrv_user where user_name = :username";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['username' => $username]);
+        $data = $stmt->fetch();
+
+        if ($data) {
+            return new User($data["user_uuid"],$data['user_role'],$data["passwd"]);
+        } else {
+            throw new AuthnException("Le nom d'utilisateur existe pas");
+        }
     }
 
     /**

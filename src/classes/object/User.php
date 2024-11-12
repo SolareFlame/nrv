@@ -9,6 +9,7 @@ class User {
     const ROLE_ADMIN = 100;
     const ROLE_ORGA = 50;
     private string $id;
+    private string $username;
     private string $password;
     private int $role;
 
@@ -20,6 +21,7 @@ class User {
     public function __construct(string $id, int $role, string $password)
     {
         $this->id = $id;
+        $this->username = "Pas fait";
         $this->role = $role;
         $this->password = $password;
     }
@@ -35,6 +37,11 @@ class User {
         }
 
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
+    }
+
+    public function setId(mixed $id)
+    {
+        $this->id = $id;
     }
 
 }
