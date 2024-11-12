@@ -15,7 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="res/css/style.css">
+    <link rel="stylesheet" href="src/css/style.css">
     <link rel="icon" href="res/logo/logo_3.png">
 </head>
 
@@ -66,17 +66,20 @@
 
 <footer class="footer">
     <div class="container py-4">
-        <div class="row align-items-center">
+        <div class="row align-items-center justify-content-between">
             <div class="col-md-4 text-md-start text-center mb-3 mb-md-0">
                 <p class="footer-text">&copy; 2024 - NRV</p>
             </div>
 
-            <div class="col-md-4 d-flex justify-content-center gap-3">
-                <a href="index.php?action=login" class="footer-link">Espace Organisateur</a>
-                <a href="index.php?action=contact" class="footer-link">Contact</a>
+            <div class="col-md-4 d-flex justify-content-center gap-4">
+                <a href="index.php?action=login" class="footer-link">ESPACE ORGANISATEUR</a>
+                <a href="index.php?action=contact" class="footer-link">CONTACT</a>
+                <a href="https://github.com/SolareFlame/nrv" class="footer-link">PROJET</a>
             </div>
         </div>
     </div>
 </footer>
+
+
 </body>
 </html>

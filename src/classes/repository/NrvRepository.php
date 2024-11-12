@@ -374,6 +374,16 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Show");
     }
 
+    function findAllEvenings(): array
+    {
+        $query = "Select evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, 
+       evening_description, evening_price, evening_programmed from nrv_evening";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+
+        return $this->createArrayFromStmt($stmt, "Evening");
+    }
+
 
 
     //AUTHENTIFICATION
@@ -484,7 +494,7 @@ class NrvRepository
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
                     $results[] = serialize($location);
                 }
                 break;

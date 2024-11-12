@@ -1,0 +1,145 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Inter', sans-serif;
+}
+
+main {
+	flex: 1;
+}
+
+.header-background {
+	background-image: url('../../res/background/background_2.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 80vh;
+	width: 100%;
+	position: relative;
+	margin-bottom: 0;
+}
+
+.header {
+	position: relative;
+	z-index: 1;
+	padding: 20px;
+	background-color: transparent;
+	border-bottom: none;
+	margin-bottom: 0;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.header-gradient {
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+	height: 20px;
+	width: 100%;
+	position: relative;
+	margin-top: -1px;
+}
+
+.revivre-text {
+	font-size: 30px;
+}
+
+.social-icons {
+	display: flex;
+	gap: 15px;
+}
+
+.social-icon i {
+	font-size: 30px;
+	color: white;
+	transition: all 0.3s ease;
+}
+
+.social-icon i:hover {
+	color: #FF9F1C;
+}
+
+.footer {
+	background-color: #FF9F1C;
+	color: #fff;
+	text-align: center;
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.footer-text {
+	color: #fff;
+	font-weight: 500;
+	margin-bottom: 0;
+}
+
+.footer .footer-link {
+	color: #fff;
+	text-decoration: none;
+	font-weight: 500;
+	transition: color 0.3s ease;
+}
+
+.footer .footer-link:hover {
+	color: #fff;
+}
+
+
+
+
+
+
+.navbar-active-indicator {
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	height: 3px;
+	width: 100%;
+	background-color: #FF9F1C;
+	transition: transform 0.3s ease;
+	transform-origin: bottom left;
+}
+
+.nav .nav-link {
+	position: relative;
+	color: #fff;
+	transition: color 0.3s ease;
+}
+
+.nav .nav-link:hover, .nav .nav-link.active {
+	color: #FF9F1C;
+}
+
+.nav .nav-link:hover::after, .nav .nav-link.active::after {
+	content: "";
+	position: absolute;
+	bottom: -5px;
+	left: 0;
+	height: 3px;
+	width: 100%;
+	background-color: #FF9F1C;
+	transform: scaleX(1);
+}
+
+.nav .nav-link::after {
+	content: "";
+	position: absolute;
+	bottom: -5px;
+	left: 0;
+	height: 3px;
+	width: 100%;
+	background-color: #FF9F1C;
+	transform: scaleX(0);
+	transition: transform 0.3s ease;
+	transform-origin: bottom left;
+}
+
+
+
+h1 {
+	font-family: 'Inter', sans-serif;
+	font-size: 2.5rem;
+	color: black;
+	font-weight: bold;
+}

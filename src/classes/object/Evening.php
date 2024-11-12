@@ -3,6 +3,7 @@
 namespace iutnc\nrv\object ;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
+use iutnc\nrv\render\EveningRenderer;
 
 class Evening {
     private string $id;
@@ -62,6 +63,12 @@ class Evening {
         foreach ($shows as $show){
             $this->shows[] = unserialize($show);
         }
+    }
+
+    public function getRender(int $option): string
+    {
+        $renderer = new EveningRenderer($this);
+        return $renderer->render($option);
     }
 
 }
