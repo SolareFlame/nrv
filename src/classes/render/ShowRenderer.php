@@ -24,6 +24,9 @@ class ShowRenderer extends DetailsRender
     public function renderCompact($index = null): string
     {
         $id = $this->show->id;
+        if (!isset($_SESSION['favorites'])) {
+            $_SESSION['favorites'] = [];
+        }
         if (!in_array($id, $_SESSION['favorites'])) {
             $heart = <<<HTML
                     <a href="?action=addShow2Fav&id={$id}"><span id="unfill-heart" style="margin-right: 8px;">♡</span></a>
