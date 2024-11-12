@@ -37,7 +37,7 @@ class ShowRenderer extends DetailsRender
         <div class="col">
             <div class="card bg-dark text-light">
                 <div class="position-relative">
-                    <img src="../../../res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
+                    <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
                     <div class="position-absolute top-0 end-0 p-2">
                         {$heart}
                     </div>
