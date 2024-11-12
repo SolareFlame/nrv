@@ -3,6 +3,7 @@
 namespace iutnc\nrv\action\program_navigation;
 
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\render\ArrayRenderer;
@@ -25,10 +26,11 @@ class DisplayAllShowsAction extends Action
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeGet(): string
     {
+        $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
         return ArrayRenderer::render($shows, Renderer::COMPACT,true);

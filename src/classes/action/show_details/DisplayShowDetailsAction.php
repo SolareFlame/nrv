@@ -12,11 +12,13 @@ class DisplayShowDetailsAction extends Action
 
     public function executePost()
     {
+
         // TODO: Implement get() method.
     }
 
     public function executeGet()
     {
+        $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         // TODO: Implement post() method.
     }
 }
