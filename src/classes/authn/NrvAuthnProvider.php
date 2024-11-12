@@ -42,6 +42,7 @@ class NrvAuthnProvider {
 
     public static function logout(){
         session_destroy();
+        header('Location: index.php');
     }
 
 

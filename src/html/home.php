@@ -31,16 +31,20 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 gap-4">
             <li><a href="index.php" class="nav-link px-2 text-white text-uppercase fs-5">Accueil</a></li>
-            <li><a href="index.php?action=shows" class="nav-link px-2 text-white text-uppercase fs-5">Spectacles</a></li>
-            <li><a href="index.php?action=favs" class="nav-link px-2 text-white text-uppercase fs-5">Favoris</a></li>
+            <li><a href="index.php?action=shows" class="nav-link px-2 text-white text-uppercase fs-5">Spectacles</a>
+            </li>
+            <li><a href="index.php?action=favs" class="nav-link px-2 text-white text-uppercase fs-5">Préférences</a>
+            </li>
             <li><a href="index.php?action=" class="nav-link px-2 text-white text-uppercase fs-5">A propos</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
             <?php if (!empty($_SESSION['pwd'])): ?>
-                <button type="button" class="btn btn-outline-warning me-2">
-                    Se déconnecter
-                </button>
+                <form action="index.php?action=logout" method="POST">
+                    <button type="submit" class="btn btn-outline-warning me-2">
+                        Se déconnecter
+                    </button>
+                </form>
             <?php endif; ?>
         </div>
     </header>
