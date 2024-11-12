@@ -14,13 +14,10 @@ class AddShowToFavoritesAction extends Action
     public function execute(): string
     {
         // verif si l'id est bien fourni
-        if (!empty($_GET['id'])) {
+        if (!empty($_GET['id']))
             $idFav = $_GET['id'];
-        } else if (!empty($_POST['id'])) {
-            $idFav = $_POST['id'];
-        } else {
+        else
             return "Veuillez fournir un identifiant de spectacle";
-        }
 
         // verif si une liste est deja présente, sinon on la crée
         if (empty($_SESSION['favorites']))
@@ -28,7 +25,7 @@ class AddShowToFavoritesAction extends Action
 
         // verif si le show existe
         if (!NrvRepository::getInstance()->verifIdFav($idFav)) {
-            return "L'identifiant de spectacle n'existe pas";
+            return "L'identifiant de spectacle n'est pas valide";
         }
 
         if (!in_array($idFav, $_SESSION['favorites'])) {
