@@ -200,6 +200,8 @@ class NrvRepository
             ':style' => $show->style,
             ':url' => $show->url
         ]);
+
+        //TODO relier les artistes correspondant au show
     }
 
     /**
@@ -563,6 +565,21 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Artist");
     }
 
+    /**
+     * Retourne tous les artistes
+     * @return array
+     * @throws Exception
+     */
+    function findAllArtistsID_Name(): array
+    {
+        $query = "Select artist_uuid, artist_name from nrv_artist";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $res;
+    }
+
 
 
     //STYLE
@@ -582,7 +599,7 @@ class NrvRepository
     }
 
     /**
-     * Retourne tous les styles
+     * Retourne tous les noms de styles
      * @return array
      * @throws Exception
      */
@@ -593,6 +610,36 @@ class NrvRepository
         $stmt->execute();
 
         return $this->createArrayFromStmt($stmt, "Style");
+    }
+
+
+    /**
+     * Retourne tous les noms de styles
+     * @return array
+     * @throws Exception
+     */
+    function findAllStylesNameRAW(): array
+    {
+        $query = "Select style_name from nrv_style";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+
+        return $this->createArrayFromStmt($stmt, "Style");
+    }
+
+    /**
+     * Retourne tous les styles
+     * @return array
+     * @throws Exception
+     */
+    function findAllStylesRAW(): array
+    {
+        $query = "Select * from nrv_style";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $res;
     }
 
     function equivalentStyleObject(): array
