@@ -15,11 +15,13 @@ class DisplayShowDetailsAction extends Action
 
     public function executePost()
     {
-        return "";
+
+        // TODO: Implement get() method.
     }
 
     public function executeGet()
     {
+        $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);

@@ -19,6 +19,8 @@ class DisplayFavoritesListAction extends Action
      */
     public function execute(): string
     {
+        $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
+
         // verif si une liste est deja présente
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
