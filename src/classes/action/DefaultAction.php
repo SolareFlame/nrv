@@ -14,7 +14,8 @@ class DefaultAction extends Action
      */
     public function executeGet() :string
     {
-        return "<h1>SITE NRV</h1>" ;
+        header('Location: index.php?action=evening');
+        return "";
     }
 
     /**
