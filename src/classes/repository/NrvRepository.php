@@ -288,19 +288,21 @@ class NrvRepository
     /**
      * @param string $idFav : id du show à récupérer
      * @return Show : show correspondant à l'id
+     * @throws \DateMalformedStringException
      */
     public function findShowById(string $idFav): Show
     {
         $query = "Select * from nrv_show where show_uuid = :uuid";
+
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $idFav]);
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],
-            $row['show_start_date'],
+        $date =  $row['show_start_date'];
+        $datetime = new DateTime($date);
+        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],$datetime,
             $row['show_duration'],
-            $row['show_style'], $row['show_url']);
+            $row['show_style_id'], $row['show_url']);
     }
 
     /**

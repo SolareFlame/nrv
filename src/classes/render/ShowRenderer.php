@@ -39,7 +39,7 @@ class ShowRenderer extends DetailsRender
                         {$this->show->description}<br>
                         <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
                     </div class="show">
-                    HTML;
+                HTML;
 
     }
 }
