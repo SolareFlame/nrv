@@ -372,6 +372,16 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Show");
     }
 
+    function findAllEvenings(): array
+    {
+        $query = "Select evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, 
+       evening_description, evening_price, evening_programmed from nrv_evening";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+
+        return $this->createArrayFromStmt($stmt, "Evening");
+    }
+
 
 
     //AUTHENTIFICATION

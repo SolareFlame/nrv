@@ -14,6 +14,7 @@ use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
 use iutnc\nrv\action\program_navigation\DisplayEveningDetailsAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
+use iutnc\nrv\action\program_navigation\DisplayAllEveningsAction;
 use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
 use iutnc\nrv\action\show_details\DisplayShowsByDayAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
@@ -22,6 +23,7 @@ use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
 use iutnc\nrv\action\user_experience\LogoutAction;
+
 
 class Dispatcher
 {
@@ -53,6 +55,9 @@ class Dispatcher
                     break;
                 case 'shows':
                     $act = new DisplayAllShowsAction();
+                    break;
+                case 'evenings':
+                    $act = new DisplayAllEveningsAction();
                     break;
                 case 'evening':
                     $act = new DisplayEveningDetailsAction();
@@ -117,7 +122,7 @@ class Dispatcher
     private function renderPage(string $html): void
     {
         ob_start();
-        include("res/html/home.php");
+        include("src/html/home.php");
 
         $content = ob_get_clean();
         $page = str_replace("{{CONTENT}}", $html, $content);
