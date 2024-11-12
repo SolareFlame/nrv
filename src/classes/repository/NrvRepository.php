@@ -117,7 +117,7 @@ class NrvRepository
     function findShowsByStyle(string $style): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url from nrv_show where DATE(show_style_id) = :style";
+       show_duration, show_style_id, show_url from nrv_show where show_style_id = :style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
