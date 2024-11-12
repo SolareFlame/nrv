@@ -213,13 +213,13 @@ class NrvRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':uuid' => $evening->uuid,
+            ':uuid' => $evening->id,
             ':title' => $evening->title,
             ':theme' => $evening->theme,
             ':date' => $evening->date,
-            ':location' => $evening->location,
+            ':location' => $evening->location->id,
             ':description' => $evening->description,
-            ':price' => $evening->price
+            ':price' => $evening->eveningPrice
         ]);
     }
 
