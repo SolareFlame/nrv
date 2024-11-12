@@ -4,10 +4,8 @@ namespace iutnc\nrv\action\user_experience;
 
 use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\object\Show;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
-use iutnc\nrv\render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -24,9 +22,9 @@ class DisplayFavoritesListAction extends Action
         // verif si une liste est deja présente
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
-        var_dump($_SESSION['favorites']);
+
+
         $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
-        var_dump($FavShowList);
         return ArrayRenderer::render($FavShowList, Renderer::LONG, true);
         /*$res = "";
         foreach ($FavShowList as $show) {
