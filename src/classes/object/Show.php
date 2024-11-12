@@ -69,7 +69,12 @@ class Show
         return json_encode($this);
     }
 
-    public function getRenderer(int $option): string
+    /**
+     * Permet d'avoir directement le rendu d'un objet Show
+     * @param int $option 0: affichage simple, 1: affichage détaillé
+     * @return string le rendu de l'objet Show
+     */
+    public function getRender(int $option): string
     {
         $sr = new ShowRenderer($this);
         return $sr->render($option);
