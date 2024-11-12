@@ -134,3 +134,12 @@ main {
 	transition: transform 0.3s ease;
 	transform-origin: bottom left;
 }
+
+
+
+h1 {
+	font-family: 'Inter', sans-serif;
+	font-size: 2.5rem;
+	color: black;
+	font-weight: bold;
+}
