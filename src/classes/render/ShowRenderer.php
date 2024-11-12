@@ -64,7 +64,7 @@ class ShowRenderer extends DetailsRender
                         {$this->show->DisplayArtiste()} <br>
                         Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes} <br>
                         {$this->show->description}<br>
-                        <a href='index.php?action=evening&showId={$this->show->id}'>Voir le spectacle</a> <br>
+                        <a href='index.php?action=evening&id={$this->show->id}'>Voir le spectacle</a> <br>
                     </div class="show">
                 HTML;
     }
