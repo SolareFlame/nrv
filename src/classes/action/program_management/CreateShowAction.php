@@ -70,6 +70,8 @@ class CreateShowAction extends Action
         }
 
         $form = <<<HTML
+            <div class="content_form">
+                <h4>Créer un spectacle</h4> <br>
                 <form method="post">
                 <label for="titre">Titre du spectacle</label>
                 <input type="text" name="titre" id="titre" required><br><br>
@@ -88,13 +90,15 @@ class CreateShowAction extends Action
                     $style_options
                 </select> <br><br>
                 
-                <p>Choisissez vos options :</p>
+                <p>Artistes participants :</p>
                 $artists_options <br>
                 
                 <label for="url">Lien de la vidéo</label>
                 <input type="url" name="url" id="url"><br><br>
 
-                <button type="submit">Créer le show</button>
+                <button type="submit">Créer le spectacle</button>
+                </form>
+            </div>
             HTML;
 
         return $form;
