@@ -492,7 +492,7 @@ class NrvRepository
                 break;
             case "Location":
                 foreach ($rows as $row) {
-                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['address'], $row['url']);
+                    $location = new $create_path($row['location_id'], $row['location_place_number'], $row['location_name'], $row['location_address'], $row['location_url']);
                     $results[] = serialize($location);
                 }
                 break;
