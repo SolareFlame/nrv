@@ -14,7 +14,7 @@ class ArrayRenderer
         $res = '';
         foreach ($liste as $entite) {
             $entite = $isSerial ? unserialize($entite) : $entite;
-            $res .= $entite->getRenderer($option);
+            $res .= $entite->getRender($option);
             $res .= "<br>";
         }
 
