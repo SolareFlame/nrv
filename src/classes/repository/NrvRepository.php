@@ -5,6 +5,7 @@ namespace iutnc\nrv\repository;
 use DateTime;
 use Exception;
 use iutnc\nrv\exception\AuthnException;
+use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
@@ -355,6 +356,33 @@ class NrvRepository
             return false;
     }
 
+    /**
+     * Modifier la colonne d'un show
+     * @param string $showId
+     * @param string $column
+     * @param string $value
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowColumn(string $showId, string $column, mixed $value) : void{
+        $dbColumn = match ($column) {
+            "title" => "show_title",
+            "description" => "show_description",
+            "date" => "show_start_date",
+            "duration" => "show_duration",
+            "style" => "show_style_id",
+            "url" => "show_url",
+            default => throw new RepositoryException("Champ invalide"),
+        };
+
+        $query = "UPDATE nrv_show SET $dbColumn = :value WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["value"=>$value,"showId"=>$showId]);
+
+        if (!$stmt->rowCount()){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
 
 
     //EVENING
@@ -445,22 +473,7 @@ class NrvRepository
         return false ;
     }
 
-    /**
-     * @throws AuthnException
-     */
-    function getUser($username) : User
-    {
-        $query = "SELECT user_name,user_uuid,password,user_role FROM nrv_user where user_name = :username";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['username' => $username]);
-        $data = $stmt->fetch();
 
-        if ($data) {
-            return new User($data["user_uuid"],$data['user_role'],$data["passwd"]);
-        } else {
-            throw new AuthnException("Le nom d'utilisateur existe pas");
-        }
-    }
 
     /**
      * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme

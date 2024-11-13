@@ -29,30 +29,32 @@ class ShowRenderer extends DetailsRender
         if (!isset($_SESSION['favorites'])) {
             $_SESSION['favorites'] = [];
         }
+
         $heart = !in_array($id, $_SESSION['favorites'])
-            ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'>♡</a>"
-            : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'>♥</a>";
+            ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
+            : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
 
         return <<<HTML
-            <div class="col">
-                <div class="card bg-dark text-light hover-effect">
-                    <div class="position-relative">
-                        <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
-                            <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
-                        </a>
-                        <div class="position-absolute top-0 end-0 p-2">
-                            {$heart}
-                        </div>
-                    </div>
-                    <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">{$this->show->title}</h5>
-                            <p class="card-text">{$this->show->description}</p>
-                        </div>
-                    </a>
-                </div>
+<div class="col">
+    <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
+        <div class="position-relative" style="height: 0; padding-top: 100%; overflow: hidden; border-radius: 30px;">
+            <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
+                <div class="card-img" style="background-image: url('res/background/show_default.jpg');"></div>
+            </a>
+            <div class="position-absolute top-0 end-0 p-2" style="z-index: 2;">
+                {$heart}
             </div>
-            HTML;
+        </div>
+        <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
+            <div class="card-body text-center" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
+                <h5 class="card-title">{$this->show->title}</h5>
+                <p class="card-text">{$this->show->description}</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+HTML;
     }
 
     public function renderLong($index = null): string
@@ -68,9 +70,31 @@ class ShowRenderer extends DetailsRender
         if ($minutes == 0) {
             $minutes = "00";
         }
+
+        if (!isset($_SESSION['favorites'])) {
+            $_SESSION['favorites'] = [];
+        }
+
+        $id = $this->show->id;
+
+        $heart = !in_array($id, $_SESSION['favorites'])
+            ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
+            : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
+
+
         return <<<HTML
-        <div class="show-container">
-            <div class="show-card">
+<div class="col">
+    <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
+        <div class="position-relative" style="height: 0; padding-top: 120%; overflow: hidden; border-radius: 30px;">
+            <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
+                <div class="card-img" style="background-image: url('res/background/show_default.jpg');"></div>
+            </a>
+            <div class="position-absolute top-0 end-0 p-2" style="z-index: 2;">
+                {$heart}
+            </div>
+        </div>
+        <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
+            <div class="card-body text-center" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
                 <h3 class="show-title">{$this->show->title} - {$this->show->style}</h3>
                 <p class="show-artist">{$this->show->DisplayArtiste()}</p>
                 <p class="show-details">Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes}</p>
@@ -83,8 +107,11 @@ class ShowRenderer extends DetailsRender
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 
             </div>
-        </div>
-    HTML;
+        </a>
+    </div>
+</div>
+HTML;
+
     }
 
 }
