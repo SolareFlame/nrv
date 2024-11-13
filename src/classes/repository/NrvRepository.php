@@ -5,6 +5,7 @@ namespace iutnc\nrv\repository;
 use DateTime;
 use Exception;
 use iutnc\nrv\exception\AuthnException;
+use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
@@ -681,5 +682,23 @@ class NrvRepository
             $results[$row['style_id']] = $row['style_name'];
         }
         return $results;
+    }
+
+    /**
+     * @throws RepositoryException
+     */
+    function updateShowTitle(string $showId, string $valeur)
+    {
+        $query = "UPDATE nrv_show SET show_title = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+
+
+
     }
 }

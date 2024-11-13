@@ -3,6 +3,8 @@
 namespace iutnc\nrv\action\program_management;
 
 use iutnc\nrv\action\Action;
+use iutnc\nrv\render\Renderer;
+use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Modifier les spectacles d’une soirée existante
@@ -10,21 +12,15 @@ use iutnc\nrv\action\Action;
 class EditShowsInEveningAction extends Action
 {
 
-    /**
-     * @inheritDoc
-     */
+
     public function executePost(): string
     {
+        // TODO: Implement executePost() method.
         return "";
-        // TODO: Implement get() method.
     }
 
-    /**
-     * @inheritDoc
-     */
     public function executeGet(): string
     {
         return "";
-        // TODO: Implement post() method.
     }
 }
