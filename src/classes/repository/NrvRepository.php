@@ -243,13 +243,13 @@ class NrvRepository
 
     /**
      * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué comme annulé
-     * @param Show $show show
+     * @param String $uuid
      */
-    function cancelShow(Show $show): void
+    function cancelShow(String $uuid): void
     {
-        $query = "Update nrv_show set show_programmed=false where show_uuid = :show_uuid";
+        $query = "Update nrv_show set show_programmed=0 where show_uuid = :show_uuid";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['show_uuid' => $show->id]);
+        $stmt->execute(['show_uuid' => $uuid]);
     }
 
     /**
