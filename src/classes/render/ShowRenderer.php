@@ -59,8 +59,14 @@ HTML;
 
     public function renderLong($index = null): string
     {
-        $heures = (int)$this->show->duration % 59;
-        $minutes = $this->show->duration - $heures * 60;
+        if ($this->show->duration < 59) {
+            $heures = 0;
+            $minutes = $this->show->duration;
+        } else {
+            $heures = (int)$this->show->duration % 59;
+            $minutes = $this->show->duration - $heures * 60;
+        }
+
         if ($minutes == 0) {
             $minutes = "00";
         }
@@ -93,7 +99,13 @@ HTML;
                 <p class="show-artist">{$this->show->DisplayArtiste()}</p>
                 <p class="show-details">Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes}</p>
                 <p class="show-description">{$this->show->description}</p>
-                <a href="index.php?action=evening&id={$this->show->id}" class="show-link">Voir le spectacle</a>
+                <a href="index.php?action=evening&id={$this->show->id}" class="show-link">Voir la soirée</a> <br> <br>
+                
+                <iframe width="560" height="315" src="{$this->show->url}" 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                
             </div>
         </a>
     </div>
