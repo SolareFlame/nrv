@@ -7,33 +7,28 @@ use iutnc\nrv\action\Action;
 use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\repository\NrvRepository;
 
-/**
- * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué
- * comme annulé,
- */
-class CancelShowAction extends Action
+class CancelEveningAction extends Action
 {
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function executePost(): string
     {
         try{
             if (!NrvAuthnProvider::hasPermission(50)) {
-                throw new Exception("Permission refusée : seul un organisateur peut annuler un spectacle.");
+                throw new Exception("Permission refusée : seul un organisateur peut annuler une soirée.");
             }
 
-            $showUuid = $_POST["showUuid"] ?? null;
-            if(!$showUuid) {
-                throw new \Exception("Identifiant du spectacle non fourni");
+            $eveningUuid = $_POST["eveningUuid"] ?? null;
+            if(!$eveningUuid) {
+                throw new \Exception("Identifiant de la soirée non fourni");
             }
 
             $repo = NrvRepository::getInstance();
-            $repo->cancelShow($showUuid);
+            $repo->cancelEvening($eveningUuid);
 
-            return "Le spectacle a bien été annulé.";
+            return "La soirée a bien été annulé.";
         }catch (Exception $e){
             return $e->getMessage();
         }
@@ -45,6 +40,5 @@ class CancelShowAction extends Action
     public function executeGet(): string
     {
         return "";
-        // TODO: Implement post() method.
     }
 }
