@@ -335,13 +335,13 @@ class NrvRepository
      * @return void
      * @throws RepositoryException
      */
-    function updateShowColumn(string $showId, string $column, string $value) : void{
+    function updateShowColumn(string $showId, string $column, mixed $value) : void{
         $dbColumn = match ($column) {
             "title" => "show_title",
             "description" => "show_description",
             "date" => "show_start_date",
             "duration" => "show_duration",
-            "style" => "show_style",
+            "style" => "show_style_id",
             "url" => "show_url",
             default => throw new RepositoryException("Champ invalide"),
         };
