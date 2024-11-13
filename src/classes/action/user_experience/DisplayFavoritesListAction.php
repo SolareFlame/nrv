@@ -27,7 +27,7 @@ class DisplayFavoritesListAction extends Action
 
 
         $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
-        return ArrayRenderer::render($FavShowList, Renderer::LONG, true);
+        return ArrayRenderer::render($FavShowList, Renderer::COMPACT, true);
         /*$res = "";
         foreach ($FavShowList as $show) {
             $sr = new ShowRenderer(unserialize($show));

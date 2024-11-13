@@ -346,3 +346,38 @@ h1 {
 .card {
 	border: none;
 }
+
+.show-long-render {
+	background-color: #ffdfe1; /* Light pink background */
+	border-radius: 30px;
+	padding: 20px;
+}
+.show-long-render img {
+	width: 100%; /* Make the image responsive */
+	max-width: 300px; /* Ensure the image doesn’t exceed this width */
+	aspect-ratio: 1 / 1; /* Make the image square */
+	object-fit: cover; /* Ensure the image covers the container */
+	border-radius: 10px; /* Rounded corners for the image */
+}
+.show-long-render-title {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.info-icon {
+	color: #333;
+}
+
+.show-image {
+	width: 100%; /* Responsive within container */
+	max-width: 300px; /* Control width */
+	height: 300px; /* Fixed height to ensure square shape */
+	object-fit: cover; /* Ensure image covers the container */
+	border-radius: 10px; /* Rounded corners for the image */
+}
+
+.carousel-box {
+	background-color: #fff2e1;
+	border-radius: 30px;
+	width: 300px;
+	text-align: center;
+}

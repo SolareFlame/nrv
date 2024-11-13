@@ -4,6 +4,7 @@ namespace iutnc\nrv\action\show_details;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
+use iutnc\nrv\render\ShowRenderer;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -26,6 +27,7 @@ class DisplayShowDetailsAction extends Action
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
-        return ArrayRenderer::render($show, Renderer::LONG, 1);
+        $renderer = new ShowRenderer($show);
+        return $renderer->render(2);
     }
 }
