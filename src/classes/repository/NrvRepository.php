@@ -338,7 +338,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_title = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
@@ -356,7 +356,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_description = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
@@ -374,7 +374,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_start_date = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
@@ -392,7 +392,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_duration = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
@@ -410,7 +410,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_style = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
@@ -428,7 +428,7 @@ class NrvRepository
         $query = "UPDATE nrv_show SET show_url = :valeur WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
+        $success = $stmt->rowCount();
 
         if (!$success){
             throw new RepositoryException("La mise à jour à échoué.");
