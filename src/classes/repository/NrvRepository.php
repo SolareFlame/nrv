@@ -327,7 +327,113 @@ class NrvRepository
             return false;
     }
 
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowTitle(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_title = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
 
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
+
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowDescription(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_description = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
+
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowDate(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_start_date = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
+
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowDuration(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_duration = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
+
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowStyle(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_style = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
+
+    /**
+     * @param string $showId
+     * @param string $valeur
+     * @return void
+     * @throws RepositoryException
+     */
+    function updateShowUrl(string $showId, string $valeur) : void
+    {
+        $query = "UPDATE nrv_show SET show_url = :valeur WHERE show_uuid = :showId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
+        $success = $stmt->fetch();
+
+        if (!$success){
+            throw new RepositoryException("La mise à jour à échoué.");
+        }
+    }
 
     //EVENING
 
@@ -641,7 +747,6 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Style");
     }
 
-
     /**
      * Retourne tous les noms de styles
      * @return array
@@ -682,23 +787,5 @@ class NrvRepository
             $results[$row['style_id']] = $row['style_name'];
         }
         return $results;
-    }
-
-    /**
-     * @throws RepositoryException
-     */
-    function updateShowTitle(string $showId, string $valeur)
-    {
-        $query = "UPDATE nrv_show SET show_title = :valeur WHERE show_uuid = :showId";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute(["valeur"=>$valeur,"showId"=>$showId]);
-        $success = $stmt->fetch();
-
-        if (!$success){
-            throw new RepositoryException("La mise à jour à échoué.");
-        }
-
-
-
     }
 }
