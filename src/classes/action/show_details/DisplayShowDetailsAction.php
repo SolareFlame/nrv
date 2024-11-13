@@ -25,6 +25,6 @@ class DisplayShowDetailsAction extends Action
         $repository = NrvRepository::getInstance();
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
-        return $show->getRender(Renderer::LONG);
+        return $show->getRender(Renderer::COMPACT);
     }
 }

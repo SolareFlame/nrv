@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\nrv\action\program_navigation;
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\render\EveningRenderer;
@@ -16,7 +17,7 @@ class DisplayEveningDetailsAction extends Action
     // Utiliser findEveningDetails ET findShowsInEvening
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function executePost(): string
     {
@@ -31,7 +32,7 @@ class DisplayEveningDetailsAction extends Action
         $evening = $repo->findEveningDetails($id);
         try {
             $showList = $repo->findShowsInEvening($id);
-        } catch (\Exception $e){
+        } catch (Exception $e){
             $showList = [];
         }
 

@@ -19,7 +19,7 @@ class EveningRenderer extends DetailsRender
     <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
         <div class="position-relative" style="height: 0; padding-top: 160%; overflow: hidden; border-radius: 30px;">
-            <a href="?action=showDetails&id={$this->evening->id}" class="text-decoration-none">
+            <a href="?action=evening&id={$this->evening->id}" class="text-decoration-none">
                 <div class="card-img" style="background-image: url('res/background/evening_default.jpg');"></div>
             </a>
     
@@ -83,11 +83,7 @@ HTML;
             <div class="list-group">
 HTML;
 
-        $shows = "";
-        foreach ($this->evening->shows as $show) {
-            $renderShow = new ShowRenderer($show);
-            $shows .= $renderShow->render(Renderer::LONG) ;
-        }
+        $shows = ArrayRenderer::render($this->evening->shows,self::COMPACT,false);
 
         $renderEvening .= $shows . <<<HTML
             </div>
