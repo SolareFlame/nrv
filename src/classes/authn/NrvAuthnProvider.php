@@ -69,7 +69,7 @@ class NrvAuthnProvider {
     }
 
 
-    public static function asPermission($permissionLevel): bool {
+    public static function hasPermission($permissionLevel): bool {
         
         if(!isset($_SESSION['pwd']) || !isset($_SESSION['id'])){  // l'user n'est pas connecté
             return false ;
