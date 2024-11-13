@@ -4,6 +4,7 @@ namespace iutnc\nrv\action;
 
 use iutnc\nrv\action\program_navigation\DisplayAllEveningsAction;
 use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
+use Ramsey\Uuid\Uuid;
 
 
 /**
@@ -22,7 +23,6 @@ class DefaultAction extends Action
 
         $news = '<h1 class="text-center my-4">ACTUALITÉS</h1>';
         $evenings = '<h1 class="text-center my-4">SOIRÉES</h1>';
-
         return $news . $evenings . $content;
     }
 

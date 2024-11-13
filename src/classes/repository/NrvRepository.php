@@ -188,21 +188,55 @@ class NrvRepository
      */
     function createShow(Show $show): void
     {
-        $query = "INSERT INTO nrv_show (show_uuid, show_title, show_description, show_start_date, show_duration, show_style_id, show_url) 
-                    values (:uuid, :title, :description, :start, :duration, :style, :url)";
+        $query = "INSERT INTO nrv_show (show_uuid, show_title, show_description, show_start_date, show_duration, show_style_id, show_url, show_programmed) 
+                    values (:uuid, :title, :description, :start, :duration, :style, :url, 1)";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
             ':uuid' => $show->id,
             ':title' => $show->title,
             ':description' => $show->description,
-            ':start' => $show->startDate,
+            ':start' => $show->startDate->format('Y-m-d H:i:s'),
             ':duration' => $show->duration,
             ':style' => $show->style,
             ':url' => $show->url
         ]);
 
-        //TODO relier les artistes correspondant au show
+        foreach ($show->artists as $artist) {
+            $this->addArtisteToShow($show->id, $artist->id);
+        }
+    }
+
+    /**
+     * Fonction permettant de lier un artiste à un show
+     * @param String $show_uuid : id du show
+     * @param String $artist_uuid : id de l'artiste
+     * @return void
+     */
+    function addArtisteToShow(String $show_uuid, String $artist_uuid): void
+    {
+        $query = "insert into nrv_show2artist (show_uuid, artist_uuid) values (:show_uuid, :artist_uuid)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':show_uuid' => $show_uuid,
+            ':artist_uuid' => $artist_uuid
+        ]);
+    }
+
+    /**
+     * Fonction permettant de supprimer un artiste d'un show
+     * @param String $show_uuid : id du show
+     * @param String $artist_uuid : id de l'artiste
+     * @return void
+     */
+    function DeleteArtisteToShow(String $show_uuid, String $artist_uuid): void
+    {
+        $query = "delete from nrv_show2artist where show_uuid = :show_uuid and artist_uuid = :artist_uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':show_uuid' => $show_uuid,
+            ':artist_uuid' => $artist_uuid
+        ]);
     }
 
     /**
@@ -293,19 +327,14 @@ class NrvRepository
      * @return Show : show correspondant à l'id
      * @throws \DateMalformedStringException
      */
-    public function findShowById(string $idFav): Show
+    public function findShowById(string $idFav): array
     {
         $query = "Select * from nrv_show where show_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $idFav]);
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $date =  $row['show_start_date'];
-        $datetime = new DateTime($date);
-        return new Show($row['show_uuid'], $row['show_title'], $row['show_description'],$datetime,
-            $row['show_duration'],
-            $row['show_style_id'], $row['show_url']);
+        return $this->createArrayFromStmt($stmt, 'Show');
     }
 
     /**
@@ -579,6 +608,15 @@ class NrvRepository
         return new Artist($row['artist_uuid'], $row['artist_name'], $row['artist_description'], $row['artist_url']);
     }
 
+    function VerifArtistById(string $artistUuid): bool
+    {
+        $query = "Select * from nrv_artist where artist_uuid = :uuid";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['uuid' => $artistUuid]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row !== false;
+    }
+
     /**
      * Retourne tous les artistes
      * @return array
@@ -617,13 +655,27 @@ class NrvRepository
      * @param int $styleId
      * @return Style
      */
-    function findStyleById(int $styleId): Style
+    function findStyleById(int $styleId): String
     {
         $query = "Select * from nrv_style where style_id = :id";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['id' => $styleId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['style_name'];
+    }
+
+    /**
+     * Verifie si un style existe
+     * @return bool : true si le style existe, false sinon
+     * @throws Exception
+     */
+    function VerifExistStyle(int $styleId): bool
+    {
+        $query = "SELECT * FROM nrv_style WHERE style_id = :styleId";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['styleId' => $styleId]);
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res !== false; // si diff de false alors il y a des results, sinon pas de results
     }
 
     /**
@@ -639,7 +691,6 @@ class NrvRepository
 
         return $this->createArrayFromStmt($stmt, "Style");
     }
-
 
     /**
      * Retourne tous les noms de styles

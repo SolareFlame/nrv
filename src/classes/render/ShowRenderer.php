@@ -34,31 +34,37 @@ class ShowRenderer extends DetailsRender
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'>♥</a>";
 
         return <<<HTML
-<div class="col">
-    <div class="card bg-dark text-light hover-effect">
-        <div class="position-relative">
-            <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
-                <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
-            </a>
-            <div class="position-absolute top-0 end-0 p-2">
-                {$heart}
+            <div class="col">
+                <div class="card bg-dark text-light hover-effect">
+                    <div class="position-relative">
+                        <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
+                            <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
+                        </a>
+                        <div class="position-absolute top-0 end-0 p-2">
+                            {$heart}
+                        </div>
+                    </div>
+                    <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{$this->show->title}</h5>
+                            <p class="card-text">{$this->show->description}</p>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
-        <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
-            <div class="card-body text-center">
-                <h5 class="card-title">{$this->show->title}</h5>
-                <p class="card-text">{$this->show->description}</p>
-            </div>
-        </a>
-    </div>
-</div>
-HTML;
+            HTML;
     }
 
     public function renderLong($index = null): string
     {
-        $heures = (int)$this->show->duration % 59;
-        $minutes = $this->show->duration - $heures * 60;
+        if ($this->show->duration < 59) {
+            $heures = 0;
+            $minutes = $this->show->duration;
+        } else {
+            $heures = (int)$this->show->duration % 59;
+            $minutes = $this->show->duration - $heures * 60;
+        }
+
         if ($minutes == 0) {
             $minutes = "00";
         }
@@ -69,7 +75,13 @@ HTML;
                 <p class="show-artist">{$this->show->DisplayArtiste()}</p>
                 <p class="show-details">Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes}</p>
                 <p class="show-description">{$this->show->description}</p>
-                <a href="index.php?action=evening&id={$this->show->id}" class="show-link">Voir le spectacle</a>
+                <a href="index.php?action=evening&id={$this->show->id}" class="show-link">Voir la soirée</a> <br> <br>
+                
+                <iframe width="560" height="315" src="{$this->show->url}" 
+                title="YouTube video player" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                
             </div>
         </div>
     HTML;
