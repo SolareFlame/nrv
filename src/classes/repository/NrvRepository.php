@@ -328,14 +328,14 @@ class NrvRepository
      * @return Show : show correspondant à l'id
      * @throws \DateMalformedStringException
      */
-    public function findShowById(string $idFav): array
+    public function findShowById(string $idFav): Show
     {
         $query = "Select * from nrv_show where show_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $idFav]);
 
-        return $this->createArrayFromStmt($stmt, 'Show');
+        return unserialize($this->createArrayFromStmt($stmt, 'Show')[0]);
     }
 
     /**
