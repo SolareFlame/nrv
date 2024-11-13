@@ -16,22 +16,31 @@ class EveningRenderer extends DetailsRender
     public function renderCompact($index): string
     {
         return <<<HTML
-<div class="col">
-    <a href="?action=evening&id={$this->evening->id}" class="text-reset text-decoration-none">
-        <div class="card bg-dark text-light hover-effect">
-            <div class="position-relative">
-                <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
-            </div>
-            <div class="card-body text-center">
+    <div class="col">
+    <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
+        <div class="position-relative" style="height: 0; padding-top: 160%; overflow: hidden; border-radius: 30px;">
+            <a href="?action=showDetails&id={$this->evening->id}" class="text-decoration-none">
+                <div class="card-img" style="background-image: url('res/background/evening_default.jpg');"></div>
+            </a>
+    
+        </div>
+        <a href="?action=showDetails&id={$this->evening->id}" class="text-reset text-decoration-none">
+            <div class="card-body text-left" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
                 <h5 class="card-title">{$this->evening->title}</h5>
                 <p class="card-text">{$this->evening->description}</p>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 </div>
+
+
+
+
+
 HTML;
 
     }
+
 
     public function renderLong($index): string
     {
