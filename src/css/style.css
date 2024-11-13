@@ -192,7 +192,7 @@ h1 {
 .evening-container {
 	max-width: 900px;
 	margin: 5% auto;
-	padding: 2rem;
+	padding: 1.5rem;
 	background-color: #ffffff; /* Blanc */
 	border-radius: 8px;
 	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
@@ -232,34 +232,12 @@ h1 {
 	border-radius: 8px;
 }
 
-/* Titre des spectacles */
-.shows-title {
-	color: #ff9f1c; /* Jaune */
-	font-weight: bold;
-}
-
-/* Cartes des spectacles */
-.show-card {
-	background-color: #ff9f1c; /* Jaune */
-	border: none;
-	border-radius: 8px;
-	margin-bottom: 1rem;
-	padding: 1.5rem;
-	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-	transition: background-color 0.3s ease, box-shadow 0.3s ease;
-	color: white;
-}
-
-/* Effet de survol */
-.show-card:hover {
-	box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-}
 
 /* Conteneur principal */
 .show-container {
 	display: flex;
 	justify-content: center;
-	padding: 2rem;
+	padding: 0.5rem;
 }
 
 /* Carte du spectacle */
@@ -269,7 +247,7 @@ h1 {
 	padding: 2rem;
 	border-radius: 8px;
 	width: 100%;
-	max-width: 700px;
+
 	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -320,4 +298,9 @@ h1 {
 	background-color: #2fc5b6; /* Vert */
 	transform: scale(1.05); /* Lien qui se gonfle légèrement */
 }
+
+
+
+
+
 

@@ -77,7 +77,7 @@ HTML;
         $shows = "";
         foreach ($this->evening->shows as $show) {
             $renderShow = new ShowRenderer($show);
-            $shows .= "<div>" . $renderShow->render(Renderer::LONG) . "</div>";
+            $shows .= $renderShow->render(Renderer::LONG) ;
         }
 
         $renderEvening .= $shows . <<<HTML
