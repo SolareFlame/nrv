@@ -34,21 +34,25 @@ class ShowRenderer extends DetailsRender
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'>♥</a>";
 
         return <<<HTML
-        <div class="col">
-            <div class="card bg-dark text-light">
-                <div class="position-relative">
-                    <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
-                    <div class="position-absolute top-0 end-0 p-2">
-                        {$heart}
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <h5 class="card-title">{$this->show->title}</h5>
-                    <p class="card-text">{$this->show->description}</p>
-                </div>
+<div class="col">
+    <div class="card bg-dark text-light hover-effect">
+        <div class="position-relative">
+            <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
+                <img src="res/background/background_2.jpg" class="card-img-top" alt="Nom Spectacle">
+            </a>
+            <div class="position-absolute top-0 end-0 p-2">
+                {$heart}
             </div>
         </div>
-    HTML;
+        <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
+            <div class="card-body text-center">
+                <h5 class="card-title">{$this->show->title}</h5>
+                <p class="card-text">{$this->show->description}</p>
+            </div>
+        </a>
+    </div>
+</div>
+HTML;
     }
 
     public function renderLong($index = null): string
@@ -59,13 +63,16 @@ class ShowRenderer extends DetailsRender
             $minutes = "00";
         }
         return <<<HTML
-                    <div class="show">
-                        {$this->show->title} - {$this->show->style}<br>
-                        {$this->show->DisplayArtiste()} <br>
-                        Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes} <br>
-                        {$this->show->description}<br>
-                        <a href='index.php?action=evening&id={$this->show->id}'>Voir le spectacle</a> <br>
-                    </div class="show">
-                HTML;
+        <div class="show-container">
+            <div class="show-card">
+                <h3 class="show-title">{$this->show->title} - {$this->show->style}</h3>
+                <p class="show-artist">{$this->show->DisplayArtiste()}</p>
+                <p class="show-details">Le {$this->show->startDate->format('d M Y \à H:i')} pendant {$heures}H{$minutes}</p>
+                <p class="show-description">{$this->show->description}</p>
+                <a href="index.php?action=evening&id={$this->show->id}" class="show-link">Voir le spectacle</a>
+            </div>
+        </div>
+    HTML;
     }
+
 }
