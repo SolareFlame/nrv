@@ -25,10 +25,16 @@ class DisplayEveningDetailsAction extends Action
 
     public function executeGet(): string
     {
+
         $repo = NrvRepository::getInstance();
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url
         $evening = $repo->findEveningDetails($id);
-        $showList = $repo->findShowsInEvening($id);
+        try {
+            $showList = $repo->findShowsInEvening($id);
+        } catch (\Exception $e){
+            $showList = [];
+        }
+
         $evening->addShows($showList);
         $renderEvening =  new EveningRenderer($evening);
 

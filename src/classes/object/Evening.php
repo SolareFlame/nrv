@@ -33,6 +33,7 @@ class Evening {
         $this->location = $location;
         $this->description = $description;
         $this->eveningPrice = $eveningPrice;
+        $this->shows =[];
     }
 
 
@@ -60,9 +61,12 @@ class Evening {
 
     public function addShows(array $shows)
     {
-        foreach ($shows as $show){
-            $this->shows[] = unserialize($show);
-        }
+
+            foreach ($shows as $show){
+                $this->shows[] = unserialize($show);
+            }
+
+
     }
 
     public function getRender(int $option): string
