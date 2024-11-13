@@ -353,7 +353,7 @@ class NrvRepository
      */
     function cancelEvening(Evening $evening): void
     {
-        $query = "Update nrv_evening set evening_programmed=false where evening_uuid = :evening_uuid";
+        $query = "Update nrv_evening set evening_programmed=0 where evening_uuid = :evening_uuid";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['evening_uuid' => $evening->id]);
     }
