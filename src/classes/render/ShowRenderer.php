@@ -59,8 +59,13 @@ HTML;
 
     public function renderLong($index = null): string
     {
-        $heures = (int)$this->show->duration % 59;
-        $minutes = $this->show->duration - $heures * 60;
+        if ($this->show->duration < 59) {
+            $heures = 0;
+            $minutes = $this->show->duration;
+        } else {
+            $heures = (int)$this->show->duration % 59;
+            $minutes = $this->show->duration - $heures * 60;
+        }
         if ($minutes == 0) {
             $minutes = "00";
         }
