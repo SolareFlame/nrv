@@ -134,6 +134,7 @@ HTML;
                     <div class="col-md-8 position-relative">
                     
                         <div class="position-absolute top-0 end-0 me-4 mt-3">
+                        
                             {$heart}
                         </div>
                         

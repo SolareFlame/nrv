@@ -3,8 +3,12 @@
 namespace iutnc\nrv\object;
 
 use DateTime;
+use iutnc\nrv\auth\AuthnProvider;
+use iutnc\nrv\auth\Authz;
 use iutnc\nrv\exception\InvalidPropertyNameException;
+use iutnc\nrv\render\ShowEditRenderer;
 use iutnc\nrv\render\ShowRenderer;
+use iutnc\nrv\repository\NrvRepository;
 
 class Show
 {
@@ -84,7 +88,14 @@ class Show
      */
     public function getRender(int $option): string
     {
-        $sr = new ShowRenderer($this);
+        $autorisation = AuthnProvider::getSignedInUser();
+
+        if($autorisation["role"]>=50){
+            $sr = new ShowEditRenderer($this);
+        } else{
+            $sr = new ShowRenderer($this);
+        }
+
         return $sr->render($option);
     }
 }
