@@ -13,6 +13,10 @@ class AddShowToFavoritesAction extends Action
 {
     public function execute(): string
     {
+        if (isset($_COOKIE['favorites'])) {
+            $_SESSION['favorites'] = json_decode($_COOKIE['favorites'], true);
+        }
+
         // verif si l'id est bien fourni
         if (!empty($_GET['id']))
             $idFav = $_GET['id'];
@@ -31,6 +35,8 @@ class AddShowToFavoritesAction extends Action
         if (!in_array($idFav, $_SESSION['favorites'])) {
             $_SESSION['favorites'][] = $idFav;  // ajout du spectacle dans la liste
         }
+
+        setcookie('favorites', json_encode($_SESSION['favorites']), time() + (30 * 24 * 60 * 60), '/');
 
         header("Location: {$_SESSION["previous"]}");
 

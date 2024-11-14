@@ -18,7 +18,7 @@ class CancelEveningAction extends Action
     {
         try {
             if (!Authz::checkRole(50)) {
-                throw new AccessControlException("Permission refusée : seul un organisateur peut annuler une soirée.");
+                throw new AccessControlException("Error 403 Permission refusée : seul un organisateur peut annuler une soirée.");
             }
 
             $eveningUuid = $_POST["eveningUuid"] ?? null;
