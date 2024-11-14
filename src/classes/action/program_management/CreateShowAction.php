@@ -30,6 +30,17 @@ class CreateShowAction extends Action
 
         $uuid = Uuid::uuid4();
 
+        //GESTION DES IMAGES
+        $directory = "res/images/shows/";
+        $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        $destination = "$directory/$uuid.$extension";
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
+            throw new Exception("Échec du déplacement de l'image");
+        }
+
+
+        //GESTION BD
         $show = new Show(
             $uuid,
             $_POST['titre'],
@@ -45,7 +56,6 @@ class CreateShowAction extends Action
         }
 
         NrvRepository::getInstance()->createShow($show);
-
         return "Le spectacle a bien été créée";
     }
 
@@ -78,7 +88,7 @@ class CreateShowAction extends Action
             <div class="content_form">
                 <h4>Créer un spectacle</h4> <br>
                 {$uuid_TEST}
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                 <label for="titre">Titre du spectacle</label>
                 <input type="text" name="titre" id="titre" required><br><br>
                 
@@ -101,6 +111,9 @@ class CreateShowAction extends Action
                 
                 <label for="url">Lien de la vidéo</label>
                 <input type="url" name="url" id="url"><br><br>
+                
+                <label for="image">Image du spectacle</label>
+                <input type="file" name="image" id="image" accept="image/*" required><br><br>
 
                 <button type="submit">Créer le spectacle</button>
                 </form>
@@ -118,15 +131,14 @@ class CreateShowAction extends Action
     {
         $_POST['style'] = !empty($_POST['style']) ? filter_var($_POST['style'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Error("Style non renseigné");
 
-        if (!NrvRepository::getInstance()->VerifExistStyle($_POST['style'])){
+        if (!NrvRepository::getInstance()->VerifExistStyle($_POST['style'])) {
             throw new Error("Style non reconnu");
         }
 
-        var_dump($_POST['artists']);
         $_POST['artists'] = !empty($_POST['artists']) ? $_POST['artists'] : throw new Exception("Artiste non renseigné");
         $_POST['date'] = !empty($_POST['date']) ? filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Date non renseignée");
         $_POST['titre'] = !empty($_POST['titre']) ? filter_var($_POST['titre'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Titre non renseigné");
-        $_POST['duree'] = !empty($_POST['duree']) ? filter_var($_POST['duree'],  FILTER_SANITIZE_NUMBER_FLOAT) : throw new Exception("Durée non renseigné");
+        $_POST['duree'] = !empty($_POST['duree']) ? filter_var($_POST['duree'], FILTER_SANITIZE_NUMBER_FLOAT) : throw new Exception("Durée non renseigné");
         $_POST['url'] = !empty($_POST['url']) ? filter_var($_POST['url'], FILTER_SANITIZE_URL) : throw new Exception("URL non renseignée");
         $_POST['description'] = !empty($_POST['description']) ? filter_var($_POST['description'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Description non renseignée");
 
@@ -137,6 +149,31 @@ class CreateShowAction extends Action
             $artist = filter_var($artist, FILTER_SANITIZE_SPECIAL_CHARS);
             if (!NrvRepository::getInstance()->VerifArtistById($artist))
                 throw new Error("Artiste non reconnu");
+        }
+
+
+        //VERIFICATION DE L'IMAGE
+        $_POST['image'] = filter_var($_FILES['image']['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception("Erreur lors de l'upload de l'image");
+        }
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $fileType = mime_content_type($_FILES['image']['tmp_name']);
+        if (!in_array($fileType, $allowedTypes)) {
+            throw new Exception("Le fichier uploadé n'est pas un type d'image valide (JPEG, PNG, GIF uniquement)");
+        }
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileExtension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            throw new Exception("Extension de fichier non autorisée");
+        }
+
+        $maxFileSize = 15 * 1024 * 1024; // 15 mo ici
+        if ($_FILES['image']['size'] > $maxFileSize) {
+            throw new Exception("L'image dépasse la taille maximale autorisée de 15 Mo");
         }
     }
 }

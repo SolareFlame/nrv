@@ -6,6 +6,15 @@
 vendor/
 composer.lock
 
+artists/*
+evenings/*
+shows/*
+shows_media/*
+!artists/.gitkeep
+!evenings/.gitkeep
+!shows/.gitkeep
+!shows_media/.gitkeep
+
 *.ini
 config.ini
 *.db.ini

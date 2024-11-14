@@ -44,7 +44,7 @@ class LoginAction extends Action {
     {
         return <<<HTML
 <form method="post" class="form-container">
-    <h3 class="form-title">Connexion</h3>
+    <h3 class="form-title text-warning">Connexion</h3>
         
     <div class="form-group">
         <label for="password" class="form-label">Mot de passe</label>
@@ -54,7 +54,7 @@ class LoginAction extends Action {
         </div>
     </div>
     
-    <button class="btn btn-primary w-100 py-2" type="submit" >Se connecter</button>
+    <button class="btn btn-outline-warning me-2 w-100 py-2" type="submit" >Se connecter</button>
 </form>
 HTML;
 
