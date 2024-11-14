@@ -3,8 +3,11 @@
 namespace iutnc\nrv\object;
 
 use DateTime;
+use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\exception\InvalidPropertyNameException;
+use iutnc\nrv\render\ShowEditRenderer;
 use iutnc\nrv\render\ShowRenderer;
+use iutnc\nrv\repository\NrvRepository;
 
 class Show
 {
