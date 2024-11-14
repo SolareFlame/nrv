@@ -88,14 +88,17 @@ class Show
      */
     public function getRender(int $option): string
     {
-        $autorisation = AuthnProvider::getSignedInUser();
+        //$autorisation = AuthnProvider::getSignedInUser();
 
+        /*
         if($autorisation["role"]>=50){
             $sr = new ShowEditRenderer($this);
         } else{
             $sr = new ShowRenderer($this);
         }
+        */
 
+        $sr = new ShowRenderer($this);
         return $sr->render($option);
     }
 }
