@@ -128,12 +128,35 @@ HTML;
         }
 
         $showsByLoc = NrvRepository::getInstance()->findShowsByLocation($evening->location->id);
+        foreach ($showsByLoc as $key => $show) {
+            $show = unserialize($show);
+            if ($show->id == $this->show->id) {
+                unset($showsByLoc[$key]);
+                break;
+            }
+        }
         $showsByLoc = ArrayRenderer::render($showsByLoc, Renderer::COMPACT, true);
 
+
         $showsByStyle = NrvRepository::getInstance()->findShowsByStyle(NrvRepository::getInstance()->findIdStyleByStyleValue($this->show->style));
+        foreach ($showsByStyle as $key => $show) {
+            $show = unserialize($show);
+            if ($show->id == $this->show->id) {
+                unset($showsByStyle[$key]);
+                break;
+            }
+        }
         $showsByStyle =  ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
 
+
         $showsByDay = NrvRepository::getInstance()->findShowsByDate($this->show->startDate);
+        foreach ($showsByDay as $key => $show) {
+            $show = unserialize($show);
+            if ($show->id == $this->show->id) {
+                unset($showsByDay[$key]);
+                break;
+            }
+        }
         $showsByDay = ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
 
         $html = <<<HTML
