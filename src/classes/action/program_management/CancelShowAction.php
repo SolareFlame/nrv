@@ -4,7 +4,8 @@ namespace iutnc\nrv\action\program_management;
 
 use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\authn\NrvAuthnProvider;
+use iutnc\nrv\auth\Authz;
+use iutnc\nrv\exception\AccessControlException;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -20,8 +21,8 @@ class CancelShowAction extends Action
     public function executePost(): string
     {
         try {
-            if (!NrvAuthnProvider::hasPermission(50)) {
-                throw new Exception("Permission refusée : seul un organisateur peut annuler un spectacle.");
+            if (!Authz::checkRole(50)) {
+                throw new AccessControlException("Permission refusée : seul un organisateur peut annuler un spectacle.");
             }
 
             $showUuid = $_POST["showUuid"] ?? null;

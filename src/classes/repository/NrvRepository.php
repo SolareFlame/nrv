@@ -454,37 +454,33 @@ class NrvRepository
     //AUTHENTIFICATION
 
     /**
-     * S'authentifier
-     * @param string $password
-     * @return string|false : id de l'utilisateur si authentifié, false sinon
+     * Fonction permettant de vérifier si le mot de passe est correct
+     * Elle stock l'id et le rôle de l'utilisateur dans la session si l'authentification est réussie
+     * @param string $password2Check
+     * @return bool : true si l'authentification est réussie, false sinon
      */
-    function authentificateUser(string $password): string|false
+    function login(string $password2Check): bool
     {
-        $hash = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
-
-        $query = "Select user_uuid, password from nrv_user";
+        $query = "Select user_uuid, password, user_role from nrv_user";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $res = $stmt->fetchAll();
+        $res = $stmt->fetch();
 
-        if (empty($res)) {  // BASE VIDE
-            return false;
-        }
-
-        for ($i = 0; $i < sizeof($res); $i++) {
-            if (password_verify($password, $res[$i]['password'])) {
-                return $res[$i]['user_uuid'];
+        while ($res){
+            if (password_verify($password2Check, $res['password'])) {
+                $_SESSION['user'] = ['id' => $res['user_uuid'], 'role' => $res['user_role']];
+                return true;
             }
+            $res = $stmt->fetch();
         }
         return false;
     }
 
-
     /**
      * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
-     * @param User $user
+     * @param User $user : utilisateur à insérer dans la base de données
      */
-    function createAccount(User $user): void
+    function register(User $user): void
     {
         $query = "Insert into nrv_user (user_uuid, password, user_role) values (:uuid, :password, :role)";
         $stmt = $this->pdo->prepare($query);
@@ -493,6 +489,7 @@ class NrvRepository
             ':password' => $user->password,
             ':role' => $user->role
         ]);
+        $_SESSION['user'] = ['id' => $user->id, 'role' => $user->role];
     }
 
     /**
@@ -501,7 +498,7 @@ class NrvRepository
      * @param $role
      * @return bool
      */
-    function checkRole($uuid, $role): bool
+    /*function checkRole($uuid, $role): bool
     {
         $query = "Select user_role from nrv_user where user_uuid = :uuid";
         $stmt = $this->pdo->prepare($query);
@@ -509,7 +506,7 @@ class NrvRepository
 
         $r = $stmt->fetch(PDO::FETCH_ASSOC);
         return ($r && $role <= $r['user_role']);
-    }
+    }*/
 
     /**
      * Fonction de création d'un tableau de Show|Evening à partir du résultat d'une requête
