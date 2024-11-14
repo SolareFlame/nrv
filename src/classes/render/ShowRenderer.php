@@ -20,7 +20,7 @@ class ShowRenderer extends DetailsRender
         $this->show = $sh;
     }
 
-    // A n'appeler qu'avec un ArrayRenderer ou dans un div row pour un affichage correct
+    // À n'appeler qu'avec un ArrayRenderer ou dans un div row pour un affichage correct
     public function renderCompact($index = null): string
     {
         $id = $this->show->id;
@@ -103,7 +103,7 @@ HTML;
                 <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                 <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
 
-                <p>{$this->show->style}</p>
+                <p>{$this->show->description}</p>
             </div>
         </div>
     </div>
@@ -117,17 +117,6 @@ HTML;
         </div>
     </div>
 HTML;
-        foreach ($this->show->artists as $artist) {
-            $html .= <<<HTML
-        <div class="carousel-item active">
-            <div class="carousel-box mx-auto p-4" style="background-color: #fff2e1; border-radius: 30px; width: 70%;">
-HTML;
-            // RENDER ARTIST ICI
-            $html .= <<<HTML
-            </div>
-        </div>
-    HTML;
-        }
 
         $html .= <<<HTML
     </div>

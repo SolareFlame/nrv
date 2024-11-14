@@ -17,9 +17,11 @@ class DisplayShowDetailsAction extends Action
     public function executePost(): string
     {
         return "";
-        // TODO: Implement get() method.
     }
 
+    /**
+     * @throws \DateMalformedStringException
+     */
     public function executeGet(): string
     {
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
@@ -27,7 +29,6 @@ class DisplayShowDetailsAction extends Action
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
-        $renderer = new ShowRenderer($show);
-        return $renderer->render(Renderer::LONG);
+        return $show->getRender(Renderer::LONG);
     }
 }
