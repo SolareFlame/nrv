@@ -57,10 +57,6 @@ class NrvAuthnProvider {
         } else{
             throw new AuthnException("Le mot de passe doit contenir au moins 10 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial.");
         }
-
-
-
-
     }
 
     public static function logout(){

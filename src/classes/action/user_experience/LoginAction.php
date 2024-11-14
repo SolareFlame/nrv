@@ -30,7 +30,7 @@ class LoginAction extends Action {
         $ret = "";
         try {
             NrvAuthnProvider::login($_POST['password']);
-            $ret .= '<p>Vous êtes connecté avec le token ' . htmlspecialchars($_SESSION['pwd']) . '</p>';
+            header("Location: {$_SESSION["previous"]}");
         } catch (\Exception $e) {
             $ret .= '<p style="color: red;">Les identifiants ne sont pas reconnus.</p>';
             $ret .= '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
@@ -46,15 +46,7 @@ class LoginAction extends Action {
         return <<<HTML
 <form method="post" class="form-container">
     <h3 class="form-title">Connexion</h3>
-    
-    <div class="form-group">
-        <label for="username" class="form-label">Nom d'utilisateur</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" name="username" id="username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
-        </div>
-    </div>
-    
+        
     <div class="form-group">
         <label for="password" class="form-label">Mot de passe</label>
         <div class="input-group">
