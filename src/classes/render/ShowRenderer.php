@@ -2,7 +2,9 @@
 
 namespace iutnc\nrv\render;
 
+use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\object\Show;
+use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Classe PodcastRenderer.
@@ -95,6 +97,8 @@ HTML;
 
         $id = $this->show->id;
 
+        $evening = NrvRepository::getInstance()->findEveningOfShow($id);
+
         $heart = !in_array($id, $_SESSION['favorites'])
             ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
@@ -123,6 +127,14 @@ HTML;
             }
         }
 
+        $showsByLoc = NrvRepository::getInstance()->findShowsByLocation($evening->location->id);
+        $showsByLoc = ArrayRenderer::render($showsByLoc, Renderer::COMPACT, true);
+
+        $showsByStyle = NrvRepository::getInstance()->findShowsByStyle(NrvRepository::getInstance()->findIdStyleByStyleValue($this->show->style));
+        $showsByStyle =  ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
+
+        $showsByDay = NrvRepository::getInstance()->findShowsByDate($this->show->startDate);
+        $showsByDay = ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
 
         $html = <<<HTML
             <div class="container my-5">
@@ -143,7 +155,7 @@ HTML;
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>
-                            <p><i class="fas fa-star info-icon me-2"></i>%soirée%</p>
+                            <p><i class="fas fa-star info-icon me-2"></i>{$evening->title}</p>
                             <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                             <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
             
@@ -171,7 +183,30 @@ HTML;
                         <img src="res/icons/right-arrow.png" alt="Next" class="carousel-control-next-icon" aria-hidden="true">
                         <span class="visually-hidden">Next</span>
                     </a>
+                    
                 </div>
+                
+                <div>
+                <br><h2>Spectacle au même lieu</h2><br>
+                
+                    {$showsByLoc}
+                
+                </div>
+                
+                <div>
+                <br><h2>Spectacle du même style</h2><br>
+                
+                    {$showsByStyle}
+                
+                </div>
+                
+                <div>
+                <br><h2>Spectacle ayant lieu le même jour</h2><br>
+                
+                    {$showsByDay}
+                
+                </div>
+
             
             </div>
             HTML;
