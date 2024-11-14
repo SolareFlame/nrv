@@ -2,17 +2,11 @@
 
 namespace iutnc\nrv\render;
 
-use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\object\Show;
-use iutnc\nrv\render\Renderer;
-use iutnc\nrv\repository\NrvRepository;
 
-/**
- * Classe PodcastRenderer.
- * Elle permet de représenter un rendu d'un podcast.
- */
-class ShowRenderer extends DetailsRender
+class ShowEditRenderer extends DetailsRender
 {
+
     private Show $show;
 
     public function __construct(Show $sh)
@@ -20,52 +14,15 @@ class ShowRenderer extends DetailsRender
         $this->show = $sh;
     }
 
-    // À n'appeler qu'avec un ArrayRenderer ou dans un div row pour un affichage correct
-    public function renderCompact($index = null): string
+    public function renderCompact($index): string
     {
-        $id = $this->show->id;
-
-        // Check if the show is in the user's favorites
-        if (!isset($_SESSION['favorites'])) {
-            $_SESSION['favorites'] = [];
-        }
-
-        $heart = !in_array($id, $_SESSION['favorites'])
-            ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
-            : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
-
-        return <<<HTML
-<div class="col">
-    <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
-        <div class="position-relative" style="height: 0; padding-top: 100%; overflow: hidden; border-radius: 30px;">
-            <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
-                <div class="card-img" style="background-image: url('res/background/show_default.jpg');"></div>
-            </a>
-            <div class="position-absolute top-0 end-0 p-2" style="z-index: 2;">
-                {$heart}
-            </div>
-        </div>
-        <a href="?action=showDetails&id={$this->show->id}" class="text-reset text-decoration-none">
-            <div class="card-body text-center" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">
-                <h5 class="card-title">{$this->show->title}</h5>
-                <p class="card-text">{$this->show->description}</p>
-            </div>
-        </a>
-    </div>
-</div>
-
-HTML;
+        return "";
     }
 
     public function renderLong($index = null): string
     {
-        if ($this->show->duration < 59) {
-            $heures = 0;
-            $minutes = $this->show->duration;
-        } else {
-            $heures = (int)$this->show->duration % 59;
-            $minutes = $this->show->duration - $heures * 60;
-        }
+        $heures = (int)$this->show->duration % 59;
+        $minutes = $this->show->duration - $heures * 60;
         if ($minutes == 0) {
             $minutes = "00";
         }
@@ -80,7 +37,6 @@ HTML;
             ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
 
-
         $html = <<<HTML
 <div class="container my-5">
     <div class="row">
@@ -92,6 +48,7 @@ HTML;
         
             <div class="position-absolute top-0 end-0 me-4 mt-3">
                 {$heart}
+                <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
             </div>
             
             <div class="show-long-render">
@@ -103,7 +60,7 @@ HTML;
                 <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                 <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
 
-                <p>{$this->show->description}</p>
+                <p>{$this->show->style}</p>
             </div>
         </div>
     </div>
@@ -117,14 +74,14 @@ HTML;
         </div>
     </div>
 HTML;
+
         foreach ($this->show->artists as $artist) {
             $html .= <<<HTML
         <div class="carousel-item active">
             <div class="carousel-box mx-auto p-4" style="background-color: #fff2e1; border-radius: 30px; width: 70%;">
 HTML;
-            // RENDER ARTIST ICI
+            // Render artist details here.
             $html .= <<<HTML
-    $artist->name
             </div>
         </div>
     HTML;
@@ -142,10 +99,10 @@ HTML;
     </a>
 </div>
 
-    
 </div>
 HTML;
 
         return $html;
     }
+
 }

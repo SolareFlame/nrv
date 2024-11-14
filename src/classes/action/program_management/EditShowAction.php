@@ -140,6 +140,34 @@ HTML;
         <button type="submit" class="btn btn-primary">Enregistrer</button>
     </form>
 </div>
+
+<div class="form-container mt-100">
+    <h2 class="text-center">Éditer un Artiste</h2>
+    <form action="?action=edit-show&id={$id}" method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" required>
+            <div class="invalid-feedback">Veuillez entrer un ID.</div>
+        </div>
+        <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+            <div class="invalid-feedback">Veuillez entrer un nom.</div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            <div class="invalid-feedback">Veuillez entrer une description.</div>
+        </div>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="url" class="form-control" id="url" name="url" required>
+            <div class="invalid-feedback">Veuillez entrer une URL valide.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+
 HTML;
         return $displayShow . $formModif;
     }

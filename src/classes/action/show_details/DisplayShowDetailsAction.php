@@ -29,6 +29,8 @@ class DisplayShowDetailsAction extends Action
         $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
+        $artists = $repository->findAllArtistsByShow($show->id);
+        $show->setListeArtiste($artists);
         return $show->getRender(Renderer::LONG);
     }
 }
