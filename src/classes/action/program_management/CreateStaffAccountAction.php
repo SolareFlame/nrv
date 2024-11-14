@@ -21,12 +21,14 @@ class CreateStaffAccountAction extends Action
     {
         $uuid = Uuid::uuid4();
 
-        if ($this->sanitize()) {
+        if (($rapport = $this->sanitize()) !== true) {
+            return $rapport;
+        } else {
             $hash = password_hash($_POST['password'], PASSWORD_DEFAULT, ['cost' => 12]);
             NrvRepository::getInstance()->register(new User($uuid, Authz::STAFF, $hash));
             header('Location: index.php');
+            return "";
         }
-        return "";
     }
 
     private function sanitize(): string|bool

@@ -21,20 +21,16 @@ class DisplayFavoritesListAction extends Action
     {
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
 
+        if (isset($_COOKIE['favorites'])) {
+            $_SESSION['favorites'] = json_decode($_COOKIE['favorites'], true);
+        }
+
         // verif si une liste est deja présente
         if (empty($_SESSION['favorites']))
             return "Aucun favoris";
 
-
         $FavShowList = NrvRepository::getInstance()->findShowsByListId($_SESSION['favorites']);
         return ArrayRenderer::render($FavShowList, Renderer::COMPACT, true);
-        /*$res = "";
-        foreach ($FavShowList as $show) {
-            $sr = new ShowRenderer(unserialize($show));
-            $res .= $sr->render(Renderer::LONG);
-        }
-
-        return $res;*/
     }
 
     public function executePost(): string
