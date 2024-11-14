@@ -53,7 +53,10 @@
     </ul>
 
     <div class="col-md-3 text-end">
-        <?php if (!empty($_SESSION['pwd'])): ?>
+        <?php
+        use iutnc\nrv\auth\AuthnProvider;
+        $user = AuthnProvider::getSignedInUser();
+        if ($user['id'] != -1): ?>
             <form action="index.php?action=logout" method="POST">
                 <button type="submit" class="btn btn-outline-warning me-2">Se déconnecter</button>
             </form>

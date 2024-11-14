@@ -2,19 +2,18 @@
 
 namespace iutnc\nrv\action\user_experience;
 
-use iutnc\nrv\authn\NrvAuthnProvider;
-use iutnc\nrv\action\Action ;
+use iutnc\nrv\action\Action;
 
 class LogoutAction extends Action {
-
 
     /**
      * @inheritDoc
      */
     function executePost(): string
     {
-        NrvAuthnProvider::logout();
-        return "Vous etes deconnecté";
+        session_destroy();
+        header('Location: index.php');
+        return "";
     }
 
     /**
