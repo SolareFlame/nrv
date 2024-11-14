@@ -6,6 +6,8 @@
 vendor/
 composer.lock
 
+images/
+
 *.ini
 config.ini
 *.db.ini
