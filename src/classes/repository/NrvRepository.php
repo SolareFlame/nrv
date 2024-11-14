@@ -504,7 +504,7 @@ class NrvRepository
         $stmt->execute(['uuid' => $uuid]);
 
         $r = $stmt->fetch(PDO::FETCH_ASSOC);
-        return ($r && $role >= $r['user_role']);
+        return ($r && $role <= $r['user_role']);
     }
 
     /**
