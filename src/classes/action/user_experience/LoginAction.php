@@ -34,7 +34,7 @@ class LoginAction extends Action
     {
         $user = AuthnProvider::getSignedInUser();
         if ($user['id'] != -1) {  // si l'utilisateur est déjà connecté et essaie de se reconnecter
-            header("Location: index.php?action=favs");
+            header("Location: index.php");
             return "";
         } else {
             return <<<HTML
