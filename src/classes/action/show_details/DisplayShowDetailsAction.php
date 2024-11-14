@@ -28,6 +28,6 @@ class DisplayShowDetailsAction extends Action
         $show = $repository->findShowById($id);
 
         $renderer = new ShowRenderer($show);
-        return $renderer->render(2);
+        return $renderer->render(Renderer::LONG);
     }
 }
