@@ -67,11 +67,11 @@
 <div class="d-flex justify-content-between position-absolute bottom-0 start-0 end-0 p-3">
     <span class="revivre-text text-white">REVIVEZ LE FESTIVAL #NRV2024</span>
     <div class="social-icons">
-        <a href="#" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
-        <a href="#" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
-        <a href="#" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
-        <a href="#" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
-        <a href="#" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
+        <a href="https://www.facebook.com/nancyjazzpulsationsfestival/?locale=fr_FR" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.tiktok.com/@nancyjazzpulsations" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
+        <a href="https://www.instagram.com/nancyjazzpulsations/" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.youtube.com/user/NancyJazzPulsations" target="_blank" class="social-icon"><i class="bi bi-youtube"></i></a>
+        <a href="https://x.com/njpfestival" target="_blank" class="social-icon"><i class="bi bi-twitter"></i></a>
     </div>
 </div>
 <div class="header-gradient"></div>
