@@ -79,10 +79,12 @@ HTML;
 
         $carrousel = "";
         foreach ($this->show->artists as $artist) {
+            $rendererArtist = new ArtistRenderer($artist);
+            $render = $rendererArtist->render(Renderer::LONG);
             $carrousel .= <<<HTML
                     <div class="carousel-item active">
-                        <div class="carousel-box mx-auto p-4" style="background-color: #fff2e1; border-radius: 30px; width: 70%;">
-                        $artist->name
+                        <div class="carousel-box mx-auto p-4" style="background-color: #fff2e1; border-radius: 30px; width: 70%;">         
+                        $render                       
                         </div>
                     </div>
                 HTML;

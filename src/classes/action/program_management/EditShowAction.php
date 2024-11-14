@@ -5,6 +5,7 @@ namespace iutnc\nrv\action\program_management;
 use DateTime;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\exception\RepositoryException;
+use iutnc\nrv\object\User;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
 
@@ -95,6 +96,7 @@ class EditShowAction extends Action
     /**
      * @inheritDoc
      * @throws \DateMalformedStringException
+     * @throws \Exception
      */
     public function executeGet(): string
     {
@@ -103,6 +105,9 @@ class EditShowAction extends Action
         $repository = NrvRepository::getInstance();
         $id = $_GET['id'];
         $show = $repository->findShowById($id);
+
+        $artists = $repository->findAllArtistsByShow($show->id);
+        $show->setListeArtiste($artists);
         $displayShow = $show->getRender(Renderer::LONG);
         $_SESSION['show'] = serialize($show);
         $formModif = <<<HTML
