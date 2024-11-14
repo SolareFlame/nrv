@@ -38,6 +38,14 @@ class ShowRenderer extends DetailsRender
             <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
                 <div class="card-img" style="background-image: url('res/background/show_default.jpg');"></div>
             </a>
+
+            <div class="position-absolute top-0 start-0 p-2" style="z-index: 2;">
+                <div class="text-start">
+                    <p class="mb-0">{$this->show->startDate->format('d M Y')}</p>
+                    <p class="mb-0">{$this->show->startDate->format('H:i')}</p>
+                </div>
+            </div>
+
             <div class="position-absolute top-0 end-0 p-2" style="z-index: 2;">
                 {$heart}
             </div>
@@ -50,6 +58,7 @@ class ShowRenderer extends DetailsRender
         </a>
     </div>
 </div>
+
 
 HTML;
     }

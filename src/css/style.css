@@ -381,3 +381,8 @@ h1 {
 	width: 300px;
 	text-align: center;
 }
+
+.title-border {
+	width: 75px;
+	height: 5px;
+}
