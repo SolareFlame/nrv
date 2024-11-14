@@ -55,7 +55,16 @@ class Show
 
     public function ajouterArtiste(Artist $artist): void
     {
+
         $this->artists[] = $artist;
+    }
+
+    public function setListeArtiste(array $listArtists): void
+    {
+        foreach ($listArtists as $artist){
+            $this->artists[] = unserialize($artist);
+        }
+
     }
 
     public function DisplayArtiste(): string

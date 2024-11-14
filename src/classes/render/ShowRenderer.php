@@ -124,6 +124,7 @@ HTML;
 HTML;
             // RENDER ARTIST ICI
             $html .= <<<HTML
+    $artist->name
             </div>
         </div>
     HTML;

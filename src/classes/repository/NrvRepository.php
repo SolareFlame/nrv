@@ -4,6 +4,7 @@ namespace iutnc\nrv\repository;
 
 use DateTime;
 use Exception;
+use http\Encoding\Stream;
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Artist;
@@ -657,6 +658,15 @@ class NrvRepository
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $res;
+    }
+
+    function findAllArtistsByShow(String $showId) : array
+    {
+        $query = "Select * From nrv_show2artist INNER JOIN nrv_artist ON nrv_show2artist.artist_uuid = nrv_artist.artist_uuid WHERE show_uuid = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id'=>$showId]);
+        return $this->createArrayFromStmt($stmt,"Artist");
+
     }
 
 
