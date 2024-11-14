@@ -20,9 +20,9 @@ abstract class Action
      *
      * @return string Le résultat de l'exécution de l'action.
      */
-    public function execute() : string
+    public function execute(): string
     {
-        switch ($this->http_method){
+        switch ($this->http_method) {
             case "GET":
                 return $this->executeGet();
             case  "POST" :

@@ -3,11 +3,8 @@
 namespace iutnc\nrv\object;
 
 use DateTime;
-use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\exception\InvalidPropertyNameException;
-use iutnc\nrv\render\ShowEditRenderer;
 use iutnc\nrv\render\ShowRenderer;
-use iutnc\nrv\repository\NrvRepository;
 
 class Show
 {
@@ -21,14 +18,13 @@ class Show
     private array $artists = [];
 
     /**
-     * @param string $id
-     * @param string $title
-     * @param string $description
-     * @param DateTime $startDate
-     * @param int $duration
-     * @param string $style
-     * @param string $url
-     * @param array $artists
+     * @param string $id L'identifiant du spectacle
+     * @param string $title Le titre du spectacle
+     * @param string $description La description du spectacle
+     * @param DateTime $startDate La date de début du spectacle
+     * @param int $duration La durée du spectacle
+     * @param string $style Le style du spectacle
+     * @param string $url L'URL du spectacle
      */
     public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url)
     {
@@ -61,7 +57,7 @@ class Show
 
     public function setListeArtiste(array $listArtists): void
     {
-        foreach ($listArtists as $artist){
+        foreach ($listArtists as $artist) {
             $this->artists[] = unserialize($artist);
         }
 

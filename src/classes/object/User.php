@@ -1,11 +1,12 @@
-<?php 
+<?php
 
-namespace iutnc\nrv\object ;
+namespace iutnc\nrv\object;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
 
 
-class User {
+class User
+{
     const ROLE_ADMIN = 100;
     const ROLE_ORGA = 50;
     private string $id;
@@ -39,7 +40,7 @@ class User {
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
     }
 
-    public function setId(mixed $id)
+    public function setId(mixed $id): void
     {
         $this->id = $id;
     }

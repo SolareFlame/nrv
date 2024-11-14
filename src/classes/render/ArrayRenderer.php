@@ -12,26 +12,26 @@ class ArrayRenderer
     public static function render(array $liste, int $option, bool $isSerial): string
     {
         $res = '';
-        if ($option == 1){
+        if ($option == 1) {
             $res = '<div class="container"><div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">';
         }
 
         foreach ($liste as $entite) {
 
-            if ($option == 1){
+            if ($option == 1) {
                 $res .= '<div class="col">';
             }
 
             $entite = $isSerial ? unserialize($entite) : $entite;
             $res .= $entite->getRender($option);
 
-            if ($option == 1){
+            if ($option == 1) {
                 $res .= '</div>';
             }
 
         }
 
-        if ($option == 1){
+        if ($option == 1) {
             $res .= '</div></div>';
         }
 

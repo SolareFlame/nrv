@@ -49,6 +49,9 @@ class CreateShowAction extends Action
         return "Le spectacle a bien été créée";
     }
 
+    /**
+     * @throws Exception
+     */
     public function executeGet(): string
     {
         $inst = NrvRepository::getInstance();
@@ -71,7 +74,7 @@ class CreateShowAction extends Action
                             HTML;
         }
 
-        $form = <<<HTML
+        return <<<HTML
             <div class="content_form">
                 <h4>Créer un spectacle</h4> <br>
                 {$uuid_TEST}
@@ -104,7 +107,6 @@ class CreateShowAction extends Action
             </div>
             HTML;
 
-        return $form;
     }
 
     /**

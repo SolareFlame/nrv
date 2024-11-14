@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\action\show_details;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
@@ -25,16 +26,15 @@ class DisplayShowsByDayAction extends Action
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeGet(): string
     {
-        return "";
         // TODO: Implement post() method.
         $repo = NrvRepository::getInstance();
-        $date = filter_var($_GET['date'],FILTER_SANITIZE_SPECIAL_CHARS);
+        $date = filter_var($_GET['date'], FILTER_SANITIZE_SPECIAL_CHARS);
         $shows = $repo->findShowsByDate($date);
 
-        return ArrayRenderer::render($shows,Renderer::COMPACT,true);
+        return ArrayRenderer::render($shows, Renderer::COMPACT, true);
     }
 }

@@ -1,11 +1,12 @@
-<?php 
+<?php
 
 
-namespace iutnc\nrv\object ;
+namespace iutnc\nrv\object;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
 
-class Location {
+class Location
+{
 
     private string $id;
     private string $name;
@@ -40,7 +41,6 @@ class Location {
 
         throw new InvalidPropertyNameException("La propriété $property n'existe pas.");
     }
-
 
 
 }

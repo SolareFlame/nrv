@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\action\user_experience;
 
-use iutnc\nrv\repository\NrvRepository;
 use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\action\Action ;
 
