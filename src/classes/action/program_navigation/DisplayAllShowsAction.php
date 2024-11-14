@@ -34,9 +34,8 @@ class DisplayAllShowsAction extends Action
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();
         $shows = $repository->findAllShows();
-        $user = AuthnProvider::getSignedInUser();
         $boutonAjouter = "";
-        if ($user["role"] >= Authz::STAFF) {
+        if (Authz::checkRole(Authz::STAFF)) {
             $boutonAjouter = <<<HTML
             <a href="?action=add-show" class="btn btn-primary m-5">Ajouter un Spectacle</a>
             HTML;

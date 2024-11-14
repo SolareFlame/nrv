@@ -21,16 +21,11 @@ class AddShowToEveningAction extends Action
     public function executePost(): string
     {
         $repo = NrvRepository::getInstance();
-        $title = filter_var(trim($_POST['title']), FILTER_SANITIZE_SPECIAL_CHARS);
-        $description = filter_var(trim($_POST['description']), FILTER_SANITIZE_SPECIAL_CHARS);
-        $startDate = filter_var($_POST['startDate'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $duration = filter_var($_POST['duration'], FILTER_SANITIZE_NUMBER_INT, ["options" => ["min_range" => 1]]);
-        $style = filter_var(trim($_POST['style']), FILTER_SANITIZE_SPECIAL_CHARS);
-        $url = filter_var($_POST['url'], FILTER_VALIDATE_URL);
-        $uuid = Uuid::uuid4();
-        $show = new Show($uuid, $title, $description, new \DateTime($startDate), intval($duration), $style, $url);
-        $repo->createShow($show);
-        return "";
+        $spectacleId = $_POST['spectacle'];
+        $show = $repo->findShowById($spectacleId);
+        $evening = $repo->findEveningById($_GET['id']);
+        $repo->addShowToEvening($show, $evening);
+        return "L'opération est un succes";
     }
 
     /**
@@ -39,19 +34,24 @@ class AddShowToEveningAction extends Action
     public function executeGet(): string
     {
 // Définition des options pour les comboboxes
-        $soirees = ["Soirée Étudiante", "Soirée Disco", "Soirée Années 80"];
-        $spectacles = ["Spectacle de Magie", "Spectacle de Danse", "Concert de Jazz"];
-
-// Génère les options pour la combobox des soirées
-        $soireeOptions = '';
-        foreach ($soirees as $soiree) {
-            $soireeOptions .= "<option value=\"" . htmlspecialchars($soiree) . "\">" . htmlspecialchars($soiree) . "</option>\n";
+        $repo = NrvRepository::getInstance();
+        try {
+            $spectacles = $repo->findShowsNoAttributes();
+        } catch (\Exception $e){
+           return "Pas de spectacle à ajouter, veuillez en creer avant. : " . <<<HTML
+  <a href="?action=add-show" class="btn btn-primary m-5">Ajouter un Spectacle</a>
+HTML;
         }
 
-// Génère les options pour la combobox des spectacles
+
+
+
+
+    // Génère les options pour la combobox des spectacles
         $spectacleOptions = '';
         foreach ($spectacles as $spectacle) {
-            $spectacleOptions .= "<option value=\"" . htmlspecialchars($spectacle) . "\">" . htmlspecialchars($spectacle) . "</option>\n";
+            $show = unserialize($spectacle);
+            $spectacleOptions .= "<option value=\"" . "$show->id" . "\">" . htmlspecialchars($show->title) . "</option>\n";
         }
 
 // Affichage du formulaire
@@ -68,21 +68,16 @@ class AddShowToEveningAction extends Action
 
 <div class="container my-4">
   <h2>Choix de Soirée et Spectacle</h2>
-  <form method="post" action="traitement.php">
-    <!-- Combobox pour le choix de la soirée -->
-    <div class="mb-3">
-      <label for="soireeSelect" class="form-label">Choisissez une Soirée</label>
-      <select id="soireeSelect" name="soiree" class="form-select">
-        $soireeOptions
-      </select>
-    </div>
+    <form method="post" action="?action=addShow2evening&id={$_GET['id']}">
 
     <!-- Combobox pour le choix du spectacle -->
     <div class="mb-3">
+
       <label for="spectacleSelect" class="form-label">Choisissez un Spectacle</label>
       <select id="spectacleSelect" name="spectacle" class="form-select">
         $spectacleOptions
       </select>
+      
     </div>
 
     <button type="submit" class="btn btn-primary">Soumettre</button>
@@ -92,8 +87,6 @@ class AddShowToEveningAction extends Action
 </body>
 </html>
 HTML;
-
-        HTML;
 
     }
 }

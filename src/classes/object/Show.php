@@ -88,9 +88,7 @@ class Show
      */
     public function getRender(int $option): string
     {
-        $autorisation = AuthnProvider::getSignedInUser();
-
-        if($autorisation["role"]>=50){
+        if (Authz::checkRole(Authz::STAFF)) {
             $sr = new ShowEditRenderer($this);
         } else{
             $sr = new ShowRenderer($this);

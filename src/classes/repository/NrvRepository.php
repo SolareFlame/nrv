@@ -341,6 +341,25 @@ class NrvRepository
         return unserialize($this->createArrayFromStmt($stmt, 'Show')[0]);
     }
 
+
+    /**
+     * @throws Exception
+     */
+    public function findShowsNoAttributes() : array
+    {
+        $query = <<<SQL
+                        SELECT *
+                        FROM nrv_show
+                        WHERE NOT EXISTS (
+                            SELECT *
+                            FROM nrv_evening2show
+                            WHERE nrv_show.show_uuid = nrv_evening2show.show_uuid
+                        )
+                        SQL;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $this->createArrayFromStmt($stmt,"Show");
+    }
     /**
      * @param string $uuid : id du show à vérifier
      * @return bool : true si l'id représente un show, false sinon
@@ -408,6 +427,16 @@ class NrvRepository
         return unserialize($this->createArrayFromStmt($stmt, 'Evening')[0]);
     }
 
+    /**
+     * @throws Exception
+     */
+    function findEveningById(string $id) : Evening
+    {
+        $query = "Select * from nrv_evening";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return unserialize($this->createArrayFromStmt($stmt,"Evening")[0]);
+    }
     /**
      * Annuler une soiree : la soiree est conservee dans les affichages mais est marqué comme annulee
      * @param Evening $evening evening
