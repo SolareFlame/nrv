@@ -20,7 +20,6 @@ class LoginAction extends Action
             if (NrvRepository::getInstance()->login($_POST['password'])) {  // Si l'authentification est réussie
                 header("Location: {$_SESSION["previous"]}");  // On revient à la page précédente
             } else {
-                $ret .= '<p style="color: red;">Les identifiants ne sont pas reconnus.</p>';
                 $ret .= $this->errorMessage("Les identifiants ne sont pas reconnus.");
             }
             return $ret;
@@ -76,11 +75,12 @@ class LoginAction extends Action
         <div class="alert alert-danger mt-3 text-center" role="alert">
              $message
         </div>
-HTML;
+        HTML;
+
         $res = $this->executeGet();
         return str_replace(
-            '<button class="btn btn-primary w-100 py-2" type="submit" >Se connecter</button>',
-            '<button class="btn btn-primary w-100 py-2" type="submit" >Se connecter</button><br>' . $errorMessage,
+            '<button class="btn btn-outline-warning me-2 w-100 py-2" type="submit" >Se connecter</button>',
+            '<button class="btn btn-outline-warning me-2 w-100 py-2" type="submit" >Se connecter</button><br>' . $errorMessage,
             $res
         );
     }
