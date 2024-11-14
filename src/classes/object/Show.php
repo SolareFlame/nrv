@@ -88,12 +88,15 @@ class Show
      */
     public function getRender(int $option): string
     {
+        /*
         if (Authz::checkRole(Authz::STAFF)) {
             $sr = new ShowEditRenderer($this);
         } else{
             $sr = new ShowRenderer($this);
         }
+        */
 
+        $sr = new ShowRenderer($this);
         return $sr->render($option);
     }
 }

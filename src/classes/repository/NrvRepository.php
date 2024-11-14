@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\repository;
 
+use Cassandra\Date;
 use DateTime;
 use Exception;
 use iutnc\nrv\exception\RepositoryException;
@@ -103,12 +104,12 @@ class NrvRepository
      * @return array|string[]
      * @throws Exception
      */
-    function findShowsByDate(string $date): array
+    function findShowsByDate(DateTime $date): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
        show_duration, show_style_id, show_url from nrv_show where DATE(show_start_date) = :date";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['date' => $date]);
+        $stmt->execute(['date' => $date->format('Y-m-d')]);
 
         return $this->createArrayFromStmt($stmt, 'Show');
     }
@@ -167,9 +168,9 @@ class NrvRepository
 
     /**
      * Récupération des spectacles d'une soirée
-     * @param string $id
-     * @return array|string[]
-     * @throws Exception
+     * @param string $id : id de la soirée
+     * @return array|string[] : liste des spectacles de la soirée
+     * @throws Exception : si la liste est vide
      */
     function findShowsInEvening(string $id): array
     {
@@ -575,8 +576,10 @@ class NrvRepository
                 break;
             case "Evening":
                 foreach ($rows as $row) {
-                    $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
-                        $row['evening_date'], $this->findLocationById($row['evening_location_id']), $row['evening_description'], $row['evening_price']);
+                    $evening = new $create_path(
+                        $row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
+                        $row['evening_date'], $this->findLocationById($row['evening_location_id']),
+                        $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
@@ -785,5 +788,26 @@ class NrvRepository
             $results[$row['style_id']] = $row['style_name'];
         }
         return $results;
+    }
+
+    function findEveningOfShow(String $idshow): Evening
+    {
+        $query = "
+                Select e.evening_uuid, e.evening_title, e.evening_theme, e.evening_date, e.evening_location_id, e.evening_description, e.evening_price, e.evening_programmed from nrv_evening2show es 
+                INNER JOIN nrv_evening e ON es.evening_uuid = e.evening_uuid 
+                WHERE show_uuid = :idshow";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idshow' => $idshow]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return new Evening($row['evening_uuid'], $row['evening_title'], $row['evening_theme'], $row['evening_date'], $this->findLocationById($row['evening_location_id']), $row['evening_description'], $row['evening_price']);
+    }
+
+    function findIdStyleByStyleValue(String $styleValue): string
+    {
+        $query = "Select style_id from nrv_style where style_name = :name";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['name' => $styleValue]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['style_id'];
     }
 }

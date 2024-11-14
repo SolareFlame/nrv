@@ -386,6 +386,28 @@ h1 {
 	width: 75px;
 	height: 5px;
 }
+
+.filter-btn {
+	background-color: #dffaf7;
+	border-radius: 20px;
+	border: none;
+	padding: 0.5rem 1rem;
+	margin-top: 0.5rem;
+	font-weight: bold;
+	text-decoration: none;
+	color: inherit;
+}
+
+.filter-btn:hover {
+	background-color: #2ec5b6;
+	color: #333;
+}
+
+
+
+p {
+	margin-bottom: 0;
+}
 .custom-card {
 	background-color: #f8e8d3;
 	border-radius: 8px;
