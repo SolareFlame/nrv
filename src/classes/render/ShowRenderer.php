@@ -31,13 +31,34 @@ class ShowRenderer extends DetailsRender
             ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
 
+
+        $extensions = ['jpg', 'gif', 'png'];
+        $img = "res/background/show_default.jpg";
+
+        foreach ($extensions as $ext) {
+            $filePath = "res/images/shows/{$this->show->id}.$ext";
+            if (file_exists($filePath)) {
+                $img = $filePath;
+                break;
+            }
+        }
+
+
         return <<<HTML
 <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
         <div class="position-relative" style="height: 0; padding-top: 100%; overflow: hidden; border-radius: 30px;">
             <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
-                <div class="card-img" style="background-image: url('res/background/show_default.jpg');"></div>
+                <div class="card-img" style="background-image: url('{$img}');"></div>
             </a>
+
+            <div class="position-absolute top-0 start-0 p-2" style="z-index: 2;">
+                <div class="text-start">
+                    <p class="mb-0">{$this->show->startDate->format('d M Y')}</p>
+                    <p class="mb-0">{$this->show->startDate->format('H:i')}</p>
+                </div>
+            </div>
+
             <div class="position-absolute top-0 end-0 p-2" style="z-index: 2;">
                 {$heart}
             </div>
@@ -50,6 +71,7 @@ class ShowRenderer extends DetailsRender
         </a>
     </div>
 </div>
+
 
 HTML;
     }
@@ -88,11 +110,23 @@ HTML;
                 HTML;
         }
 
+        $extensions = ['jpg', 'gif', 'png'];
+        $img = "res/background/show_default.jpg";
+
+        foreach ($extensions as $ext) {
+            $filePath = "res/images/shows/{$this->show->id}.$ext";
+            if (file_exists($filePath)) {
+                $img = $filePath;
+                break;
+            }
+        }
+
+
         $html = <<<HTML
             <div class="container my-5">
                 <div class="row">
                     <div class="col-md-4">
-                        <img src="res/background/show_default.jpg" alt="Show Image" class="show-image">
+                        <img src={$img} alt="Show Image" class="show-image">
                     </div>
             
                     <div class="col-md-8 position-relative">
@@ -114,6 +148,13 @@ HTML;
                         </div>
                     </div>
                 </div>
+                
+                <div class="d-flex align-items-center justify-content-center my-4 px-4">
+                    <div class="mx-2 title-border" style="background-color: #FF9F1C"></div>
+                    <h1 class="text-center mx-3">ARTISTES</h1>
+                    <div class="mx-2 title-border" style="background-color: #FF9F1C"></div>
+                </div>
+                
                 
                 <div id="customCarousel" class="carousel slide my-5" data-bs-ride="carousel">
                     <div class="carousel-inner">

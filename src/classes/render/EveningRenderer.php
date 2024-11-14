@@ -15,12 +15,23 @@ class EveningRenderer extends DetailsRender
 
     public function renderCompact($index): string
     {
+        $extensions = ['jpg', 'gif', 'png'];
+        $img = "res/background/evening_default.jpg";
+
+        foreach ($extensions as $ext) {
+            $filePath = "res/images/evenings/{$this->evening->id}.$ext";
+            if (file_exists($filePath)) {
+                $img = $filePath;
+                break;
+            }
+        }
+
         return <<<HTML
     <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
         <div class="position-relative" style="height: 0; padding-top: 160%; overflow: hidden; border-radius: 30px;">
             <a href="?action=evening&id={$this->evening->id}" class="text-decoration-none">
-                <div class="card-img" style="background-image: url('res/background/evening_default.jpg');"></div>
+                <div class="card-img" style="background-image: url('{$img}');"></div>
             </a>
     
         </div>
@@ -34,9 +45,6 @@ class EveningRenderer extends DetailsRender
 </div>
 
 
-
-
-
 HTML;
 
     }
@@ -44,6 +52,9 @@ HTML;
 
     public function renderLong($index): string
     {
+        $extensions = ['jpg', 'gif', 'png'];
+        $img = "res/background/show_default.jpg";
+
         $location = $this->evening->location;
         $renderEvening = <<<HTML
 <div class="container evening-container">
