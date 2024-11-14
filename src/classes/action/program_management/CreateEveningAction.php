@@ -30,6 +30,16 @@ class CreateEveningAction extends Action
             $instance = NrvRepository::getInstance();
             $uuid = Uuid::uuid4();
 
+            //GESTION DES IMAGES
+            $directory = "res/images/evenings/";
+            $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+            $destination = "$directory/$uuid.$extension";
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
+                throw new Exception("Échec du déplacement de l'image");
+            }
+
+            //GESTION BD
             $evening = new Evening(
                 $uuid,
                 $_POST['name'],
@@ -57,7 +67,7 @@ class CreateEveningAction extends Action
         $locations = $instance->findAllLocations();
 
         $form = <<<HTML
-<form method="post" class="p-4 rounded shadow-sm" style="background-color: #f8f9fa; max-width: 600px; margin: auto; border-radius: 8px;">
+<form method="post" enctype="multipart/form-data" class="p-4 rounded shadow-sm" style="background-color: #f8f9fa; max-width: 600px; margin: auto; border-radius: 8px;">
     <div class="mb-3">
         <label for="name" class="form-label">Nom de la soirée</label>
         <input type="text" name="name" id="name" class="form-control" placeholder="Entrez le nom" required>
@@ -96,6 +106,9 @@ HTML;
         <label for="price" class="form-label">Prix de la soirée</label>
         <input type="number" name="price" id="price" class="form-control" placeholder="Entrez le prix" required>
     </div>
+    
+    <label for="image">Image du spectacle</label>
+    <input type="file" name="image" id="image" accept="image/*" required><br><br>
     
     <button type="submit" class="btn btn-primary w-100" style="background-color: #007bff; border-color: #007bff;">Créer la soirée</button>
 </form>
