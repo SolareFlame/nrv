@@ -7,6 +7,7 @@ use iutnc\nrv\object\Artist;
 class ArtistRenderer implements Renderer
 {
 
+
     private Artist $artist;
 
     /**
