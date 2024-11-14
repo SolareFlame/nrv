@@ -5,7 +5,6 @@ namespace iutnc\nrv\action\program_navigation;
 
 use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\object\Show;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -19,7 +18,7 @@ class DisplayAllEveningsAction extends Action
     /**
      * @inheritDoc
      */
-    public function executePost() :string
+    public function executePost(): string
     {
         return "";
     }
@@ -33,6 +32,6 @@ class DisplayAllEveningsAction extends Action
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();
         $evenings = $repository->findAllEvenings();
-        return ArrayRenderer::render($evenings, Renderer::COMPACT,true);
+        return ArrayRenderer::render($evenings, Renderer::COMPACT, true);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\action\program_management;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\repository\NrvRepository;
 use iutnc\nrv\object\Evening;
@@ -15,10 +16,11 @@ class CreateEveningAction extends Action
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function executePost(): string
     {
-        if(isset($_POST['name']) &&
+        if (isset($_POST['name']) &&
             isset($_POST['theme']) &&
             isset($_POST['date']) &&
             isset($_POST['location']) &&
@@ -47,6 +49,7 @@ class CreateEveningAction extends Action
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function executeGet(): string
     {

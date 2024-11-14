@@ -1,11 +1,12 @@
-<?php 
+<?php
 
-namespace iutnc\nrv\object ;
+namespace iutnc\nrv\object;
 
 use iutnc\nrv\exception\InvalidPropertyNameException;
 use iutnc\nrv\render\EveningRenderer;
 
-class Evening {
+class Evening
+{
     private string $id;
     private string $title;
     private string $theme;
@@ -33,9 +34,8 @@ class Evening {
         $this->location = $location;
         $this->description = $description;
         $this->eveningPrice = $eveningPrice;
-        $this->shows =[];
+        $this->shows = [];
     }
-
 
 
     /**
@@ -49,24 +49,21 @@ class Evening {
         throw new InvalidPropertyNameException("La propriété '$property' n'existe pas.");
     }
 
-    public function addShow(Show $show)
+    public function addShow(Show $show): void
     {
         $this->shows[] = $show;
     }
 
-    public function deleteShow(Show $show)
+    public function deleteShow(Show $show): void
     {
-        unset($this->shows,$show);
+        unset($this->shows, $show);
     }
 
-    public function addShows(array $shows)
+    public function addShows(array $shows): void
     {
-
-            foreach ($shows as $show){
-                $this->shows[] = unserialize($show);
-            }
-
-
+        foreach ($shows as $show) {
+            $this->shows[] = unserialize($show);
+        }
     }
 
     public function getRender(int $option): string

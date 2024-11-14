@@ -2,23 +2,24 @@
 
 namespace iutnc\nrv\authn;
 
-
+use Exception;
 use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\object\User;
 use iutnc\nrv\repository\NrvRepository;
 use Ramsey\Uuid\Uuid;
 
-
 /**
  * Gere les authentification et autorisation
  */
-class NrvAuthnProvider {
+class NrvAuthnProvider
+{
 
     /**
      * @throws AuthnException
+     * @throws Exception
      */
-    public static function login(string $passwd2check){
-
+    public static function login(string $passwd2check): void
+    {
 
 //        $repo = NrvRepository::getInstance();
 //        $user = $repo->getUser($username);
@@ -29,11 +30,11 @@ class NrvAuthnProvider {
 //        $_SESSION['user'] = serialize($user);
 
         $r = NrvRepository::getInstance();
-        $uuid = $r->authentificateUser($passwd2check) ;
+        $uuid = $r->authentificateUser($passwd2check);
 
-        if($uuid!=null){
-            $_SESSION['pwd'] = $passwd2check ;
-            $_SESSION['id'] = $uuid ;
+        if ($uuid != null) {
+            $_SESSION['pwd'] = $passwd2check;
+            $_SESSION['id'] = $uuid;
         } else {
             throw new AuthnException("Identifiant non reconnu");
         }
@@ -43,41 +44,46 @@ class NrvAuthnProvider {
      * Enregistre un nouvel utilisateur.
      * @param string $password Le mot de passe de l'utilisateur
      * @throws AuthnException Si l'email est invalide ou si le mot de passe ne respecte pas les critères de sécurité.
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function register($password,$permission): void
+    public static function register(string $password, $permission): void
     {
 
         $r = NrvRepository::getInstance();
         $uuid = Uuid::uuid4();
         if (self::checkPasswordStrength($password, 10)) {
-            $hash = password_hash($password, PASSWORD_DEFAULT, ['cost'=>12]);
-            $user = new User($uuid,$permission,$hash);
+            $hash = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+            $user = new User($uuid, $permission, $hash);
             $r->createAccount($user);
-        } else{
+        } else {
             throw new AuthnException("Le mot de passe doit contenir au moins 10 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial.");
         }
     }
 
-    public static function logout(){
+    public static function logout(): void
+    {
         session_destroy();
         header('Location: index.php');
     }
 
 
-    public static function hasPermission($permissionLevel): bool {
-        
-        if(!isset($_SESSION['pwd']) || !isset($_SESSION['id'])){  // l'user n'est pas connecté
-            return false ;
+    /**
+     * @throws Exception
+     */
+    public static function hasPermission($permissionLevel): bool
+    {
+
+        if (!isset($_SESSION['pwd']) || !isset($_SESSION['id'])) {  // l'user n'est pas connecté
+            return false;
         }
 
-        $r = NrvRepository::getInstance() ;
+        $r = NrvRepository::getInstance();
 
-        if($r->authentificateUser($_SESSION['pwd']) != $_SESSION['id']){  // l'id et le password ne vont pas ensemble
-            return false ;
+        if ($r->authentificateUser($_SESSION['pwd']) != $_SESSION['id']) {  // l'id et le password ne vont pas ensemble
+            return false;
         }
 
-        return $r->checkRole($_SESSION['id'],$permissionLevel) ;
+        return $r->checkRole($_SESSION['id'], $permissionLevel);
     }
 
     /**
@@ -90,8 +96,8 @@ class NrvAuthnProvider {
     public static function checkPasswordStrength(string $pass, int $minimumLength = 8): bool
     {
         $length = (strlen($pass) >= $minimumLength); // La longueur doit être suffisante
-        $digit = preg_match("#[\d]#", $pass); // Au moins un chiffre
-        $special = preg_match("#[\W]#", $pass); // Au moins un caractère spécial
+        $digit = preg_match("#\d#", $pass); // Au moins un chiffre
+        $special = preg_match("#\W#", $pass); // Au moins un caractère spécial
         $lower = preg_match("#[a-z]#", $pass); // Au moins une minuscule
         $upper = preg_match("#[A-Z]#", $pass); // Au moins une majuscule
 
@@ -105,7 +111,7 @@ class NrvAuthnProvider {
      * @return User L'utilisateur connecté.
      * @throws AuthnException Si aucun utilisateur n'est connecté.
      */
-    public static function getSignedInUser (): User
+    public static function getSignedInUser(): User
     {
         if (!isset($_SESSION['user'])) {
             throw new AuthnException("Vous n'avez pas l'autorisation d'accéder à cette fonctionnalité.");

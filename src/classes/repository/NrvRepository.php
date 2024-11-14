@@ -4,8 +4,6 @@ namespace iutnc\nrv\repository;
 
 use DateTime;
 use Exception;
-use http\Encoding\Stream;
-use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
@@ -66,14 +64,18 @@ class NrvRepository
     /**
      * Obtient l'instance unique de NrvRepository.
      * @return ?NrvRepository
-     * @throws Exception
      */
     public static function getInstance(): ?NrvRepository
     {
-        if (is_null(self::$instance)) {
-            self::setConfig("config.ini");
-            self::$instance = new NrvRepository(self::$configuration);
+        try {
+            if (is_null(self::$instance)) {
+                self::setConfig("config.ini");
+                self::$instance = new NrvRepository(self::$configuration);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
+
         return self::$instance;
     }
 
@@ -215,7 +217,7 @@ class NrvRepository
      * @param String $artist_uuid : id de l'artiste
      * @return void
      */
-    function addArtisteToShow(String $show_uuid, String $artist_uuid): void
+    function addArtisteToShow(string $show_uuid, string $artist_uuid): void
     {
         $query = "insert into nrv_show2artist (show_uuid, artist_uuid) values (:show_uuid, :artist_uuid)";
         $stmt = $this->pdo->prepare($query);
@@ -231,7 +233,7 @@ class NrvRepository
      * @param String $artist_uuid : id de l'artiste
      * @return void
      */
-    function DeleteArtisteToShow(String $show_uuid, String $artist_uuid): void
+    function DeleteArtisteToShow(string $show_uuid, string $artist_uuid): void
     {
         $query = "delete from nrv_show2artist where show_uuid = :show_uuid and artist_uuid = :artist_uuid";
         $stmt = $this->pdo->prepare($query);
@@ -281,7 +283,7 @@ class NrvRepository
      * Annuler un spectacle : le spectacle est conservé dans les affichages mais est marqué comme annulé
      * @param String $uuid
      */
-    function cancelShow(String $uuid): void
+    function cancelShow(string $uuid): void
     {
         $query = "Update nrv_show set show_programmed=0 where show_uuid = :show_uuid";
         $stmt = $this->pdo->prepare($query);
@@ -327,7 +329,7 @@ class NrvRepository
     /**
      * @param string $idFav : id du show à récupérer
      * @return Show : show correspondant à l'id
-     * @throws \DateMalformedStringException
+     * @throws \DateMalformedStringException|Exception
      */
     public function findShowById(string $idFav): Show
     {
@@ -365,7 +367,8 @@ class NrvRepository
      * @return void
      * @throws RepositoryException
      */
-    function updateShowColumn(string $showId, string $column, mixed $value) : void{
+    function updateShowColumn(string $showId, string $column, mixed $value): void
+    {
         $dbColumn = match ($column) {
             "title" => "show_title",
             "description" => "show_description",
@@ -378,9 +381,9 @@ class NrvRepository
 
         $query = "UPDATE nrv_show SET $dbColumn = :value WHERE show_uuid = :showId";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(["value"=>$value,"showId"=>$showId]);
+        $stmt->execute(["value" => $value, "showId" => $showId]);
 
-        if (!$stmt->rowCount()){
+        if (!$stmt->rowCount()) {
             throw new RepositoryException("La mise à jour à échoué.");
         }
     }
@@ -433,6 +436,9 @@ class NrvRepository
         return $this->createArrayFromStmt($stmt, "Show");
     }
 
+    /**
+     * @throws Exception
+     */
     function findAllEvenings(): array
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, 
@@ -450,10 +456,9 @@ class NrvRepository
     /**
      * S'authentifier
      * @param string $password
-     * @return bool
-     * @throws Exception
+     * @return string|false : id de l'utilisateur si authentifié, false sinon
      */
-    function authentificateUser(string $password): string
+    function authentificateUser(string $password): string|false
     {
         $hash = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 
@@ -466,14 +471,13 @@ class NrvRepository
             return false;
         }
 
-        for ($i=0; $i < sizeof($res); $i++) { 
-            if(password_verify($password,$res[$i]['password'])){
-                return $res[$i]['user_uuid'] ;
+        for ($i = 0; $i < sizeof($res); $i++) {
+            if (password_verify($password, $res[$i]['password'])) {
+                return $res[$i]['user_uuid'];
             }
         }
-        return false ;
+        return false;
     }
-
 
 
     /**
@@ -525,6 +529,7 @@ class NrvRepository
         if (!class_exists($create_path)) {
             throw new Exception("La classe $class n'existe pas.");
         }
+        $results = [];
         switch ($class) {
             case "Show":
                 // pour parcourir 1 seul fois la base de données au lieu de findStyleById pour chaque show
@@ -545,7 +550,7 @@ class NrvRepository
             case "Evening":
                 foreach ($rows as $row) {
                     $evening = new $create_path($row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
-                        $row['evening_date'],$this->findLocationById($row['evening_location_id']) , $row['evening_description'], $row['evening_price']);
+                        $row['evening_date'], $this->findLocationById($row['evening_location_id']), $row['evening_description'], $row['evening_price']);
                     $results[] = serialize($evening);
                 }
                 break;
@@ -655,17 +660,18 @@ class NrvRepository
         $query = "Select artist_uuid, artist_name from nrv_artist";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $res;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function findAllArtistsByShow(String $showId) : array
+    /**
+     * @throws Exception
+     */
+    function findAllArtistsByShow(string $showId): array
     {
         $query = "Select * From nrv_show2artist INNER JOIN nrv_artist ON nrv_show2artist.artist_uuid = nrv_artist.artist_uuid WHERE show_uuid = :id";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['id'=>$showId]);
-        return $this->createArrayFromStmt($stmt,"Artist");
+        $stmt->execute(['id' => $showId]);
+        return $this->createArrayFromStmt($stmt, "Artist");
 
     }
 
@@ -675,10 +681,10 @@ class NrvRepository
 
     /**
      * Retourne la une location à partir d'un id
-     * @param int $styleId
-     * @return Style
+     * @param int $styleId : id du style
+     * @return string : nom du style
      */
-    function findStyleById(int $styleId): String
+    function findStyleById(int $styleId): string
     {
         $query = "Select * from nrv_style where style_id = :id";
         $stmt = $this->pdo->prepare($query);
@@ -739,9 +745,7 @@ class NrvRepository
         $query = "Select * from nrv_style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $res;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function equivalentStyleObject(): array

@@ -16,25 +16,24 @@ class CancelShowAction extends Action
 
     /**
      * @inheritDoc
-     * @throws Exception
      */
     public function executePost(): string
     {
-        try{
+        try {
             if (!NrvAuthnProvider::hasPermission(50)) {
                 throw new Exception("Permission refusée : seul un organisateur peut annuler un spectacle.");
             }
 
             $showUuid = $_POST["showUuid"] ?? null;
-            if(!$showUuid) {
-                throw new \Exception("Identifiant du spectacle non fourni");
+            if (!$showUuid) {
+                throw new Exception("Identifiant du spectacle non fourni");
             }
 
             $repo = NrvRepository::getInstance();
             $repo->cancelShow($showUuid);
 
             return "Le spectacle a bien été annulé.";
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }

@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\action\program_navigation;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
@@ -23,13 +24,13 @@ class DisplayShowsByLocationAction extends Action
 
     /**
      * @inheritDoc
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeGet(): string
     {
         $repository = NrvRepository::getInstance();
-        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
+        $id = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $shows = $repository->findShowsByLocation($id);
-        return ArrayRenderer::render($shows,Renderer::COMPACT,true);
+        return ArrayRenderer::render($shows, Renderer::COMPACT, true);
     }
 }

@@ -83,7 +83,7 @@ HTML;
             <div class="list-group">
 HTML;
 
-        $shows = ArrayRenderer::render($this->evening->shows,self::COMPACT,false);
+        $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
 
         $renderEvening .= $shows . <<<HTML
             </div>

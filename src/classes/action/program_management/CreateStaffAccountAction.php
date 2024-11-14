@@ -2,11 +2,10 @@
 
 namespace iutnc\nrv\action\program_management;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\authn\NrvAuthnProvider;
-use iutnc\nrv\exception\AuthnException;
 use iutnc\nrv\object\User;
-use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Créer un compte staff : créer un compte utilisateur permettant de gérer le programme
@@ -19,11 +18,10 @@ class CreateStaffAccountAction extends Action
      */
     public function executePost(): string
     {
-        $repo = NrvRepository::getInstance();
         // Récupération et nettoyage du nom d'utilisateur
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_var($_POST['password'],FILTER_SANITIZE_SPECIAL_CHARS);
-        $confirm_password = filter_var($_POST['confirm_password'],FILTER_SANITIZE_SPECIAL_CHARS);
+        //$username = filter_var($_POST['username'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_var($_POST['password'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $confirm_password = filter_var($_POST['confirm_password'], FILTER_SANITIZE_SPECIAL_CHARS);
 
         // Vérification que le mot de passe et la confirmation sont identiques
         if ($password !== $confirm_password) {
@@ -31,10 +29,10 @@ class CreateStaffAccountAction extends Action
         }
 
         try {
-            NrvAuthnProvider::register($password,User::ROLE_ORGA);
+            NrvAuthnProvider::register($password, User::ROLE_ORGA);
             NrvAuthnProvider::login($password);
             header('Location: index.php');
-        } catch (AuthnException $e) {
+        } catch (Exception $e) {
             return $this->errorMessage($e->getMessage());
         }
 
@@ -89,7 +87,7 @@ HTML;
      * @param string $message Le message d'erreur à afficher.
      * @return string Le rendu HTML du formulaire d'inscription avec le message d'erreur.
      */
-    protected function errorMessage(string $message) : string
+    protected function errorMessage(string $message): string
     {
         $errorMessage = <<<HTML
         <div class="alert alert-danger mt-3 text-center" role="alert">

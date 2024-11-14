@@ -13,11 +13,10 @@ interface Renderer
 
     /**
      * @param int $selector 1 for compact, 2 for long
-     * @param bool $isPrivate vrai si la playlist appartient à un user
+     * @param null $index l'index de l'entité à afficher (facultatif)
      * @return string le rendu
      */
     public function render(int $selector, $index = null): string;
-
 
 
 }

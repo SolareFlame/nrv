@@ -2,8 +2,7 @@
 
 namespace iutnc\nrv\action\user_experience;
 
-use iutnc\nrv\exception\AuthnException;
-use iutnc\nrv\repository\NrvRepository;
+use Exception;
 use iutnc\nrv\authn\NrvAuthnProvider;
 use iutnc\nrv\action\Action ;
 
@@ -31,7 +30,7 @@ class LoginAction extends Action {
         try {
             NrvAuthnProvider::login($_POST['password']);
             header("Location: {$_SESSION["previous"]}");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $ret .= '<p style="color: red;">Les identifiants ne sont pas reconnus.</p>';
             $ret .= '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
         }

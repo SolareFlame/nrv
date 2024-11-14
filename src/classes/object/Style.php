@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\nrv\object;
+
 use iutnc\nrv\exception\InvalidPropertyNameException;
 
 class Style

@@ -2,10 +2,7 @@
 
 namespace iutnc\nrv\render;
 
-use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\object\Show;
-use iutnc\nrv\render\Renderer;
-use iutnc\nrv\repository\NrvRepository;
 
 /**
  * Classe PodcastRenderer.

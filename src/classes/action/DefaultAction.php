@@ -2,10 +2,8 @@
 
 namespace iutnc\nrv\action;
 
+use Exception;
 use iutnc\nrv\action\program_navigation\DisplayAllEveningsAction;
-use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
-use Ramsey\Uuid\Uuid;
-
 
 /**
  * Class DefaultAction
@@ -15,8 +13,9 @@ class DefaultAction extends Action
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
-    public function executeGet() : string
+    public function executeGet(): string
     {
         $action = new DisplayAllEveningsAction();
         $content = $action->executeGet();
@@ -32,6 +31,6 @@ class DefaultAction extends Action
      */
     public function executePost(): string
     {
-        return "<h1>SITE NRV</h1>" ;
+        return "<h1>SITE NRV</h1>";
     }
 }
