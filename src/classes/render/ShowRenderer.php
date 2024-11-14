@@ -124,6 +124,13 @@ HTML;
                     </div>
                 </div>
                 
+                <div class="d-flex align-items-center justify-content-center my-4 px-4">
+                    <div class="mx-2 title-border" style="background-color: #FF9F1C"></div>
+                    <h1 class="text-center mx-3">ARTISTES</h1>
+                    <div class="mx-2 title-border" style="background-color: #FF9F1C"></div>
+                </div>
+                
+                
                 <div id="customCarousel" class="carousel slide my-5" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         {$carrousel}
