@@ -19,6 +19,7 @@ use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
 use iutnc\nrv\action\show_details\DisplayShowsByDayAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
 use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
+use iutnc\nrv\action\user_experience\ContactAction;
 use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
@@ -103,6 +104,9 @@ class Dispatcher
                     break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();
+                    break;
+                case 'contact':
+                    $act = new ContactAction();
                     break;
                 default:
                     $this->renderPage("Action inconnue");
