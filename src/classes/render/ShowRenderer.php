@@ -138,8 +138,25 @@ HTML;
         }
 
         $inst = NrvRepository::getInstance();
-        $evening_parent = $inst->findEveningOfShow($this->show->id);
-        $evening_parent_loc = $evening_parent->location;
+        try {
+            $evening_parent = $inst->findEveningOfShow($this->show->id);
+            $evening_parent_loc = $evening_parent->location;
+            $icon = <<<HTML
+                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
+HTML;
+            $filtreLieu = <<<HTML
+                <a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+HTML;
+
+
+
+        } catch (RepositoryException $e){
+            $icon = <<<HTML
+<p><i class="fas fa-star info-icon me-2"></i><a class="text-decoration-none">Associée à aucun spectacle</a></p>
+HTML;
+            $filtreLieu = "";
+        }
+
 
         $date = $this->show->startDate->format('Y-m-d');
 
@@ -150,18 +167,20 @@ HTML;
         $autorisation = AuthnProvider::getSignedInUser();
 
         $edit_btn = "";
+        $annulation_btn = "";
         if($autorisation["role"]>=50) {
             $edit_btn = <<<HTML
             <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
+            <form class="btn" action="?action=cancel-show&id={$id}" method="POST">
+                <input type="hidden" name="action" value="cancel-show">
+                <input type="hidden" name="id" value="$id">
+                <button type="submit" class="btn btn-danger">Annuler</button>
+            </form>
 HTML;
         }
+        
 
-        function extractYouTubeID($url) {
-            preg_match('/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $matches);
-            return !empty($matches[1]) ? $matches[1] : (!empty($matches[2]) ? $matches[2] : $url);
-        }
-
-        $videoID = extractYouTubeID($this->show->url);
+        $videoID = $this->extractYouTubeID($this->show->url);
 
 
         //PROGRAMMATION
@@ -186,7 +205,7 @@ HTML;
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>
-                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
+                            $icon
                             <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                             <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
             
@@ -242,10 +261,14 @@ HTML;
                 <div class="d-flex justify-content-center gap-2">
                 <a href='index.php?action=showByStyle&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
                 <a href='index.php?action=showByDate&id={$date}' class='filter-btn'>DATE: {$date}</a>
-                <a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                $filtreLieu
                 </div>
             HTML;
 
         return $html;
+    }
+    function extractYouTubeID($url) {
+        preg_match('/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $matches);
+        return !empty($matches[1]) ? $matches[1] : (!empty($matches[2]) ? $matches[2] : $url);
     }
 }

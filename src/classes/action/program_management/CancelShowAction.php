@@ -25,11 +25,11 @@ class CancelShowAction extends Action
                 throw new AccessControlException("Permission refusée : seul un organisateur peut annuler un spectacle.");
             }
 
-            $showUuid = $_POST["showUuid"] ?? null;
+            $showUuid = filter_var($_POST["id"],FILTER_SANITIZE_SPECIAL_CHARS) ?? null;
+
             if (!$showUuid) {
                 throw new Exception("Identifiant du spectacle non fourni");
             }
-
             $repo = NrvRepository::getInstance();
             $repo->cancelShow($showUuid);
 
