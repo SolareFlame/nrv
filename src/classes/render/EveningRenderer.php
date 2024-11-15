@@ -59,39 +59,65 @@ HTML;
 
     }
 
-
     public function renderLong($index): string
     {
         $extensions = ['jpg', 'gif', 'png'];
-        $img = "res/background/show_default.jpg";
+        $img = "res/background/evening_default.jpg";
+
+        foreach ($extensions as $ext) {
+            $filePath = "res/images/evenings/{$this->evening->id}.$ext";
+            if (file_exists($filePath)) {
+                $img = $filePath;
+                break;
+            }
+        }
+
+        $imageOverlay = "res/icons/cancel.png";
+        $grayscaleStyle = !$this->evening->programmed ? "filter: grayscale(100%);" : "";
+        $overlayVisible = !$this->evening->programmed ? "opacity: 1;" : "opacity: 0;";
 
         $cancelbnt = "";
         if (Authz::checkRole(Authz::STAFF)) {
             $cancelbnt =
                 <<<HTML
-                <form class="btn" action="?action=cancel-evening&id={$this->evening->id}" method="POST">
-                        <input type="hidden" name="action" value="cancel-show">
-                        <input type="hidden" name="id" value="{$this->evening->id}">
-                        <button type="submit" class="btn btn-danger">Annuler</button>
-                </form>
-                HTML;
+            <form class="btn" action="?action=cancel-evening&id={$this->evening->id}" method="POST">
+                    <input type="hidden" name="action" value="cancel-evening">
+                    <input type="hidden" name="id" value="{$this->evening->id}">
+                    <button type="submit" class="btn btn-danger">Annuler</button>
+            </form>
+            HTML;
         }
+
         $location = $this->evening->location;
 
         if ($this->evening->shows == []) {
-
             $shows = "<div class='ms-3 fw-bold text-muted fs-5'><p>Aucun spectacle</p></div>";
         } else {
             $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
         }
 
-        $renderEvening = <<<HTML
+        return <<<HTML
 <div class="container evening-container">
-    <div class="text-center evening-header">
+    <div class="row evening-header align-items-center">
+    <div class="col-md-4 col-12 text-center" style="padding: 20px;">
+        <div class="position-relative" style="height: 0; padding-top: 100%; overflow: hidden; border-radius: 15px;">
+            <div class="card-img" style="background-image: url('{$img}'); {$grayscaleStyle} width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-size: cover; background-position: center;"></div>
+            <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center" style="top: 0; left: 0; {$overlayVisible}">
+                <img src="{$imageOverlay}" alt="Annulé" style="max-width: 50%; max-height: 50%;">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-8 col-12 text-center text-md-left" style="padding: 10px;">
         <h2>{$this->evening->title}</h2>
         <p class="evening-theme">Thème : {$this->evening->theme}</p>
         $cancelbnt
     </div>
+    </div>
+
+    
+    
     <div class="row evening-info">
         <div class="col-md-4 info-card">
             <div class="info-content">
@@ -118,20 +144,20 @@ HTML;
             <p>{$this->evening->description}</p>
         </div>
     </div>
+   
     <div class="row evening-shows">
         <div class="col-md-12">
             <h3 class="shows-title">Spectacles</h3>
             <div class="list-group">
-            
                 $shows
-                
             </div>
         </div>
     </div>
 </div>
 HTML;
-
-        return $renderEvening;
-
     }
+
+
+
+
 }
