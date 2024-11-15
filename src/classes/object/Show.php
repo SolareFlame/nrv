@@ -20,6 +20,7 @@ class Show
     private string $style;
     private string $url;
     private array $artists = [];
+    private bool $programmed;
 
     /**
      * @param string $id L'identifiant du spectacle
@@ -30,7 +31,7 @@ class Show
      * @param string $style Le style du spectacle
      * @param string $url L'URL du spectacle
      */
-    public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url)
+    public function __construct(string $id, string $title, string $description, DateTime $startDate, int $duration, string $style, string $url, bool $prog = true)
     {
         $this->id = $id;
         $this->title = $title;
@@ -39,8 +40,8 @@ class Show
         $this->duration = $duration;
         $this->style = $style;
         $this->url = $url;
+        $this->programmed = $prog;
     }
-
 
     /**
      * @throws InvalidPropertyNameException

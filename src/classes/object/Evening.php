@@ -15,6 +15,7 @@ class Evening
     private string $description;
     private float $eveningPrice;
     private array $shows;
+    private bool $programmed;
 
     /**
      * @param string $id
@@ -25,7 +26,7 @@ class Evening
      * @param string $description
      * @param float $eveningPrice
      */
-    public function __construct(string $id, string $title, string $theme, string $date, Location $location, string $description, float $eveningPrice)
+    public function __construct(string $id, string $title, string $theme, string $date, Location $location, string $description, float $eveningPrice, bool $prog = true)
     {
         $this->id = $id;
         $this->title = $title;
@@ -35,6 +36,7 @@ class Evening
         $this->description = $description;
         $this->eveningPrice = $eveningPrice;
         $this->shows = [];
+        $this->programmed = $prog;
     }
 
 
@@ -71,5 +73,4 @@ class Evening
         $renderer = new EveningRenderer($this);
         return $renderer->render($option);
     }
-
 }

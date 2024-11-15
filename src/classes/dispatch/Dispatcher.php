@@ -146,11 +146,8 @@ class Dispatcher
      */
     private function renderPage(string $html): void
     {
-        include("src/html/home.php");
-
-        $content = ob_get_clean();
+        $content = file_get_contents("src/html/home.php");
         $page = str_replace("{{CONTENT}}", $html, $content);
-
         echo $page;
     }
 
