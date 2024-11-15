@@ -3,7 +3,7 @@
 namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
-use iutnc\nrv\render\SimpleRenderer;
+use iutnc\nrv\render\ContactRenderer;
 
 class ContactAction extends Action
 {
@@ -36,6 +36,6 @@ class ContactAction extends Action
             ],
         ];
 
-        return SimpleRenderer::render('Comment nous contacter ?', $contactInfo);
+        return ContactRenderer::render('Comment nous contacter ?', $contactInfo);
     }
 }

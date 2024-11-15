@@ -2,7 +2,7 @@
 
 namespace iutnc\nrv\render;
 
-class SimpleRenderer
+class ContactRenderer
 {
     public static function render(string $title, array $contactInfo): string
     {
