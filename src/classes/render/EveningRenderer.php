@@ -66,17 +66,24 @@ HTML;
         $img = "res/background/show_default.jpg";
 
         $cancelbnt = "";
-        if(Authz::checkRole(Authz::STAFF)){
-            $cancelbnt = <<<HTML
-        <form class="btn" action="?action=cancel-evening&id={$this->evening->id}" method="POST">
-                <input type="hidden" name="action" value="cancel-show">
-                <input type="hidden" name="id" value="{$this->evening->id}">
-                <button type="submit" class="btn btn-danger">Annuler</button>
-        </form>
-HTML;
-
+        if (Authz::checkRole(Authz::STAFF)) {
+            $cancelbnt =
+                <<<HTML
+                <form class="btn" action="?action=cancel-evening&id={$this->evening->id}" method="POST">
+                        <input type="hidden" name="action" value="cancel-show">
+                        <input type="hidden" name="id" value="{$this->evening->id}">
+                        <button type="submit" class="btn btn-danger">Annuler</button>
+                </form>
+                HTML;
         }
         $location = $this->evening->location;
+
+        if (empty($this->evening->shows)) {
+            $shows = "<p>Aucun spectacle</p>";
+        } else {
+            $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
+        }
+
         $renderEvening = <<<HTML
 <div class="container evening-container">
     <div class="text-center evening-header">
@@ -114,12 +121,9 @@ HTML;
         <div class="col-md-12">
             <h3 class="shows-title">Spectacles</h3>
             <div class="list-group">
-HTML;
-
-        $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
-
-        $renderEvening .= $shows . <<<HTML
-
+            
+                $shows
+                
             </div>
         </div>
     </div>
