@@ -43,6 +43,6 @@ HTML;
      */
     public function executePost(): string
     {
-        return "<h1>SITE NRV</h1>";
+        return $this->executeGet();
     }
 }
