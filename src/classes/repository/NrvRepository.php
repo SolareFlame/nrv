@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\repository;
 
-use Cassandra\Date;
 use DateTime;
 use Exception;
 use iutnc\nrv\exception\RepositoryException;
@@ -10,7 +9,6 @@ use iutnc\nrv\object\Artist;
 use iutnc\nrv\object\Evening;
 use iutnc\nrv\object\Location;
 use iutnc\nrv\object\Show;
-use iutnc\nrv\object\Style;
 use iutnc\nrv\object\User;
 use PDO;
 use PDOStatement;
@@ -150,23 +148,6 @@ class NrvRepository
     }
 
     /**
-     * Affichage détaillé d’un spectacle
-     * @param string $uuid
-     * @return Show
-     * @throws Exception
-     */
-    function findShowDetails(string $uuid): Show
-    {
-        $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url, show_programmed from nrv_show where show_uuid = :uuid";
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['uuid' => $uuid]);
-
-        return $this->createArrayFromStmt($stmt, 'Show')[0];
-    }
-
-    /**
      * Récupération des spectacles d'une soirée
      * @param string $id : id de la soirée
      * @return array|string[] : liste des spectacles de la soirée
@@ -298,7 +279,7 @@ class NrvRepository
      * @param Show $show
      * @param Evening $evening
      */
-    function deleteShowFromEvening(Show $show, Evening $evening)
+    function deleteShowFromEvening(Show $show, Evening $evening): void
     {
         $query = "Delete from nrv_evening2show where evening_uuid = :evening_uuid and show_uuid = :show_uuid";
         $stmt = $this->pdo->prepare($query);
@@ -343,7 +324,6 @@ class NrvRepository
 
         return unserialize($this->createArrayFromStmt($stmt, 'Show')[0]);
     }
-
 
     /**
      * @throws Exception
@@ -535,22 +515,6 @@ class NrvRepository
     }
 
     /**
-     * Vérifie que l'user ait la permission
-     * @param $uuid
-     * @param $role
-     * @return bool
-     */
-    /*function checkRole($uuid, $role): bool
-    {
-        $query = "Select user_role from nrv_user where user_uuid = :uuid";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['uuid' => $uuid]);
-
-        $r = $stmt->fetch(PDO::FETCH_ASSOC);
-        return ($r && $role <= $r['user_role']);
-    }*/
-
-    /**
      * Fonction de création d'un tableau de Show|Evening à partir du résultat d'une requête
      * @param string $class le nom de la classe à instancier
      * @param false|PDOStatement $stmt le stmt déjà éxécuté
@@ -561,12 +525,12 @@ class NrvRepository
     {
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!$rows) {
-            throw new Exception("La liste est vide.");
+            throw new RepositoryException("La liste est vide.");
         }
 
         $create_path = "iutnc\\nrv\\object\\$class";
         if (!class_exists($create_path)) {
-            throw new Exception("La classe $class n'existe pas.");
+            throw new RepositoryException("La classe $class n'existe pas.");
         }
         $results = [];
         switch ($class) {
@@ -740,7 +704,7 @@ class NrvRepository
      * @return bool : true si le style existe, false sinon
      * @throws Exception
      */
-    function VerifExistStyle(int $styleId): bool
+    function verifExistStyle(int $styleId): bool
     {
         $query = "SELECT * FROM nrv_style WHERE style_id = :styleId";
         $stmt = $this->pdo->prepare($query);
