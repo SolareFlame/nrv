@@ -40,8 +40,6 @@ class DisplayShowsByDateAction extends Action
 
         $date = new \DateTime($id);
 
-        $showsByDay = NrvRepository::getInstance()->findShowsByDate($date);
-
         $html = <<<HTML
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
@@ -50,8 +48,12 @@ class DisplayShowsByDateAction extends Action
                 </div>
                 <p class="text-center">Résultat pour la date : {$id}</p>
 HTML;
-
-        $html .= ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
+        try {
+            $showsByDay = NrvRepository::getInstance()->findShowsByDate($date);
+            $html .= ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
+        } catch (Exception) {
+            $html .= '<p class="text-center">Aucun résultats correspondants.</p>';
+        }
 
         return $html;
     }

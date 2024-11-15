@@ -36,8 +36,6 @@ class DisplayShowsByStyleAction extends Action
 
         $style = NrvRepository::getInstance()->findStyleById($id);
 
-        $showsByStyle = NrvRepository::getInstance()->findShowsByStyle($id);
-
         $html = <<<HTML
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
@@ -46,8 +44,12 @@ class DisplayShowsByStyleAction extends Action
                 </div>
                 <p class="text-center">Résultat pour le style : {$style}</p>
 HTML;
-
-        $html .= ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
+        try {
+            $showsByStyle = NrvRepository::getInstance()->findShowsByStyle($id);
+            $html .= ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
+        } catch (Exception) {
+            $html .= '<p class="text-center">Aucun résultats correspondants.</p>';
+        }
 
         return $html;
     }
