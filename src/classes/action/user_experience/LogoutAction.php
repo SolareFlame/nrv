@@ -4,7 +4,8 @@ namespace iutnc\nrv\action\user_experience;
 
 use iutnc\nrv\action\Action;
 
-class LogoutAction extends Action {
+class LogoutAction extends Action
+{
 
     /**
      * @inheritDoc
@@ -21,7 +22,7 @@ class LogoutAction extends Action {
      */
     function executeGet(): string
     {
-        return $this->executePost() ;
+        return $this->executePost();
     }
 }
 

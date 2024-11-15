@@ -67,7 +67,6 @@ class CreateShowAction extends Action
         $inst = NrvRepository::getInstance();
         $styles = $inst->findAllStylesRAW();
         $artists = $inst->findAllArtistsID_Name();
-        $uuid_TEST = Uuid::uuid4();
 
         $style_options = "";
         foreach ($styles as $style) {
@@ -88,7 +87,6 @@ class CreateShowAction extends Action
         <div class="container mt-5">
             <div class="content_form p-4 border rounded shadow-lg">
                 <h4 class="text-center mb-4">Créer un spectacle</h4>
-                <p class="text-center">UUID: {$uuid_TEST}</p>
                 <form method="post" enctype="multipart/form-data">
                 
                     <div class="form-group mb-3">

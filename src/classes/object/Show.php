@@ -3,12 +3,8 @@
 namespace iutnc\nrv\object;
 
 use DateTime;
-use iutnc\nrv\auth\AuthnProvider;
-use iutnc\nrv\auth\Authz;
 use iutnc\nrv\exception\InvalidPropertyNameException;
-use iutnc\nrv\render\ShowEditRenderer;
 use iutnc\nrv\render\ShowRenderer;
-use iutnc\nrv\repository\NrvRepository;
 
 class Show
 {
@@ -66,15 +62,6 @@ class Show
             $this->artists[] = unserialize($artist);
         }
 
-    }
-
-    public function DisplayArtiste(): string
-    {
-        $res = "";
-        foreach ($this->artists as $artist) {
-            $res .= $artist->name . " | ";
-        }
-        return $res;
     }
 
     public function __toString(): string

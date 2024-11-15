@@ -40,6 +40,7 @@ HTML;
 
     /**
      * @inheritDoc
+     * @throws Exception
      */
     public function executePost(): string
     {

@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\action\show_details;
 
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -20,6 +21,7 @@ class DisplayShowDetailsAction extends Action
 
     /**
      * @throws \DateMalformedStringException
+     * @throws Exception
      */
     public function executeGet(): string
     {

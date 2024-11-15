@@ -1,9 +1,6 @@
 <?php
 
 namespace iutnc\nrv\render;
-use iutnc\nrv\auth\AuthnProvider;
-use iutnc\nrv\auth\Authz;
-use iutnc\nrv\object\User;
 
 class ArrayRenderer
 {

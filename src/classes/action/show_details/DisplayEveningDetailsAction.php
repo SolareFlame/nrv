@@ -45,9 +45,9 @@ class DisplayEveningDetailsAction extends Action
 
         if (Authz::checkRole(Authz::STAFF)) {
             $boutonAjouter = <<<HTML
-            <a href="?action=addShow2evening&id={$id}" class="btn btn-primary m-5">Ajouter une soirée</a>
+            <a href="?action=addShow2evening&id={$id}" class="btn btn-primary m-5">Ajouter un spectable</a>
             HTML;
-        }else{
+        } else {
             $boutonAjouter = "";
         }
 

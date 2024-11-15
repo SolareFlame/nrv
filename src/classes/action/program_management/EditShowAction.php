@@ -3,9 +3,9 @@
 namespace iutnc\nrv\action\program_management;
 
 use DateTime;
+use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\exception\RepositoryException;
-use iutnc\nrv\object\User;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
 
@@ -96,14 +96,14 @@ class EditShowAction extends Action
     /**
      * @inheritDoc
      * @throws \DateMalformedStringException
-     * @throws \Exception
+     * @throws Exception
      */
     public function executeGet(): string
     {
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
 
         $repository = NrvRepository::getInstance();
-        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
+        $id = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
         $artists = $repository->findAllArtistsByShow($show->id);

@@ -328,7 +328,7 @@ class NrvRepository
     /**
      * @throws Exception
      */
-    public function findShowsNoAttributes() : array
+    public function findShowsNoAttributes(): array
     {
         $query = <<<SQL
                         SELECT *
@@ -341,8 +341,9 @@ class NrvRepository
                         SQL;
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        return $this->createArrayFromStmt($stmt,"Show");
+        return $this->createArrayFromStmt($stmt, "Show");
     }
+
     /**
      * @param string $uuid : id du show à vérifier
      * @return bool : true si l'id représente un show, false sinon
@@ -413,12 +414,12 @@ class NrvRepository
     /**
      * @throws Exception
      */
-    function findEveningById(string $id) : Evening
+    function findEveningById(string $id): Evening
     {
-        $query = "Select * from nrv_evening";
+        $query = "Select * from nrv_evening where evening_uuid = :id";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        return unserialize($this->createArrayFromStmt($stmt,"Evening")[0]);
+        $stmt->execute(['id' => $id]);
+        return unserialize($this->createArrayFromStmt($stmt, "Evening")[0]);
     }
 
     /**
@@ -432,11 +433,10 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['evening_uuid' => $id]);
         $shows = $this->findShowsInEvening($id);
-        foreach ($shows as $show){
+        foreach ($shows as $show) {
             $show = unserialize($show);
             $this->cancelShow($show->id);
         }
-
 
 
     }
@@ -488,7 +488,7 @@ class NrvRepository
         $stmt->execute();
         $res = $stmt->fetch();
 
-        while ($res){
+        while ($res) {
             if (password_verify($password2Check, $res['password'])) {
                 $_SESSION['user'] = ['id' => $res['user_uuid'], 'role' => $res['user_role']];
                 return true;
@@ -770,7 +770,7 @@ class NrvRepository
     /**
      * @throws RepositoryException
      */
-    function findEveningOfShow(String $idshow): Evening
+    function findEveningOfShow(string $idshow): Evening
     {
         $query = "
                 Select e.evening_uuid, e.evening_title, e.evening_theme, e.evening_date, e.evening_location_id, e.evening_description, e.evening_price, e.evening_programmed from nrv_evening2show es 
@@ -779,14 +779,14 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['idshow' => $idshow]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$row){
+        if (!$row) {
             throw new RepositoryException("Le spectacle est associé à aucune soirée");
         }
 
         return new Evening($row['evening_uuid'], $row['evening_title'], $row['evening_theme'], $row['evening_date'], $this->findLocationById($row['evening_location_id']), $row['evening_description'], $row['evening_price']);
     }
 
-    function findIdStyleByStyleValue(String $styleValue): string
+    function findIdStyleByStyleValue(string $styleValue): string
     {
         $query = "Select style_id from nrv_style where style_name = :name";
         $stmt = $this->pdo->prepare($query);

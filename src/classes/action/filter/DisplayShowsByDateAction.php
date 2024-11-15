@@ -3,6 +3,7 @@
 namespace iutnc\nrv\action\filter;
 
 
+use DateTime;
 use Exception;
 use iutnc\nrv\action\Action;
 use iutnc\nrv\render\ArrayRenderer;
@@ -39,7 +40,7 @@ class DisplayShowsByDateAction extends Action
             return "La date n'est pas au bon format";
         }
 
-        $date = new \DateTime($id);
+        $date = new DateTime($id);
 
         $html = <<<HTML
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">

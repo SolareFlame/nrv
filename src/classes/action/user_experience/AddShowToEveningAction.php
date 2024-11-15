@@ -2,11 +2,9 @@
 
 namespace iutnc\nrv\action\user_experience;
 
+use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\exception\RepositoryException;
-use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Ajouter un spectacle à une soirée
@@ -17,11 +15,12 @@ class AddShowToEveningAction extends Action
     /**
      * @inheritDoc
      * @throws \DateMalformedStringException
+     * @throws Exception
      */
     public function executePost(): string
     {
         $repo = NrvRepository::getInstance();
-        $spectacleId = filter_var($_POST['spectacle']);
+        $spectacleId = filter_var($_POST['spectacle'], FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repo->findShowById($spectacleId);
         $evening = $repo->findEveningById($_GET['id']);
         $repo->addShowToEvening($show, $evening);
@@ -37,13 +36,11 @@ class AddShowToEveningAction extends Action
         $repo = NrvRepository::getInstance();
         try {
             $spectacles = $repo->findShowsNoAttributes();
-        } catch (\Exception $e){
-           return "Pas de spectacle à ajouter, veuillez en creer avant. : " . <<<HTML
-  <a href="?action=add-show" class="btn btn-primary m-5">Ajouter un Spectacle</a>
-HTML;
+        } catch (Exception) {
+            return "Pas de spectacle à ajouter, veuillez en creer avant : <a href='?action=add-show' class='btn btn-primary m-5'>Ajouter un Spectacle</a>";
         }
 
-    // Génère les options pour la combobox des spectacles
+        // Génère les options pour la combobox des spectacles
         $spectacleOptions = '';
         foreach ($spectacles as $spectacle) {
             $show = unserialize($spectacle);

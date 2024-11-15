@@ -18,13 +18,14 @@ class Evening
     private bool $programmed;
 
     /**
-     * @param string $id
-     * @param string $title
-     * @param string $theme
-     * @param string $date
-     * @param Location $location
-     * @param string $description
-     * @param float $eveningPrice
+     * @param string $id L'identifiant de la soirée
+     * @param string $title Le titre de la soirée
+     * @param string $theme Le thème de la soirée
+     * @param string $date  La date de la soirée
+     * @param Location $location Le lieu de la soirée
+     * @param string $description La description de la soirée
+     * @param float $eveningPrice Le prix de la soirée
+     * @param bool $prog La soirée est-elle programmée ?
      */
     public function __construct(string $id, string $title, string $theme, string $date, Location $location, string $description, float $eveningPrice, bool $prog = true)
     {

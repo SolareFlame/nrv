@@ -5,8 +5,6 @@ namespace iutnc\nrv\action\filter;
 
 use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\auth\AuthnProvider;
-use iutnc\nrv\auth\Authz;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;

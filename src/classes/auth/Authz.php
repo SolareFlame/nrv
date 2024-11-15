@@ -28,7 +28,8 @@ class Authz
      * Si vous voulez juste vérifier le role sans forbidden access adressé vous a AuthnProvider::getSignedInUser()
      * PS: ça ne le fais plus, on test une alternative
      *
-     * @param int $required
+     * @param int $required le rôle minimum attendu
+     * @return bool true si l’utilisateur a le rôle attendu, false sinon
      */
     public static function checkRole(int $required): bool
     {

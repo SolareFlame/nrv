@@ -39,7 +39,7 @@ class DisplayFavoritesListAction extends Action
         $html .= "<h2 style='color: #721c24; text-align: center;'>Aucun favori trouvé</h2>";
         $html .= "<p style='font-size: 1.2em; color: #721c24; text-align: center;'>Vous n'avez encore ajouté aucun titre à votre liste de favoris.</p>";
         $html .= "<p style='font-size: 1.1em; color: #666; text-align: center;'>Essayez d'ajouter un ou plusieurs titres à vos favoris pour les retrouver ici.</p>";
-        $html .= "<p style='text-align: center;'><a href='index.php?action=display-shows' style='color: #009688; font-weight: bold;'>Retourner à la liste des spectacles</a></p>";
+        $html .= "<p style='text-align: center;'><a href='?action=display-shows' style='color: #009688; font-weight: bold;'>Retourner à la liste des spectacles</a></p>";
         $html .= "</div>";
         return $html;
     }

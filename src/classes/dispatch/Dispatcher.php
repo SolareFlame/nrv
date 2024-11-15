@@ -13,7 +13,6 @@ use iutnc\nrv\action\program_management\CreateEveningAction;
 use iutnc\nrv\action\program_management\CreateShowAction;
 use iutnc\nrv\action\program_management\CreateStaffAccountAction;
 use iutnc\nrv\action\program_management\EditShowAction;
-use iutnc\nrv\action\program_management\EditShowsInEveningAction;
 use iutnc\nrv\action\program_navigation\DisplayAllEveningsAction;
 use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
 use iutnc\nrv\action\show_details\DisplayEveningDetailsAction;
@@ -95,9 +94,6 @@ class Dispatcher
                         break;
                     case 'add-evening':
                         $act = new CreateEveningAction();
-                        break;
-                    case 'edit-evening':
-                        $act = new EditShowsInEveningAction();
                         break;
                     case 'edit-show':
                         $act = new EditShowAction();
