@@ -5,8 +5,6 @@ namespace iutnc\nrv\action\filter;
 
 use Exception;
 use iutnc\nrv\action\Action;
-use iutnc\nrv\auth\AuthnProvider;
-use iutnc\nrv\auth\Authz;
 use iutnc\nrv\render\ArrayRenderer;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -31,10 +29,13 @@ class DisplayShowsByDateAction extends Action
      */
     public function executeGet(): string
     {
+        if (empty($_GET['id'])) {
+            return "Aucune date n'a été renseignée";
+        }
         $_GET['id'] = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $id = $_GET['id'];
 
-        if(!preg_match('/^\d{4}-\d{2}-\d{2}$/', $id)) {
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $id)) {
             return "La date n'est pas au bon format";
         }
 

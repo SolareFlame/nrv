@@ -20,48 +20,46 @@ class CreateEveningAction extends Action
      */
     public function executePost(): string
     {
-        if (isset($_POST['name']) &&
-            isset($_POST['theme']) &&
-            isset($_POST['date']) &&
-            isset($_POST['location']) &&
-            isset($_POST['description']) &&
-            isset($_POST['price'])) {
-
-            $instance = NrvRepository::getInstance();
-            $uuid = Uuid::uuid4();
-
-            //GESTION DES IMAGES
-            $directory = "res/images/evenings/";
-            $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-
-            $destination = "$directory/$uuid.$extension";
-            if (!move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
-                throw new Exception("Échec du déplacement de l'image");
-            }
-
-            //GESTION BD
-            $evening = new Evening(
-                $uuid,
-                $_POST['name'],
-                $_POST['theme'],
-                $_POST['date'],
-                $instance->findLocationById($_POST['location']),
-                $_POST['description'],
-                $_POST['price']
-            );
-            $instance->createEvening($evening);
-
-            return "Soirée créée";
-        } else {
-            return "Erreur lors de la création de la soirée";
+        try {
+            $this->sanitize();
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
+
+        $instance = NrvRepository::getInstance();
+        $uuid = Uuid::uuid4();
+
+        //GESTION DES IMAGES
+        $directory = "res/images/evenings/";
+        $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        $destination = "$directory/$uuid.$extension";
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
+            throw new Exception("Échec du déplacement de l'image");
+        }
+
+        //GESTION BD
+        $evening = new Evening(
+            $uuid,
+            $_POST['name'],
+            $_POST['theme'],
+            $_POST['date'],
+            $instance->findLocationById($_POST['location']),
+            $_POST['description'],
+            $_POST['price']
+        );
+        $instance->createEvening($evening);
+
+        return "Soirée créée";
     }
+
 
     /**
      * @inheritDoc
      * @throws Exception
      */
-    public function executeGet(): string
+    public
+    function executeGet(): string
     {
         $instance = NrvRepository::getInstance();
         $locations = $instance->findAllLocations();
@@ -115,5 +113,45 @@ HTML;
 
 HTML;
         return $form;
+    }
+
+    /**
+     * Fonction permettant de vérifier que les données sont bien renseignées et de les nettoyer
+     * @return void
+     * @throws Exception si une donnée n'est pas renseignée
+     */
+    public
+    function sanitize(): void
+    {
+        $_POST['name'] = !empty($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Aucun nom renseigné");
+        $_POST['theme'] = !empty($_POST['theme']) ? filter_var($_POST['theme'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("theme non renseignée");
+        $_POST['date'] = !empty($_POST['date']) ? filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("date non renseigné");
+        $_POST['price'] = !empty($_POST['price']) ? filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_ALLOW_FRACTION) : throw new Exception("Prix non renseigné");
+        $_POST['location'] = !empty($_POST['location']) ? filter_var($_POST['location'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Localisation non renseignée");
+        $_POST['description'] = !empty($_POST['description']) ? filter_var($_POST['description'], FILTER_SANITIZE_SPECIAL_CHARS) : throw new Exception("Description non renseignée");
+
+        //VERIFICATION DE L'IMAGE
+        $_POST['image']['name'] = filter_var($_FILES['image']['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if (empty($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception("Erreur lors de l'upload de l'image");
+        }
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $fileType = mime_content_type($_FILES['image']['tmp_name']);
+        if (!in_array($fileType, $allowedTypes)) {
+            throw new Exception("Le fichier uploadé n'est pas un type d'image valide (JPEG, PNG, GIF uniquement)");
+        }
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileExtension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            throw new Exception("Extension de fichier non autorisée");
+        }
+
+        $maxFileSize = 15 * 1024 * 1024; // 15 mo ici
+        if ($_FILES['image']['size'] > $maxFileSize) {
+            throw new Exception("L'image dépasse la taille maximale autorisée de 15 Mo");
+        }
     }
 }

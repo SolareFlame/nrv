@@ -31,6 +31,9 @@ class DisplayShowsByStyleAction extends Action
      */
     public function executeGet(): string
     {
+        if (empty($_GET['id'])) {
+            return "Aucun style n'a été renseigné";
+        }
         $_GET['id'] = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $id = $_GET['id'];
 

@@ -31,6 +31,9 @@ class DisplayShowsByLocationAction extends Action
      */
     public function executeGet(): string
     {
+        if (empty($_GET['id'])) {
+            return "Aucun lieu n'a été renseigné";
+        }
         $_GET['id'] = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $id = $_GET['id'];
 

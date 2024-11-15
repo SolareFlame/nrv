@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\action\program_navigation;
+namespace iutnc\nrv\action\show_details;
 
 use Exception;
 use iutnc\nrv\action\Action;

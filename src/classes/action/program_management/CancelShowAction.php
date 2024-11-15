@@ -21,7 +21,7 @@ class CancelShowAction extends Action
     public function executePost(): string
     {
         try {
-            if (!Authz::checkRole(50)) {
+            if (!Authz::checkRole(Authz::STAFF)) {
                 throw new AccessControlException("Permission refusée : seul un organisateur peut annuler un spectacle.");
             }
 
