@@ -70,18 +70,6 @@ class Dispatcher
                 case 'delShow2fav':
                     $act = new DelShowToFavoritesAction();
                     break;
-                case 'cancel-show':
-                    $act = new CancelShowAction();
-                    break;
-                case 'cancel-evening':
-                    $act = new CancelEveningAction();
-                    break;
-                case 'add-show':
-                    $act = new CreateShowAction();
-                    break;
-                case 'addShow2evening':
-                    $act = new AddShowToEveningAction();
-                    break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();
                     break;
@@ -120,6 +108,9 @@ class Dispatcher
                         break;
                     case 'addShow2evening':
                         $act = new AddShowToEveningAction();
+                        break;
+                    case 'cancel-evening':
+                        $act = new CancelEveningAction();
                         break;
                 }
             }
