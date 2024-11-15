@@ -30,7 +30,8 @@ class NewsRenderer
         // Lien GitHub
         $html .= "<h2 style='color: #555;'>Les liens du projet</h2>";
         $html .= "<p style='font-size: 1.1em; color: #666;'><a href='{$aboutInfo['github']}' target='_blank' style='color: #009688;'>Accéder au repository GitHub</a>, <br></p>";
-        $html .= "<p style='font-size: 1.1em; color: #666;'><a href='{$aboutInfo['rapport']}' target='_blank' style='color: #009688;'>Accéder au rapport du projet</a>, </p>";
+        $html .= "<p style='font-size: 1.1em; color: #666;'><a href='{$aboutInfo['rapport']}' target='_blank' style='color: #009688;'>Accéder au rapport du projet</a>, <br></p>";
+        $html .= "<p style='font-size: 1.1em; color: #666;'><a href='{$aboutInfo['modele']}' target='_blank' style='color: #009688;'>Accéder au modèle du projet réalisé sur Figma</a>, </p>";
 
         // Défis rencontrés
         $html .= "<br><h2 style='color: #555;'>Défis rencontrés</h2>";
