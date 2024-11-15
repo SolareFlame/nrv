@@ -799,6 +799,10 @@ class NrvRepository
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['idshow' => $idshow]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$row){
+            throw new RepositoryException("Le ueueueu est associé à aucune soirée");
+        }
+
         return new Evening($row['evening_uuid'], $row['evening_title'], $row['evening_theme'], $row['evening_date'], $this->findLocationById($row['evening_location_id']), $row['evening_description'], $row['evening_price']);
     }
 
