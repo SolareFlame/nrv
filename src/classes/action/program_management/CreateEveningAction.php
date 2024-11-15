@@ -4,6 +4,7 @@ namespace iutnc\nrv\action\program_management;
 
 use Exception;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\action\show_details\DisplayEveningDetailsAction;
 use iutnc\nrv\repository\NrvRepository;
 use iutnc\nrv\object\Evening;
 use Ramsey\Uuid\Uuid;
@@ -50,7 +51,9 @@ class CreateEveningAction extends Action
         );
         $instance->createEvening($evening);
 
-        return "Soirée créée";
+        $res = new DisplayEveningDetailsAction();
+        $_GET['id'] = $uuid;
+        return $res->executeGet();
     }
 
 

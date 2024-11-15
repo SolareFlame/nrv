@@ -22,7 +22,7 @@ class DisplayEveningDetailsAction extends Action
      */
     public function executePost(): string
     {
-        return "";
+        return $this->executeGet();
     }
 
     /**
@@ -32,6 +32,9 @@ class DisplayEveningDetailsAction extends Action
     {
 
         $repo = NrvRepository::getInstance();
+        if (empty($_GET['id'])) {
+            return "Veuillez renseigner un id de soirée";
+        }
         $id = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS); // on filtre l'id de la soirée récupéré dans l'url
         $evening = $repo->findEveningDetails($id);
         try {
