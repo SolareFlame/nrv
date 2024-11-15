@@ -46,13 +46,24 @@ class ShowRenderer extends DetailsRender
             }
         }
 
+        //PROGRAMMATION
+        $imageOverlay = "res/icons/cancel.png";
+        $grayscaleStyle = !$this->show->programmed ? "filter: grayscale(100%);" : "";
+        $overlayVisible = !$this->show->programmed ? "opacity: 1;" : "opacity: 0;";
+
+
 
         return <<<HTML
 <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
         <div class="position-relative" style="height: 0; padding-top: 100%; overflow: hidden; border-radius: 30px;">
             <a href="?action=showDetails&id={$this->show->id}" class="text-decoration-none">
-                <div class="card-img" style="background-image: url('{$img}');"></div>
+
+                <div class="card-img" style="background-image: url('{$img}'); {$grayscaleStyle} height: 100%; width: 100%; background-size: cover; background-position: center;"></div>
+ 
+                <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center" style="top: 0; left: 0; {$overlayVisible}">
+                    <img src="{$imageOverlay}" alt="Annulé" style="max-width: 90%; max-height: 90%;">
+                </div>
             </a>
 
             <div class="position-absolute top-0 start-0 p-2" style="z-index: 2;">
@@ -152,22 +163,26 @@ HTML;
 
         $videoID = extractYouTubeID($this->show->url);
 
+
+        //PROGRAMMATION
+        $grayscaleStyle = !$this->show->programmed ? "filter: grayscale(100%);" : "";
+        $cancelled = !$this->show->programmed ? "Annulé : " : "";
+
         $html = <<<HTML
             <div class="container my-5">
                 <div class="row">
-                    <div class="col-md-4">
-                        <img src={$img} alt="Show Image" class="show-image">
-                    </div>
+                    <div class="col-md-4 position-relative">
+                    <img src="{$img}" alt="Show Image" class="show-image w-100" style="{$grayscaleStyle}">
+                </div>
             
                     <div class="col-md-8 position-relative">
-                    
                         <div class="position-absolute top-0 end-0 me-4 mt-3">
                             {$edit_btn}
                             {$heart}
                         </div>
                         
                         <div class="show-long-render">
-                            <h2 class="show-long-render-title">{$this->show->title}</h2>
+                            <h2 class="show-long-render-title">{$cancelled}{$this->show->title}</h2>
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>

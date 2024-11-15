@@ -26,14 +26,23 @@ class EveningRenderer extends DetailsRender
             }
         }
 
+        $imageOverlay = "res/icons/cancel.png";
+        $grayscaleStyle = !$this->evening->programmed ? "filter: grayscale(100%);" : "";
+        $overlayVisible = !$this->evening->programmed ? "opacity: 1;" : "opacity: 0;";
+
         return <<<HTML
     <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
         <div class="position-relative" style="height: 0; padding-top: 160%; overflow: hidden; border-radius: 30px;">
             <a href="?action=evening&id={$this->evening->id}" class="text-decoration-none">
-                <div class="card-img" style="background-image: url('{$img}');"></div>
+                <div class="card-img" style="background-image: url('{$img}'); {$grayscaleStyle}"></div>
+          
+            
+            <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center" style="top: 0; left: 0; {$overlayVisible}">
+                <img src="{$imageOverlay}" alt="Annulé" style="max-width: 90%; max-height: 90%;">
+            </div>
             </a>
-    
+
         </div>
         <a href="?action=showDetails&id={$this->evening->id}" class="text-reset text-decoration-none">
             <div class="card-body text-left" style="position: absolute; bottom: 0; width: 100%; padding: 10px;">

@@ -91,7 +91,7 @@ class NrvRepository
      */
     function findAllShows(): array
     {
-        $query = "Select show_uuid, show_title, show_description, show_start_date, show_duration, show_style_id, show_url from nrv_show";
+        $query = "Select show_uuid, show_title, show_description, show_start_date, show_duration, show_style_id, show_url, show_programmed from nrv_show";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
@@ -107,7 +107,7 @@ class NrvRepository
     function findShowsByDate(DateTime $date): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url from nrv_show where DATE(show_start_date) = :date";
+       show_duration, show_style_id, show_url, show_programmed from nrv_show where DATE(show_start_date) = :date";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['date' => $date->format('Y-m-d')]);
 
@@ -123,7 +123,7 @@ class NrvRepository
     function findShowsByStyle(string $style): array
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url from nrv_show where show_style_id = :style";
+       show_duration, show_style_id, show_url, show_programmed from nrv_show where show_style_id = :style";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['style' => $style]);
 
@@ -158,7 +158,7 @@ class NrvRepository
     function findShowDetails(string $uuid): Show
     {
         $query = "Select show_uuid, show_title, show_description, show_start_date, 
-       show_duration, show_style_id, show_url from nrv_show where show_uuid = :uuid";
+       show_duration, show_style_id, show_url, show_programmed from nrv_show where show_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
@@ -175,7 +175,7 @@ class NrvRepository
     function findShowsInEvening(string $id): array
     {
         $query = "SELECT s.show_uuid, show_title, show_description, 
-              show_start_date, show_duration, show_style_id, show_url 
+              show_start_date, show_duration, show_style_id, show_url, show_programmed
               FROM nrv_show s
               INNER JOIN nrv_evening2show es ON s.show_uuid = es.show_uuid
               WHERE es.evening_uuid = :uuid";
@@ -194,7 +194,7 @@ class NrvRepository
     function createShow(Show $show): void
     {
         $query = "INSERT INTO nrv_show (show_uuid, show_title, show_description, show_start_date, show_duration, show_style_id, show_url, show_programmed) 
-                    values (:uuid, :title, :description, :start, :duration, :style, :url, 1)";
+                    values (:uuid, :title, :description, :start, :duration, :style, :url, :prog)";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
@@ -204,7 +204,8 @@ class NrvRepository
             ':start' => $show->startDate->format('Y-m-d H:i:s'),
             ':duration' => $show->duration,
             ':style' => $show->style,
-            ':url' => $show->url
+            ':url' => $show->url,
+            ':prog' => $show->programmed
         ]);
 
         foreach ($show->artists as $artist) {
@@ -250,8 +251,8 @@ class NrvRepository
      */
     function createEvening(Evening $evening): void
     {
-        $query = "INSERT INTO nrv_evening (evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, evening_description, evening_price) 
-                    values (:uuid, :title, :theme, :date, :location, :description, :price)";
+        $query = "INSERT INTO nrv_evening (evening_uuid, evening_title, evening_theme, evening_date, evening_location_id, evening_description, evening_price, evening_programmed) 
+                    values (:uuid, :title, :theme, :date, :location, :description, :price, :prog)";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
@@ -261,7 +262,8 @@ class NrvRepository
             ':date' => $evening->date,
             ':location' => $evening->location->id,
             ':description' => $evening->description,
-            ':price' => $evening->eveningPrice
+            ':price' => $evening->eveningPrice,
+            ':prog' => $evening->programmed
         ]);
     }
 
@@ -420,7 +422,7 @@ class NrvRepository
     function findEveningDetails(string $uuid): Evening
     {
         $query = "Select evening_uuid, evening_title, evening_theme, evening_date, 
-       evening_location_id, evening_description, evening_price from nrv_evening where evening_uuid = :uuid";
+       evening_location_id, evening_description, evening_price, evening_programmed from nrv_evening where evening_uuid = :uuid";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['uuid' => $uuid]);
@@ -570,7 +572,8 @@ class NrvRepository
                         (new DateTime($row['show_start_date'])),
                         $row['show_duration'],
                         $style,
-                        $row['show_url']);
+                        $row['show_url'],
+                        $row['show_programmed']);
                     $results[] = serialize($show);
                 }
                 break;
@@ -579,7 +582,7 @@ class NrvRepository
                     $evening = new $create_path(
                         $row['evening_uuid'], $row['evening_title'], $row['evening_theme'],
                         $row['evening_date'], $this->findLocationById($row['evening_location_id']),
-                        $row['evening_description'], $row['evening_price']);
+                        $row['evening_description'], $row['evening_price'], $row['evening_programmed']);
                     $results[] = serialize($evening);
                 }
                 break;
