@@ -4,6 +4,7 @@ namespace iutnc\nrv\action\user_experience;
 
 use Exception;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\action\show_details\DisplayEveningDetailsAction;
 use iutnc\nrv\repository\NrvRepository;
 
 /**
@@ -24,7 +25,8 @@ class AddShowToEveningAction extends Action
         $show = $repo->findShowById($spectacleId);
         $evening = $repo->findEveningById($_GET['id']);
         $repo->addShowToEvening($show, $evening);
-        return "L'opération est un succes";
+        $res = new DisplayEveningDetailsAction();
+        return $res->executeGet();
     }
 
     /**
