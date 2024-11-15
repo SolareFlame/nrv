@@ -132,6 +132,8 @@ HTML;
 
         $date = $this->show->startDate->format('Y-m-d');
 
+        $show_id = $inst->findIdStyleByStyleValue($this->show->style);
+
 
         //EDIT
         $autorisation = AuthnProvider::getSignedInUser();
@@ -206,7 +208,7 @@ HTML;
                 </div>
 
                 <div class="d-flex justify-content-center gap-2">
-                <a href='index.php?actions=FILTRESTYLE&id={$this->show->style}' class='filter-btn'>STYLE: {$this->show->style}</a>
+                <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
                 <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
                 <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
                 </div>
