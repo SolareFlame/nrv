@@ -79,7 +79,8 @@ HTML;
         $location = $this->evening->location;
 
         if ($this->evening->shows == []) {
-            $shows = "<p>Aucun spectacle</p>";
+
+            $shows = "<div class='ms-3 fw-bold text-muted fs-5'><p>Aucun spectacle</p></div>";
         } else {
             $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
         }
