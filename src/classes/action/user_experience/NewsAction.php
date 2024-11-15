@@ -35,7 +35,7 @@ class NewsAction extends Action
                 '<li>Mathieu Baudoin: Développeur...<br></li>',
             ],
             'github' => 'https://github.com/SolareFlame/nrv',
-            'rapport' => '',
+            'rapport' => 'https://docs.google.com/document/d/1Fe9P6jMfbPgu8Lw17rwUlW4qZHi4TBuGmFblQI0LpXQ/edit?usp=sharing',
             'defis' => 'Un des principal défi a été de se coordonner en équipe, surtout au niveau de la programmation. Il y a eu quelques
             tensions au sein de l\'équipe, compensé par notre volonté de réaliser un projet complet. Le projet a demandé beaucoup de temps 
             pendant les heures alloués dans notre emploi du temps, mais aussi en dehors. Le temps était compté et nous cherchions à 
