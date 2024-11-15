@@ -5,6 +5,7 @@ namespace iutnc\nrv\render;
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
+use iutnc\nrv\auth\AuthnProvider;
 
 /**
  * Classe PodcastRenderer.
@@ -159,6 +160,25 @@ HTML;
         }
         $showsByDay = ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
 
+        $inst = NrvRepository::getInstance();
+        $evening_parent = $inst->findEveningOfShow($this->show->id);
+        $evening_parent_loc = $evening_parent->location;
+
+        $date = $this->show->startDate->format('Y-m-d');
+
+        $show_id = $inst->findIdStyleByStyleValue($this->show->style);
+
+
+        //EDIT
+        $autorisation = AuthnProvider::getSignedInUser();
+
+        $edit_btn = "";
+        if($autorisation["role"]>=50) {
+            $edit_btn = <<<HTML
+            <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
+HTML;
+        }
+
         $html = <<<HTML
             <div class="container my-5">
                 <div class="row">
@@ -169,7 +189,7 @@ HTML;
                     <div class="col-md-8 position-relative">
                     
                         <div class="position-absolute top-0 end-0 me-4 mt-3">
-                        
+                            {$edit_btn}
                             {$heart}
                         </div>
                         
@@ -178,7 +198,7 @@ HTML;
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>
-                            <p><i class="fas fa-star info-icon me-2"></i>{$evening->title}</p>
+                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
                             <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                             <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
             
@@ -206,7 +226,6 @@ HTML;
                         <img src="res/icons/right-arrow.png" alt="Next" class="carousel-control-next-icon" aria-hidden="true">
                         <span class="visually-hidden">Next</span>
                     </a>
-                    
                 </div>
                 
                 <div>
@@ -223,6 +242,18 @@ HTML;
                 
                 </div>
                 
+                <div class="d-flex align-items-center justify-content-center my-4 px-4">
+                    <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
+                    <h1 class="text-center mx-3">SPECTACLES SIMILAIRES</h1>
+                    <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
+                </div>
+               
+               <div class="d-flex justify-content-center gap-2">
+                <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
+                <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
+                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                </div>
+              
                 <div>
                 <br><h2>Spectacle ayant lieu le même jour</h2><br>
                 
@@ -230,8 +261,11 @@ HTML;
                 
                 </div>
 
-            
-            </div>
+                <div class="d-flex justify-content-center gap-2">
+                <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
+                <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
+                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                </div>
             HTML;
 
         return $html;
