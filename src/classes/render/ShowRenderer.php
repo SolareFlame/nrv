@@ -52,7 +52,6 @@ class ShowRenderer extends DetailsRender
         $overlayVisible = !$this->show->programmed ? "opacity: 1;" : "opacity: 0;";
 
 
-
         return <<<HTML
 <div class="col">
     <div class="card bg-dark text-light hover-effect" style="border-radius: 30px">
@@ -141,19 +140,12 @@ HTML;
         try {
             $evening_parent = $inst->findEveningOfShow($this->show->id);
             $evening_parent_loc = $evening_parent->location;
-            $icon = <<<HTML
-                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
-HTML;
-            $filtreLieu = <<<HTML
-                <a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
-HTML;
+            $icon = "<a href='index.php?action=evening&id={$evening_parent->id}' class='text-decoration-none'>{$evening_parent->title}</a>";
 
+            $filtreLieu = "<a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>";
 
-
-        } catch (RepositoryException $e){
-            $icon = <<<HTML
-<p><i class="fas fa-star info-icon me-2"></i><a class="text-decoration-none">Associée à aucun spectacle</a></p>
-HTML;
+        } catch (RepositoryException $e) {
+            $icon = "<a class=\"text-decoration-none\">Associée à aucun spectacle</a>";
             $filtreLieu = "";
         }
 
@@ -162,13 +154,12 @@ HTML;
 
         $show_id = $inst->findIdStyleByStyleValue($this->show->style);
 
-
         //EDIT
         $autorisation = AuthnProvider::getSignedInUser();
 
         $edit_btn = "";
         $annulation_btn = "";
-        if($autorisation["role"]>=50) {
+        if ($autorisation["role"] >= 50) {
             $edit_btn = <<<HTML
             <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
             <form class="btn" action="?action=cancel-show&id={$id}" method="POST">
@@ -178,7 +169,7 @@ HTML;
             </form>
 HTML;
         }
-        
+
 
         $videoID = $this->extractYouTubeID($this->show->url);
 
@@ -205,7 +196,7 @@ HTML;
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>
-                            $icon
+                            <p><i class="fas fa-star info-icon me-2"></i>$icon</p>
                             <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                             <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
             
@@ -267,7 +258,9 @@ HTML;
 
         return $html;
     }
-    function extractYouTubeID($url) {
+
+    function extractYouTubeID($url)
+    {
         preg_match('/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $matches);
         return !empty($matches[1]) ? $matches[1] : (!empty($matches[2]) ? $matches[2] : $url);
     }

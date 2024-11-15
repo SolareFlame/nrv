@@ -26,6 +26,7 @@ class Authz
      * ATTENTION : Cette fonction retourne 403 si l’utilisateur n’a pas le rôle attendu.
      * Elle est donc a utilisé pour les actions qui sont INTERDITE à certains rôles.
      * Si vous voulez juste vérifier le role sans forbidden access adressé vous a AuthnProvider::getSignedInUser()
+     * PS: ça ne le fais plus, on test une alternative
      *
      * @param int $required
      */
@@ -33,7 +34,7 @@ class Authz
     {
         $user = AuthnProvider::getSignedInUser();
         if ($user['role'] < $required) {
-            http_response_code(403);
+            //http_response_code(403);
             return false;
         }
         return true;

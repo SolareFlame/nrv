@@ -36,6 +36,7 @@ class NewsAction extends Action
             ],
             'github' => 'https://github.com/SolareFlame/nrv',
             'rapport' => 'https://docs.google.com/document/d/1Fe9P6jMfbPgu8Lw17rwUlW4qZHi4TBuGmFblQI0LpXQ/edit?usp=sharing',
+            'modele' => 'https://www.figma.com/design/QFygDixtX64ms0Lx8thDSF/NRV-SAE?node-id=0-1&t=EUUUPDU7tQyVR02c-1',
             'defis' => 'Un des principal défi a été de se coordonner en équipe, surtout au niveau de la programmation. Il y a eu quelques
             tensions au sein de l\'équipe, compensé par notre volonté de réaliser un projet complet. Le projet a demandé beaucoup de temps 
             pendant les heures alloués dans notre emploi du temps, mais aussi en dehors. Le temps était compté et nous cherchions à 
