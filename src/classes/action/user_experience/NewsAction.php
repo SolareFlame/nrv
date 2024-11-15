@@ -32,7 +32,7 @@ class NewsAction extends Action
                 '<li>Valentin Knorst: Développeur principal des actions et des ...<br></li>',
                 '<li>Ryan Korban: Développeur principal des actions, des renders et des objets...<br></li>',
                 '<li>Nathan Eyer: Développeur principal du repository, de quelques Actions et des documents de rendus.<br></li>',
-                '<li>Mathieu Baudoin: Développeur...<br></li>',
+                '<li>Mathieu Baudoin: Développeur principal de l\'authentification et création de diagramme de classe pour orienter la conception<br></li>',
             ],
             'github' => 'https://github.com/SolareFlame/nrv',
             'rapport' => 'https://docs.google.com/document/d/1Fe9P6jMfbPgu8Lw17rwUlW4qZHi4TBuGmFblQI0LpXQ/edit?usp=sharing',
