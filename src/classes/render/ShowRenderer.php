@@ -3,6 +3,7 @@
 namespace iutnc\nrv\render;
 
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
+use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
 use iutnc\nrv\auth\AuthnProvider;
@@ -98,7 +99,7 @@ HTML;
 
         $id = $this->show->id;
 
-        $evening = NrvRepository::getInstance()->findEveningOfShow($id);
+
 
         $heart = !in_array($id, $_SESSION['favorites'])
             ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
@@ -128,15 +129,21 @@ HTML;
             }
         }
 
-        $showsByLoc = NrvRepository::getInstance()->findShowsByLocation($evening->location->id);
-        foreach ($showsByLoc as $key => $show) {
-            $show = unserialize($show);
-            if ($show->id == $this->show->id) {
-                unset($showsByLoc[$key]);
-                break;
+        try {
+            $evening = NrvRepository::getInstance()->findEveningOfShow($id);
+            $showsByLoc = NrvRepository::getInstance()->findShowsByLocation($evening->location->id);
+            foreach ($showsByLoc as $key => $show) {
+                $show = unserialize($show);
+                if ($show->id == $this->show->id) {
+                    unset($showsByLoc[$key]);
+                    break;
+                }
             }
+            $showsByLoc = ArrayRenderer::render($showsByLoc, Renderer::COMPACT, true);
+        } catch (RepositoryException $e){
+            $showsByLoc = "";
         }
-        $showsByLoc = ArrayRenderer::render($showsByLoc, Renderer::COMPACT, true);
+
 
 
         $showsByStyle = NrvRepository::getInstance()->findShowsByStyle(NrvRepository::getInstance()->findIdStyleByStyleValue($this->show->style));
@@ -150,6 +157,7 @@ HTML;
         $showsByStyle =  ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
 
 
+
         $showsByDay = NrvRepository::getInstance()->findShowsByDate($this->show->startDate);
         foreach ($showsByDay as $key => $show) {
             $show = unserialize($show);
@@ -161,8 +169,25 @@ HTML;
         $showsByDay = ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
 
         $inst = NrvRepository::getInstance();
-        $evening_parent = $inst->findEveningOfShow($this->show->id);
-        $evening_parent_loc = $evening_parent->location;
+        try {
+            $evening_parent = $inst->findEveningOfShow($this->show->id);
+            $evening_parent_loc = $evening_parent->location;
+            $icon = <<<HTML
+                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
+HTML;
+            $filtreLieu = <<<HTML
+                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+HTML;
+
+
+
+        } catch (RepositoryException $e){
+            $icon = <<<HTML
+<p><i class="fas fa-star info-icon me-2"></i><a class="text-decoration-none">Associée à aucun spectacle</a></p>
+HTML;
+            $filtreLieu = "";
+        }
+
 
         $date = $this->show->startDate->format('Y-m-d');
 
@@ -198,7 +223,7 @@ HTML;
                             
                             <p><i class="fas fa-calendar-alt info-icon me-2"></i>{$this->show->startDate->format('d M Y \à H:i')}</p>
                             <p><i class="fas fa-clock info-icon me-2"></i>{$heures}h{$minutes}</p>
-                            <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
+                            $icon
                             <p><i class="fas fa-tags info-icon me-2"></i>{$this->show->style}</p>
                             <p><i class="fas fa-comment info-icon me-2"></i>Description</p>
             
@@ -240,7 +265,7 @@ HTML;
                <div class="d-flex justify-content-center gap-2">
                 <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
                 <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
-                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                $filtreLieu
                 </div>
               
                 <div>

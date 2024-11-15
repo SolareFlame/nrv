@@ -47,6 +47,8 @@ class DisplayEveningDetailsAction extends Action
             $boutonAjouter = <<<HTML
             <a href="?action=addShow2evening&id={$id}" class="btn btn-primary m-5">Ajouter une soirée</a>
             HTML;
+        }else{
+            $boutonAjouter = "";
         }
 
         return $renderEvening->render(Renderer::LONG) . $boutonAjouter;
