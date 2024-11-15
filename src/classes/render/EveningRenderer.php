@@ -78,7 +78,7 @@ HTML;
         }
         $location = $this->evening->location;
 
-        if (empty($this->evening->shows)) {
+        if ($this->evening->shows == []) {
             $shows = "<p>Aucun spectacle</p>";
         } else {
             $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
