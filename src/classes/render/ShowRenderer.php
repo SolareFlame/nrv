@@ -145,6 +145,13 @@ HTML;
 HTML;
         }
 
+        function extractYouTubeID($url) {
+            preg_match('/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $matches);
+            return !empty($matches[1]) ? $matches[1] : (!empty($matches[2]) ? $matches[2] : $url);
+        }
+
+        $videoID = extractYouTubeID($this->show->url);
+
         $html = <<<HTML
             <div class="container my-5">
                 <div class="row">
@@ -194,12 +201,22 @@ HTML;
                     </a>
                 </div>
                 
-                <!--
-                <div class="search-bar mb-3">
-                <span class="icon"><i class="bi bi-search"></i></span>
-                <input type="text" placeholder="Rechercher un spectacle..." aria-label="Search">
+                <div class="d-flex align-items-center justify-content-center my-4 px-4">
+                <div class="mx-2 title-border" style="background-color: #FF6F61"></div>
+                <h1 class="text-center mx-3">VIDÉO</h1>
+                <div class="mx-2 title-border" style="background-color: #FF6F61"></div>
                 </div>
-                -->
+
+                <div class="video-container">
+                <div class="embed-responsive">
+                <iframe 
+                    src="https://www.youtube.com/embed/{$videoID}" 
+                    allowfullscreen 
+                    title="YouTube video">
+                </iframe>
+                </div>
+                </div>
+
                 
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
