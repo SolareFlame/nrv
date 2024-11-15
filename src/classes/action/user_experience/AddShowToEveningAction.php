@@ -43,10 +43,6 @@ class AddShowToEveningAction extends Action
 HTML;
         }
 
-
-
-
-
     // Génère les options pour la combobox des spectacles
         $spectacleOptions = '';
         foreach ($spectacles as $spectacle) {
