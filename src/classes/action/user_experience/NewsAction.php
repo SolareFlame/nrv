@@ -29,7 +29,7 @@ class NewsAction extends Action
             'langages' => 'PHP, MySQL, JavaScript, HTML/CSS ainsi que d\'autres outils tels que Bootstrap',
             'membre' => [
                 '<li>Zacharie Heuertz: Responsable de la base de données, du design du site et de la gestion de la conception.<br></li>',
-                '<li>Valentin Knorst: Développeur principal des actions et des ...<br></li>',
+                '<li>Valentin Knorst: Développeur principal des actions, renderers, vérifications de la qualité de code, et de la moitié du repository.<br></li>',
                 '<li>Ryan Korban: Développeur principal des actions, des renders et des objets...<br></li>',
                 '<li>Nathan Eyer: Développeur principal du repository, de quelques Actions et des documents de rendus.<br></li>',
                 '<li>Mathieu Baudoin: Développeur...<br></li>',

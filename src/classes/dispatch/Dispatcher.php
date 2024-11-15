@@ -44,9 +44,9 @@ class Dispatcher
      */
     public function run(): void
     {
-        if (($_SERVER['REQUEST_METHOD'] !== "POST") && ($_SERVER['REQUEST_METHOD'] !== "GET"))
+        if (($_SERVER['REQUEST_METHOD'] !== "POST") && ($_SERVER['REQUEST_METHOD'] !== "GET")) {
             $this->renderPage("Erreur 418 : I'm a teapot");  // Un peu d'humour pour celui qui s'amuserait à envoyer une requête autre que POST ou GET
-        else {
+        } else {
             switch ($this->action) {  // les actions de tout le monde
                 case 'login':
                     $act = new LoginAction();
@@ -88,7 +88,7 @@ class Dispatcher
                     $act = new NewsAction();
                     break;
             }
-            if (Authz::checkRole(50)) {  // les actions du staff
+            if (Authz::checkRole(Authz::STAFF)) {  // les actions du staff
                 switch ($this->action) {
                     case 'logout':
                         $act = new LogoutAction();
@@ -123,10 +123,9 @@ class Dispatcher
                         break;
                 }
             }
-            if (!isset($act)) {
+            if (empty($act)) {
                 $act = new DefaultAction();
             }
-
             $this->renderPage($act->execute());
         }
     }
@@ -139,7 +138,9 @@ class Dispatcher
      */
     private function renderPage(string $html): void
     {
-        $content = file_get_contents("src/html/home.php");
+        include("src/html/home.php");
+
+        $content = ob_get_clean();
         $page = str_replace("{{CONTENT}}", $html, $content);
         echo $page;
     }
