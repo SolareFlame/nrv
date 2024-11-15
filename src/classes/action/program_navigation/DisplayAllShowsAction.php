@@ -37,25 +37,29 @@ class DisplayAllShowsAction extends Action
 
         // GESTION DES STYLES
         $styles = $repository->findAllStylesRAW();
-        $style_options = "";
+        $style_options = "<div class='filter-container'>";
         foreach ($styles as $style) {
             $style_options .= "<a href='index.php?action=showByStyle&id={$style['style_id']}' class='filter-btn'>{$style['style_name']}</a>";
         }
+        $style_options .= "</div>";
 
         // GESTION DES LOCATIONS
         $locations = $repository->findAllLocations();
-        $location_options = "";
+        $location_options = "<div class='filter-container'>";
         foreach ($locations as $location) {
             $location = unserialize($location);
             $location_options .= "<a href='index.php?action=showByLocation&id={$location->id}' class='filter-btn'>{$location->name}</a>";
         }
+        $location_options .= "</div>";
 
         // GESTION DES DATES
-        $dates_options = "";
+        $dates_options = "<div class='filter-container'>";
         for ($i = 1; $i <= 15; $i++) {
             $day = str_pad($i, 2, '0', STR_PAD_LEFT);
             $dates_options .= "<a href='index.php?action=showByDate&id=2025-07-{$day}' class='filter-btn'>{$day} juillet</a>";
         }
+        $dates_options .= "</div>";
+
 
         $html = <<<HTML
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
