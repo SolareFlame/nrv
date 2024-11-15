@@ -208,9 +208,9 @@ HTML;
                 </div>
 
                 <div class="d-flex justify-content-center gap-2">
-                <a href='index.php?action=filterBySytle&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
-                <a href='index.php?action=filterByDate&id={$date}' class='filter-btn'>DATE: {$date}</a>
-                <a href='index.php?action=filterByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                <a href='index.php?action=showByStyle&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
+                <a href='index.php?action=showByDate&id={$date}' class='filter-btn'>DATE: {$date}</a>
+                <a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
                 </div>
             HTML;
 

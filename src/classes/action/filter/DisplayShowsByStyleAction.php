@@ -14,7 +14,7 @@ use iutnc\nrv\repository\NrvRepository;
 /**
  * Affichage de la liste des spectacles(titre, date, horaire, image)
  */
-class FilterByLocation extends Action
+class DisplayShowsByStyleAction extends Action
 {
 
     /**
@@ -34,9 +34,9 @@ class FilterByLocation extends Action
         $_GET['id'] = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $id = $_GET['id'];
 
-        $loc = NrvRepository::getInstance()->findLocationById($id);
+        $style = NrvRepository::getInstance()->findStyleById($id);
 
-        $showsByLocation = NrvRepository::getInstance()->findShowsByLocation($id);
+        $showsByStyle = NrvRepository::getInstance()->findShowsByStyle($id);
 
         $html = <<<HTML
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
@@ -44,10 +44,10 @@ class FilterByLocation extends Action
                     <h1 class="text-center mx-3">RESULTATS DE LA RECHERCHE</h1>
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
                 </div>
-                <p class="text-center">Résultat pour le lieu : {$loc->name}</p>
+                <p class="text-center">Résultat pour le style : {$style}</p>
 HTML;
 
-        $html .= ArrayRenderer::render($showsByLocation, Renderer::COMPACT, true);
+        $html .= ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
 
         return $html;
     }

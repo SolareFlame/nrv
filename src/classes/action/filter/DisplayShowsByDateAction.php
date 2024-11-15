@@ -14,7 +14,7 @@ use iutnc\nrv\repository\NrvRepository;
 /**
  * Affichage de la liste des spectacles(titre, date, horaire, image)
  */
-class FilterByDate extends Action
+class DisplayShowsByDateAction extends Action
 {
 
     /**
