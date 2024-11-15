@@ -30,7 +30,7 @@ class NewsAction extends Action
             'membre' => [
                 '<li>Zacharie Heuertz: Responsable de la base de données, du design du site et de la gestion de la conception.<br></li>',
                 '<li>Valentin Knorst: Développeur principal des actions, renderers, vérifications de la qualité de code, et de la moitié du repository.<br></li>',
-                '<li>Ryan Korban: Développeur principal des actions, des renders et des objets...<br></li>',
+                '<li>Ryan Korban: Développeur principal des actions, des renders et des objets, debug du repository, frond end,back-end<br></li>',
                 '<li>Nathan Eyer: Développeur principal du repository, de quelques Actions et des documents de rendus.<br></li>',
                 '<li>Mathieu Baudoin: Développeur principal de l\'authentification et création de diagramme de classe pour orienter la conception<br></li>',
             ],

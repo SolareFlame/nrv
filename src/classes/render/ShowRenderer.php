@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\render;
 
+use iutnc\nrv\auth\Authz;
 use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
@@ -159,7 +160,7 @@ HTML;
 
         $edit_btn = "";
         $annulation_btn = "";
-        if ($autorisation["role"] >= 50) {
+        if ($autorisation["role"] >= Authz::STAFF) {
             $edit_btn = <<<HTML
             <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
             <form class="btn" action="?action=cancel-show&id={$id}" method="POST">
