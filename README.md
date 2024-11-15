@@ -10,6 +10,12 @@
 > - EYER Nathan
 > - BAUDOIN Mathieu
 
+### Note:
+
+Vous trouverez dans le repository et dans nos actions, des méthodes finie, mais dont le temps nous a manqué pour les implémenté graphique sur le site web.
+Je pense notamment à l'action permettant de de modfifier un Show existant et toutes ces fonctions associés dans le repository.
+Ces fonctions ne sont donc jamais appelées mais nous n'avons pas souhaité les supprimer si cela pourrait prouver que l'amélioration est presque finie.
+
 
 
 

@@ -77,9 +77,6 @@ class EditShowAction extends Action
 
         // Si des champs sont à modifier
         if (!empty($updates)) {
-            // Exemple de code pour mettre à jour les données dans la base de données
-            // En fonction de votre logique d'application, vous pouvez construire une requête SQL pour
-            // mettre à jour les champs dans la base de données ici
             $info = implode(", ", array_keys($updates));
             $message = <<<HTML
                     <br>
@@ -103,7 +100,13 @@ class EditShowAction extends Action
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
 
         $repository = NrvRepository::getInstance();
-        $id = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $styles = $repository->findAllStylesRAW();
+        $style_options = "";
+        foreach ($styles as $style) {
+            $style_options .= "<option value='{$style['style_id']}'>{$style['style_name']}</option>";
+        }
+
+        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
         $artists = $repository->findAllArtistsByShow($show->id);
@@ -135,10 +138,12 @@ class EditShowAction extends Action
                     <input type="number" class="form-control" id="duration" name="duration" min="1" required>
                     <div class="invalid-feedback">Veuillez entrer une durée en minutes.</div>
                 </div>
-                <div class="form-group">
-                    <label for="style">Style</label>
-                    <input type="text" class="form-control" id="style" name="style" required>
-                    <div class="invalid-feedback">Veuillez entrer un style.</div>
+
+                <div class="form-group mb-3">
+                        <label for="style">Style de musique</label>
+                        <select name="style" id="style" class="form-control" required>
+                            $style_options
+                        </select>
                 </div>
                 <div class="form-group">
                     <label for="url">URL</label>
