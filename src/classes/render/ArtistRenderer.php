@@ -21,10 +21,22 @@ class ArtistRenderer implements Renderer
 
     public function render(int $selector, $index = null): string
     {
+        $extensions = ['jpg', 'gif', 'png'];
+        $img = "res/background/artist_default.jpg";
+
+        foreach ($extensions as $ext) {
+            $filePath = "res/images/artists/{$this->artist->id}.$ext";
+            if (file_exists($filePath)) {
+                $img = $filePath;
+                break;
+            }
+        }
+
+
         return <<<HTML
         <div class="container my-4">
           <div class="d-flex align-items-start">
-            <img src="res/background/artist_default.jpg" alt="Cute cat" class="custom-image">
+            <img src={$img} alt="Cute cat" class="custom-image">
             <div class="text-content">
               <h5 class="fw-bold">{$this->artist->name}</h5>
               <p class="text-content">{$this->artist->description}</p>
