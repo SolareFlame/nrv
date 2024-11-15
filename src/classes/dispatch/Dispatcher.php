@@ -6,6 +6,7 @@ use Exception;
 use iutnc\nrv\action\DefaultAction;
 use iutnc\nrv\action\filter\FilterByLocation;
 use iutnc\nrv\action\filter\FilterByStyle;
+use iutnc\nrv\action\program_management\CancelEveningAction;
 use iutnc\nrv\action\program_management\CancelShowAction;
 use iutnc\nrv\action\program_management\CreateEveningAction;
 use iutnc\nrv\action\program_management\CreateShowAction;
@@ -26,6 +27,7 @@ use iutnc\nrv\action\user_experience\LogoutAction;
 use iutnc\nrv\action\filter\DisplayShowsByDateAction;
 use iutnc\nrv\action\filter\DisplayShowsByLocationAction;
 use iutnc\nrv\action\filter\DisplayShowsByStyleAction;
+use iutnc\nrv\auth\Authz;
 
 
 class Dispatcher
