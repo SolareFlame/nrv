@@ -28,7 +28,7 @@ class Authz
     public static function checkRole(int $required): bool
     {
         $user = AuthnProvider::getSignedInUser();
-        if ($user->role < $required) {
+        if ($user['role'] < $required) {
             http_response_code(403);
             return false;
         }

@@ -91,7 +91,7 @@ class DisplayAllShowsAction extends Action
 HTML;
         $user = AuthnProvider::getSignedInUser();
         $boutonAjouter = "";
-        if ($user["role"] >= Authz::STAFF) {
+        if (Authz::checkRole(Authz::STAFF)) {
             $boutonAjouter = <<<HTML
             <a href="?action=add-show" class="btn btn-primary m-5">Ajouter un Spectacle</a>
             HTML;

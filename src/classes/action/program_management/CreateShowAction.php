@@ -77,50 +77,72 @@ class CreateShowAction extends Action
         $artists_options = "";
         foreach ($artists as $artist) {
             $artists_options .= <<<HTML
-                            <label>
-                                 <input type='checkbox' name='artists[]' value='{$artist['artist_uuid']}'>
-                                    {$artist['artist_name']}<br>
-                            </label><br>
-                            HTML;
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" name="artists[]" value="{$artist['artist_uuid']}">
+                {$artist['artist_name']}
+            </label><br>
+        HTML;
         }
 
         return <<<HTML
-            <div class="content_form">
-                <h4>Créer un spectacle</h4> <br>
-                {$uuid_TEST}
+        <div class="container mt-5">
+            <div class="content_form p-4 border rounded shadow-lg">
+                <h4 class="text-center mb-4">Créer un spectacle</h4>
+                <p class="text-center">UUID: {$uuid_TEST}</p>
                 <form method="post" enctype="multipart/form-data">
-                <label for="titre">Titre du spectacle</label>
-                <input type="text" name="titre" id="titre" required><br><br>
                 
-                <label for="description">Description du spectacle</label>
-                <textarea name="description" id="description" required></textarea><br><br>
-                
-                <label for="date">Date du spectacle </label>
-                <input type="datetime-local" name="date" id="date" required><br><br>
-                    
-                <label for="duree">Durée du spectacle</label>
-                <input type="number" name="duree" id="duree" required><br><br>
-                
-                <label for="style">Style de musique</label>
-                <select name="style" id="style" required>
-                    $style_options
-                </select> <br><br>
-                
-                <p>Artistes participants :</p>
-                $artists_options <br>
-                
-                <label for="url">Lien de la vidéo</label>
-                <input type="url" name="url" id="url"><br><br>
-                
-                <label for="image">Image du spectacle</label>
-                <input type="file" name="image" id="image" accept="image/*" required><br><br>
+                    <div class="form-group mb-3">
+                        <label for="titre" class="form-label">Titre du spectacle</label>
+                        <input type="text" class="form-control" name="titre" id="titre" required>
+                    </div>
 
-                <button type="submit">Créer le spectacle</button>
+                    <div class="form-group mb-3">
+                        <label for="description" class="form-label">Description du spectacle</label>
+                        <textarea class="form-control" name="description" id="description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="date" class="form-label">Date du spectacle</label>
+                        <input type="datetime-local" class="form-control" name="date" id="date" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="duree" class="form-label">Durée du spectacle</label>
+                        <input type="number" class="form-control" name="duree" id="duree" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="style" class="form-label">Style de musique</label>
+                        <select name="style" id="style" class="form-control" required>
+                            $style_options
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Artistes participants :</label>
+                        <div class="form-check">
+                            $artists_options
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="url" class="form-label">Lien de la vidéo</label>
+                        <input type="url" class="form-control" name="url" id="url">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="image" class="form-label">Image du spectacle</label>
+                        <input type="file" class="form-control" name="image" id="image" accept="image/*" required>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Créer le spectacle</button>
+                    </div>
                 </form>
             </div>
-            HTML;
-
+        </div>
+    HTML;
     }
+
 
     /**
      * Fonction permettant de vérifier que les données sont bien renseignées et de les nettoyer

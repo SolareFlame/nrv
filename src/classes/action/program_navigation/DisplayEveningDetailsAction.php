@@ -4,6 +4,7 @@ namespace iutnc\nrv\action\program_navigation;
 
 use Exception;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\auth\Authz;
 use iutnc\nrv\render\EveningRenderer;
 use iutnc\nrv\render\Renderer;
 use iutnc\nrv\repository\NrvRepository;
@@ -42,6 +43,12 @@ class DisplayEveningDetailsAction extends Action
         $evening->addShows($showList);
         $renderEvening = new EveningRenderer($evening);
 
-        return $renderEvening->render(Renderer::LONG);
+        if (Authz::checkRole(Authz::STAFF)) {
+            $boutonAjouter = <<<HTML
+            <a href="?action=addShow2evening&id={$id}" class="btn btn-primary m-5">Ajouter une soirée</a>
+            HTML;
+        }
+
+        return $renderEvening->render(Renderer::LONG) . $boutonAjouter;
     }
 }

@@ -35,9 +35,8 @@ class DisplayAllEveningsAction extends Action
         $repository = NrvRepository::getInstance();
         $evenings = $repository->findAllEvenings();
 
-        $user = AuthnProvider::getSignedInUser();
         $boutonAjouter = "";
-        if ($user["role"] >= Authz::STAFF) {
+        if (Authz::checkRole(Authz::STAFF)) {
             $boutonAjouter = <<<HTML
             <a href="?action=add-evening" class="btn btn-primary m-5">Ajouter une soirée </a>
             HTML;
