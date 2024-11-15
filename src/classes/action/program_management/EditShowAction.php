@@ -77,9 +77,6 @@ class EditShowAction extends Action
 
         // Si des champs sont à modifier
         if (!empty($updates)) {
-            // Exemple de code pour mettre à jour les données dans la base de données
-            // En fonction de votre logique d'application, vous pouvez construire une requête SQL pour
-            // mettre à jour les champs dans la base de données ici
             $info = implode(", ", array_keys($updates));
             $message = <<<HTML
                     <br>
