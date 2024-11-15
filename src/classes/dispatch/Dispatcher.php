@@ -6,6 +6,7 @@ use Exception;
 use iutnc\nrv\action\DefaultAction;
 use iutnc\nrv\action\filter\FilterByLocation;
 use iutnc\nrv\action\filter\FilterByStyle;
+use iutnc\nrv\action\program_management\CancelEveningAction;
 use iutnc\nrv\action\program_management\CancelShowAction;
 use iutnc\nrv\action\program_management\CreateEveningAction;
 use iutnc\nrv\action\program_management\CreateShowAction;
@@ -48,6 +49,7 @@ class Dispatcher
             $this->renderPage("Erreur 418 : I'm a teapot");  // Un peu d'humour pour celui qui s'amuserait à envoyer une requête autre que POST ou GET
         else {
             switch ($this->action) {
+
                 case 'default':
                     $act = new DefaultAction();
                     break;
@@ -98,6 +100,9 @@ class Dispatcher
                     break;
                 case 'cancel-show':
                     $act = new CancelShowAction();
+                    break;
+                case 'cancel-evening':
+                    $act = new CancelEveningAction();
                     break;
                 case 'add-show':
                     $act = new CreateShowAction();

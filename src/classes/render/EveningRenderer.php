@@ -2,6 +2,7 @@
 
 namespace iutnc\nrv\render;
 
+use iutnc\nrv\auth\Authz;
 use iutnc\nrv\object\Evening;
 
 class EveningRenderer extends DetailsRender
@@ -55,12 +56,24 @@ HTML;
         $extensions = ['jpg', 'gif', 'png'];
         $img = "res/background/show_default.jpg";
 
+        $cancelbnt = "";
+        if(Authz::checkRole(Authz::STAFF)){
+            $cancelbnt = <<<HTML
+        <form class="btn" action="?action=cancel-evening&id={$this->evening->id}" method="POST">
+                <input type="hidden" name="action" value="cancel-show">
+                <input type="hidden" name="id" value="{$this->evening->id}">
+                <button type="submit" class="btn btn-danger">Annuler</button>
+        </form>
+HTML;
+
+        }
         $location = $this->evening->location;
         $renderEvening = <<<HTML
 <div class="container evening-container">
     <div class="text-center evening-header">
         <h2>{$this->evening->title}</h2>
         <p class="evening-theme">Thème : {$this->evening->theme}</p>
+        $cancelbnt
     </div>
     <div class="row evening-info">
         <div class="col-md-4 info-card">
@@ -97,6 +110,7 @@ HTML;
         $shows = ArrayRenderer::render($this->evening->shows, self::COMPACT, false);
 
         $renderEvening .= $shows . <<<HTML
+
             </div>
         </div>
     </div>

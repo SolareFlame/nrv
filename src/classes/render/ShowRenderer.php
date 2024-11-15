@@ -198,11 +198,18 @@ HTML;
         $autorisation = AuthnProvider::getSignedInUser();
 
         $edit_btn = "";
+        $annulation_btn = "";
         if($autorisation["role"]>=50) {
             $edit_btn = <<<HTML
             <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
+            <form class="btn" action="?action=cancel-show&id={$id}" method="POST">
+                <input type="hidden" name="action" value="cancel-show">
+                <input type="hidden" name="id" value="$id">
+                <button type="submit" class="btn btn-danger">Annuler</button>
+            </form>
 HTML;
         }
+
 
         $html = <<<HTML
             <div class="container my-5">

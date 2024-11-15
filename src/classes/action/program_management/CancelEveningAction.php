@@ -21,7 +21,7 @@ class CancelEveningAction extends Action
                 throw new AccessControlException("Error 403 Permission refusée : seul un organisateur peut annuler une soirée.");
             }
 
-            $eveningUuid = $_POST["eveningUuid"] ?? null;
+            $eveningUuid = $_POST["id"] ?? null;
             if (!$eveningUuid) {
                 throw new Exception("Identifiant de la soirée non fourni");
             }

@@ -103,7 +103,7 @@ class EditShowAction extends Action
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
 
         $repository = NrvRepository::getInstance();
-        $id = $_GET['id'];
+        $id = filter_var($_GET['id'],FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
         $artists = $repository->findAllArtistsByShow($show->id);
