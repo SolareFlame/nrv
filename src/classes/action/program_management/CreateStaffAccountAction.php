@@ -68,13 +68,7 @@ class CreateStaffAccountAction extends Action
         <form method="post" class="form-container">
             <h3 class="form-title">Créer un Compte</h3>
             
-            <div class="form-group">
-                <label for="username" class="form-label">Nom d'utilisateur</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
-                </div>
-            </div>
+
             
             <div class="form-group">
                 <label for="password" class="form-label">Mot de passe</label>

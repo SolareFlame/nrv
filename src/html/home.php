@@ -60,7 +60,12 @@
             <form action="index.php?action=logout" method="POST">
                 <button type="submit" class="btn btn-outline-warning me-2">Se déconnecter</button>
             </form>
-        <?php endif; ?>
+        <?php endif ?>;
+        <?php
+        if (\iutnc\nrv\auth\Authz::checkRole(100)): ?>
+            <a href="index.php?action=add-staff" class="btn btn-outline-warning me-2 m-3">Créer un Staff</a>
+        <?php endif ?>;
+
     </div>
 </header>
 
