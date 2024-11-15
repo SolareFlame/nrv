@@ -286,9 +286,9 @@ class NrvRepository
      */
     function cancelShow(string $uuid): void
     {
-        $query = "Update nrv_show set show_programmed=0 where show_uuid = :show_uuid";
+        $query = "Update nrv_show set show_programmed = 0 where show_uuid = :show_uuid";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['show_uuid' => $uuid]);
+        $stmt->execute([':show_uuid' => $uuid]);
     }
 
     /**
@@ -438,15 +438,25 @@ class NrvRepository
         $stmt->execute();
         return unserialize($this->createArrayFromStmt($stmt,"Evening")[0]);
     }
+
     /**
      * Annuler une soiree : la soiree est conservee dans les affichages mais est marqué comme annulee
      * @param Evening $evening evening
+     * @throws Exception
      */
-    function cancelEvening(Evening $evening): void
+    function cancelEvening(string $id): void
     {
         $query = "Update nrv_evening set evening_programmed=0 where evening_uuid = :evening_uuid";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['evening_uuid' => $evening->id]);
+        $stmt->execute(['evening_uuid' => $id]);
+        $shows = $this->findShowsInEvening($id);
+        foreach ($shows as $show){
+            $show = unserialize($show);
+            $this->cancelShow($show->id);
+        }
+
+
+
     }
 
     /**

@@ -14,11 +14,8 @@ use iutnc\nrv\action\program_management\EditShowAction;
 use iutnc\nrv\action\program_management\EditShowsInEveningAction;
 use iutnc\nrv\action\program_navigation\DisplayAllShowsAction;
 use iutnc\nrv\action\program_navigation\DisplayEveningDetailsAction;
-use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
-use iutnc\nrv\action\program_navigation\DisplayShowsByStyleAction;
 use iutnc\nrv\action\program_navigation\DisplayAllEveningsAction;
 use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
-use iutnc\nrv\action\show_details\DisplayShowsByDayAction;
 use iutnc\nrv\action\user_experience\AddShowToEveningAction;
 use iutnc\nrv\action\user_experience\AddShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\ContactAction;
@@ -26,8 +23,9 @@ use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
 use iutnc\nrv\action\user_experience\LogoutAction;
-use iutnc\nrv\action\filter\FilterByDate;
-use iutnc\nrv\auth\Authz;
+use iutnc\nrv\action\filter\DisplayShowsByDateAction;
+use iutnc\nrv\action\filter\DisplayShowsByLocationAction;
+use iutnc\nrv\action\filter\DisplayShowsByStyleAction;
 
 
 class Dispatcher
@@ -61,15 +59,6 @@ class Dispatcher
                 case 'evening':
                     $act = new DisplayEveningDetailsAction();
                     break;
-                case 'showByStyle':
-                    $act = new DisplayShowsByStyleAction();
-                    break;
-                case 'showByLocation':
-                    $act = new DisplayShowsByLocationAction();
-                    break;
-                case 'showByDay':
-                    $act = new DisplayShowsByDayAction();
-                    break;
                 case 'showDetails':
                     $act = new DisplayShowDetailsAction();
                     break;
@@ -79,20 +68,32 @@ class Dispatcher
                 case 'delShow2fav':
                     $act = new DelShowToFavoritesAction();
                     break;
+                case 'cancel-show':
+                    $act = new CancelShowAction();
+                    break;
+                case 'cancel-evening':
+                    $act = new CancelEveningAction();
+                    break;
+                case 'add-show':
+                    $act = new CreateShowAction();
+                    break;
+                case 'addShow2evening':
+                    $act = new AddShowToEveningAction();
+                    break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();
                     break;
                 case 'contact':
                     $act = new ContactAction();
                     break;
-                case 'filterByDate':
-                    $act = new FilterByDate();
+                case 'showByStyle':
+                    $act = new DisplayShowsByStyleAction();
                     break;
-                case 'filterByLocation':
-                    $act = new FilterByLocation();
+                case 'showByLocation':
+                    $act = new DisplayShowsByLocationAction();
                     break;
-                case 'filterBySytle':
-                    $act = new FilterByStyle();
+                case 'showByDate':
+                    $act = new DisplayShowsByDateAction();
                     break;
             }
             if (Authz::checkRole(50)) {  // les actions du staff

@@ -21,7 +21,7 @@ class AddShowToEveningAction extends Action
     public function executePost(): string
     {
         $repo = NrvRepository::getInstance();
-        $spectacleId = $_POST['spectacle'];
+        $spectacleId = filter_var($_POST['spectacle']);
         $show = $repo->findShowById($spectacleId);
         $evening = $repo->findEveningById($_GET['id']);
         $repo->addShowToEvening($show, $evening);

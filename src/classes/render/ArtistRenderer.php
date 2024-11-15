@@ -24,7 +24,7 @@ class ArtistRenderer implements Renderer
         return <<<HTML
         <div class="container my-4">
           <div class="d-flex align-items-start">
-            <img src="res/logo/logo_1.png" alt="Cute cat" class="custom-image">
+            <img src="res/background/artist_default.jpg" alt="Cute cat" class="custom-image">
             <div class="text-content">
               <h5 class="fw-bold">{$this->artist->name}</h5>
               <p class="text-content">{$this->artist->description}</p>

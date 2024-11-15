@@ -3,7 +3,6 @@
 namespace iutnc\nrv\render;
 
 use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
-use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
 use iutnc\nrv\auth\AuthnProvider;
@@ -99,8 +98,6 @@ HTML;
 
         $id = $this->show->id;
 
-
-
         $heart = !in_array($id, $_SESSION['favorites'])
             ? "<a href='?action=addShow2Fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_void.png' alt='not liked'></a>"
             : "<a href='?action=delShow2fav&id={$id}' class='favorite-icon'><img src='res/icons/heart_full.png' alt='liked'></a>";
@@ -129,45 +126,6 @@ HTML;
             }
         }
 
-        try {
-            $evening = NrvRepository::getInstance()->findEveningOfShow($id);
-            $showsByLoc = NrvRepository::getInstance()->findShowsByLocation($evening->location->id);
-            foreach ($showsByLoc as $key => $show) {
-                $show = unserialize($show);
-                if ($show->id == $this->show->id) {
-                    unset($showsByLoc[$key]);
-                    break;
-                }
-            }
-            $showsByLoc = ArrayRenderer::render($showsByLoc, Renderer::COMPACT, true);
-        } catch (RepositoryException $e){
-            $showsByLoc = "";
-        }
-
-
-
-        $showsByStyle = NrvRepository::getInstance()->findShowsByStyle(NrvRepository::getInstance()->findIdStyleByStyleValue($this->show->style));
-        foreach ($showsByStyle as $key => $show) {
-            $show = unserialize($show);
-            if ($show->id == $this->show->id) {
-                unset($showsByStyle[$key]);
-                break;
-            }
-        }
-        $showsByStyle =  ArrayRenderer::render($showsByStyle, Renderer::COMPACT, true);
-
-
-
-        $showsByDay = NrvRepository::getInstance()->findShowsByDate($this->show->startDate);
-        foreach ($showsByDay as $key => $show) {
-            $show = unserialize($show);
-            if ($show->id == $this->show->id) {
-                unset($showsByDay[$key]);
-                break;
-            }
-        }
-        $showsByDay = ArrayRenderer::render($showsByDay, Renderer::COMPACT, true);
-
         $inst = NrvRepository::getInstance();
         try {
             $evening_parent = $inst->findEveningOfShow($this->show->id);
@@ -176,7 +134,7 @@ HTML;
                             <p><i class="fas fa-star info-icon me-2"></i><a href="index.php?action=evening&id={$evening_parent->id}" class="text-decoration-none">{$evening_parent->title}</a></p>
 HTML;
             $filtreLieu = <<<HTML
-                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                <a href='index.php?action=showByLocation&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
 HTML;
 
 
@@ -198,11 +156,20 @@ HTML;
         $autorisation = AuthnProvider::getSignedInUser();
 
         $edit_btn = "";
+        $annulation_btn = "";
         if($autorisation["role"]>=50) {
             $edit_btn = <<<HTML
             <a href="?action=edit-show&id={$id}" class="btn btn-sm btn-outline-primary ms-2">Edit</a>
+            <form class="btn" action="?action=cancel-show&id={$id}" method="POST">
+                <input type="hidden" name="action" value="cancel-show">
+                <input type="hidden" name="id" value="$id">
+                <button type="submit" class="btn btn-danger">Annuler</button>
+            </form>
 HTML;
         }
+        
+
+        $videoID = $this->extractYouTubeID($this->show->url);
 
         $html = <<<HTML
             <div class="container my-5">
@@ -253,45 +220,40 @@ HTML;
                     </a>
                 </div>
                 
-                <!--
-                <div class="search-bar mb-3">
-                <span class="icon"><i class="bi bi-search"></i></span>
-                <input type="text" placeholder="Rechercher un spectacle..." aria-label="Search">
+                <div class="d-flex align-items-center justify-content-center my-4 px-4">
+                <div class="mx-2 title-border" style="background-color: #FF6F61"></div>
+                <h1 class="text-center mx-3">VIDÉO</h1>
+                <div class="mx-2 title-border" style="background-color: #FF6F61"></div>
                 </div>
-                -->
+
+                <div class="video-container">
+                <div class="embed-responsive">
+                <iframe 
+                    src="https://www.youtube.com/embed/{$videoID}" 
+                    allowfullscreen 
+                    title="YouTube video">
+                </iframe>
+                </div>
+                </div>
+
                 
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
                     <h1 class="text-center mx-3">SPECTACLES SIMILAIRES</h1>
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
                 </div>
-               
-               <div class="d-flex justify-content-center gap-2">
-                <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
-                <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
+
+                <div class="d-flex justify-content-center gap-2">
+                <a href='index.php?action=showByStyle&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
+                <a href='index.php?action=showByDate&id={$date}' class='filter-btn'>DATE: {$date}</a>
                 $filtreLieu
-                </div>
-              
-                <div>
-                <br><h2>Spectacle ayant lieu le même jour</h2><br>
-                
-                    {$showsByDay}
-                
-                </div>
-                
-                <br><h2>Spectacle au même lieu</h2><br>
-                
-                    {$showsByLoc}
-             
-                
-                <div>
-                <br><h2>Spectacle du même style</h2><br>
-                
-                    {$showsByStyle}
-                
                 </div>
             HTML;
 
         return $html;
+    }
+    function extractYouTubeID($url) {
+        preg_match('/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/', $url, $matches);
+        return !empty($matches[1]) ? $matches[1] : (!empty($matches[2]) ? $matches[2] : $url);
     }
 }
