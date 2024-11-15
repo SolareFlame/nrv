@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\render;
 
-use iutnc\nrv\action\program_navigation\DisplayShowsByLocationAction;
 use iutnc\nrv\exception\RepositoryException;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
