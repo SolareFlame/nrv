@@ -6,6 +6,7 @@ use DateTime;
 use Error;
 use Exception;
 use iutnc\nrv\action\Action;
+use iutnc\nrv\action\show_details\DisplayShowDetailsAction;
 use iutnc\nrv\object\Show;
 use iutnc\nrv\repository\NrvRepository;
 use Ramsey\Uuid\Uuid;
@@ -56,7 +57,9 @@ class CreateShowAction extends Action
         }
 
         NrvRepository::getInstance()->createShow($show);
-        return "Le spectacle a bien été créée";
+        $res = new DisplayShowDetailsAction();
+        $_GET['id'] = $uuid;
+        return $res->executeGet();
     }
 
     /**

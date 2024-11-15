@@ -27,6 +27,9 @@ class DisplayShowDetailsAction extends Action
     {
         $_SESSION['previous'] = $_SERVER['REQUEST_URI'];
         $repository = NrvRepository::getInstance();
+        if (empty($_GET['id'])) {
+            return "Aucun spectacle sélectionné";
+        }
         $id = filter_var($_GET['id'], FILTER_SANITIZE_SPECIAL_CHARS);
         $show = $repository->findShowById($id);
 
