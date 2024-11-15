@@ -4,8 +4,6 @@ namespace iutnc\nrv\dispatch;
 
 use Exception;
 use iutnc\nrv\action\DefaultAction;
-use iutnc\nrv\action\filter\FilterByLocation;
-use iutnc\nrv\action\filter\FilterByStyle;
 use iutnc\nrv\action\program_management\CancelEveningAction;
 use iutnc\nrv\action\program_management\CancelShowAction;
 use iutnc\nrv\action\program_management\CreateEveningAction;
