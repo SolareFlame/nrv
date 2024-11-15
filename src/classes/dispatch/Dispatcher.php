@@ -4,6 +4,8 @@ namespace iutnc\nrv\dispatch;
 
 use Exception;
 use iutnc\nrv\action\DefaultAction;
+use iutnc\nrv\action\filter\FilterByLocation;
+use iutnc\nrv\action\filter\FilterByStyle;
 use iutnc\nrv\action\program_management\CancelShowAction;
 use iutnc\nrv\action\program_management\CreateEveningAction;
 use iutnc\nrv\action\program_management\CreateShowAction;
@@ -24,6 +26,7 @@ use iutnc\nrv\action\user_experience\DelShowToFavoritesAction;
 use iutnc\nrv\action\user_experience\DisplayFavoritesListAction;
 use iutnc\nrv\action\user_experience\LoginAction;
 use iutnc\nrv\action\user_experience\LogoutAction;
+use iutnc\nrv\action\filter\FilterByDate;
 
 
 class Dispatcher
@@ -107,6 +110,15 @@ class Dispatcher
                     break;
                 case 'contact':
                     $act = new ContactAction();
+                    break;
+                case 'filterByDate':
+                    $act = new FilterByDate();
+                    break;
+                case 'filterByLocation':
+                    $act = new FilterByLocation();
+                    break;
+                case 'filterBySytle':
+                    $act = new FilterByStyle();
                     break;
                 default:
                     $this->renderPage("Action inconnue");
