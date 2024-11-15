@@ -229,18 +229,7 @@ HTML;
                 </div>
                 
                 <div>
-                <br><h2>Spectacle au même lieu</h2><br>
                 
-                    {$showsByLoc}
-                
-                </div>
-                
-                <div>
-                <br><h2>Spectacle du même style</h2><br>
-                
-                    {$showsByStyle}
-                
-                </div>
                 
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
@@ -260,12 +249,20 @@ HTML;
                     {$showsByDay}
                 
                 </div>
-
-                <div class="d-flex justify-content-center gap-2">
-                <a href='index.php?actions=FILTRESTYLE&id={$show_id}' class='filter-btn'>STYLE: {$this->show->style}</a>
-                <a href='index.php?actions=FILTREDATE&id={$date}' class='filter-btn'>DATE: {$date}</a>
-                <a href='index.php?actions=FILTRELOC&id={$evening_parent_loc->id}' class='filter-btn'>LIEU: {$evening_parent_loc->name}</a>
+                
+                <br><h2>Spectacle au même lieu</h2><br>
+                
+                    {$showsByLoc}
+                
                 </div>
+                
+                <div>
+                <br><h2>Spectacle du même style</h2><br>
+                
+                    {$showsByStyle}
+                
+                </div>
+
             HTML;
 
         return $html;
