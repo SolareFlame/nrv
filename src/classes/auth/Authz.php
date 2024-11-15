@@ -23,6 +23,10 @@ class Authz
      * La méthode checkRole() qui reçoit un rôle attendu et vérifie que le rôle de l’utilisateur
      * authentifié est conforme.
      *
+     * ATTENTION : Cette fonction retourne 403 si l’utilisateur n’a pas le rôle attendu.
+     * Elle est donc a utilisé pour les actions qui sont INTERDITE à certains rôles.
+     * Si vous voulez juste vérifier le role sans forbidden access adressé vous a AuthnProvider::getSignedInUser()
+     *
      * @param int $required
      */
     public static function checkRole(int $required): bool

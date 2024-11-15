@@ -4,6 +4,9 @@ namespace iutnc\nrv\dispatch;
 
 use Exception;
 use iutnc\nrv\action\DefaultAction;
+use iutnc\nrv\action\filter\FilterByLocation;
+use iutnc\nrv\action\filter\FilterByStyle;
+use iutnc\nrv\action\program_management\CancelEveningAction;
 use iutnc\nrv\action\program_management\CancelShowAction;
 use iutnc\nrv\action\program_management\CreateEveningAction;
 use iutnc\nrv\action\program_management\CreateShowAction;
@@ -24,6 +27,7 @@ use iutnc\nrv\action\user_experience\LogoutAction;
 use iutnc\nrv\action\filter\DisplayShowsByDateAction;
 use iutnc\nrv\action\filter\DisplayShowsByLocationAction;
 use iutnc\nrv\action\filter\DisplayShowsByStyleAction;
+use iutnc\nrv\auth\Authz;
 
 
 class Dispatcher
@@ -44,15 +48,9 @@ class Dispatcher
         if (($_SERVER['REQUEST_METHOD'] !== "POST") && ($_SERVER['REQUEST_METHOD'] !== "GET"))
             $this->renderPage("Erreur 418 : I'm a teapot");  // Un peu d'humour pour celui qui s'amuserait à envoyer une requête autre que POST ou GET
         else {
-            switch ($this->action) {
-                case 'default':
-                    $act = new DefaultAction();
-                    break;
+            switch ($this->action) {  // les actions de tout le monde
                 case 'login':
                     $act = new LoginAction();
-                    break;
-                case 'logout':
-                    $act = new LogoutAction();
                     break;
                 case 'shows':
                     $act = new DisplayAllShowsAction();
@@ -66,32 +64,11 @@ class Dispatcher
                 case 'showDetails':
                     $act = new DisplayShowDetailsAction();
                     break;
-                case 'add-evening':
-                    $act = new CreateEveningAction();
-                    break;
-                case 'add-staff':
-                    $act = new CreateStaffAccountAction();
-                    break;
-                case 'edit-show':
-                    $act = new EditShowAction();
-                    break;
-                case 'edit-evening':
-                    $act = new EditShowsInEveningAction();
-                    break;
                 case 'addShow2Fav':
                     $act = new AddShowToFavoritesAction();
                     break;
                 case 'delShow2fav':
                     $act = new DelShowToFavoritesAction();
-                    break;
-                case 'cancel-show':
-                    $act = new CancelShowAction();
-                    break;
-                case 'add-show':
-                    $act = new CreateShowAction();
-                    break;
-                case 'addShow2evening':
-                    $act = new AddShowToEveningAction();
                     break;
                 case 'favs':
                     $act = new DisplayFavoritesListAction();
@@ -109,8 +86,46 @@ class Dispatcher
                     $act = new DisplayShowsByDateAction();
                     break;
             }
-            if (isset($act))
-                $this->renderPage($act->execute());
+            if (Authz::checkRole(50)) {  // les actions du staff
+                switch ($this->action) {
+                    case 'logout':
+                        $act = new LogoutAction();
+                        break;
+                    case 'add-evening':
+                        $act = new CreateEveningAction();
+                        break;
+                    case 'edit-evening':
+                        $act = new EditShowsInEveningAction();
+                        break;
+                    case 'edit-show':
+                        $act = new EditShowAction();
+                        break;
+                    case 'cancel-show':
+                        $act = new CancelShowAction();
+                        break;
+                    case 'add-show':
+                        $act = new CreateShowAction();
+                        break;
+                    case 'addShow2evening':
+                        $act = new AddShowToEveningAction();
+                        break;
+                    case 'cancel-evening':
+                        $act = new CancelEveningAction();
+                        break;
+                }
+            }
+            if (Authz::checkRole(Authz::ADMIN)) {  // les actions de l'admin
+                switch ($this->action) {
+                    case 'add-staff':
+                        $act = new CreateStaffAccountAction();
+                        break;
+                }
+            }
+            if (!isset($act)) {
+                $act = new DefaultAction();
+            }
+
+            $this->renderPage($act->execute());
         }
     }
 
@@ -122,12 +137,8 @@ class Dispatcher
      */
     private function renderPage(string $html): void
     {
-        ob_start();
-        include("src/html/home.php");
-
-        $content = ob_get_clean();
+        $content = file_get_contents("src/html/home.php");
         $page = str_replace("{{CONTENT}}", $html, $content);
-
         echo $page;
     }
 

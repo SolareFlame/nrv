@@ -48,7 +48,7 @@ class CreateShowAction extends Action
             new DateTime($_POST['date']),
             $_POST['duree'],
             $_POST['style'],
-            $_POST['url'],
+            $_POST['url']
         );
 
         foreach ($_POST['artists'] as $artist) {
