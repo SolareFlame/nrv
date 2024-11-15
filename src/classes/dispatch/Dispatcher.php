@@ -27,6 +27,7 @@ use iutnc\nrv\action\user_experience\LogoutAction;
 use iutnc\nrv\action\filter\DisplayShowsByDateAction;
 use iutnc\nrv\action\filter\DisplayShowsByLocationAction;
 use iutnc\nrv\action\filter\DisplayShowsByStyleAction;
+use iutnc\nrv\action\user_experience\NewsAction;
 use iutnc\nrv\auth\Authz;
 
 
@@ -84,6 +85,9 @@ class Dispatcher
                     break;
                 case 'showByDate':
                     $act = new DisplayShowsByDateAction();
+                    break;
+                case 'a-propos':
+                    $act = new NewsAction();
                     break;
             }
             if (Authz::checkRole(50)) {  // les actions du staff
