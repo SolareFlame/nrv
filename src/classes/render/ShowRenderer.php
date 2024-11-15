@@ -253,8 +253,12 @@ HTML;
                     </a>
                 </div>
                 
-                <div>
-                
+                <!--
+                <div class="search-bar mb-3">
+                <span class="icon"><i class="bi bi-search"></i></span>
+                <input type="text" placeholder="Rechercher un spectacle..." aria-label="Search">
+                </div>
+                -->
                 
                 <div class="d-flex align-items-center justify-content-center my-4 px-4">
                     <div class="mx-2 title-border" style="background-color: #2ec5b6"></div>
@@ -278,8 +282,7 @@ HTML;
                 <br><h2>Spectacle au même lieu</h2><br>
                 
                     {$showsByLoc}
-                
-                </div>
+             
                 
                 <div>
                 <br><h2>Spectacle du même style</h2><br>
@@ -287,7 +290,6 @@ HTML;
                     {$showsByStyle}
                 
                 </div>
-
             HTML;
 
         return $html;

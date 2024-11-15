@@ -39,7 +39,7 @@ class DisplayAllShowsAction extends Action
         $styles = $repository->findAllStylesRAW();
         $style_options = "";
         foreach ($styles as $style) {
-            $style_options .= "<a href='index.php?actions=FILTRESTYLE&id={$style['style_id']}' class='filter-btn'>{$style['style_name']}</a>";
+            $style_options .= "<a href='index.php?action=filterBySytle&id={$style['style_id']}' class='filter-btn'>{$style['style_name']}</a>";
         }
 
         // GESTION DES LOCATIONS
@@ -47,14 +47,14 @@ class DisplayAllShowsAction extends Action
         $location_options = "";
         foreach ($locations as $location) {
             $location = unserialize($location);
-            $location_options .= "<a href='index.php?actions=FILTRELOC&id={$location->id}' class='filter-btn'>{$location->name}</a>";
+            $location_options .= "<a href='index.php?action=filterByLocation&id={$location->id}' class='filter-btn'>{$location->name}</a>";
         }
 
         // GESTION DES DATES
         $dates_options = "";
         for ($i = 1; $i <= 15; $i++) {
             $day = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $dates_options .= "<a href='index.php?actions=FILTREDATE&id=2025-07-{$day}' class='filter-btn'>{$day} juillet</a>";
+            $dates_options .= "<a href='index.php?action=filterByDate&id=2025-07-{$day}' class='filter-btn'>{$day} juillet</a>";
         }
 
         $html = <<<HTML
