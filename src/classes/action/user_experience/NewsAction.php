@@ -26,13 +26,13 @@ class NewsAction extends Action
             de la SAE: Développer une application web sécurisée en PHP. L\'application web présente un festival
             de rock permettant de voir toutes les informations utiles sur les soirées, les spectacles, et
             tous les évènements proposés par l\'association.',
-            'langages' => 'PHP, MySQL, JavaScript, HTML/CSS ainsi que d\'autres outils tels que Bootstrap',
+            'langages' => 'PHP, MySQL, JavaScript, HTML/CSS ainsi que d\'autres outils tels que Bootstrap.',
             'membre' => [
                 '<li>Zacharie Heuertz: Responsable de la base de données, du design du site et de la gestion de la conception.<br></li>',
                 '<li>Valentin Knorst: Développeur principal des actions, renderers, vérifications de la qualité de code, et de la moitié du repository.<br></li>',
-                '<li>Ryan Korban: Développeur principal des actions, des renders et des objets, debug du repository, frond end,back-end<br></li>',
+                '<li>Ryan Korban: Développeur principal des actions, des renders et des objets, debug du repository, frond end,back-end.<br></li>',
                 '<li>Nathan Eyer: Développeur principal du repository, de quelques Actions et des documents de rendus.<br></li>',
-                '<li>Mathieu Baudoin: Développeur principal de l\'authentification et création de diagramme de classe pour orienter la conception<br></li>',
+                '<li>Mathieu Baudoin: Développeur principal de l\'authentification et création de diagramme de classe pour orienter la conception.<br></li>',
             ],
             'github' => 'https://github.com/SolareFlame/nrv',
             'rapport' => 'https://docs.google.com/document/d/1Fe9P6jMfbPgu8Lw17rwUlW4qZHi4TBuGmFblQI0LpXQ/edit?usp=sharing',
